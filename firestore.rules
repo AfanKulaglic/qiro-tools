@@ -1,0 +1,62 @@
+rules_version = '2';
+
+// ----------------------------------------------------------------------------
+// LinkQR Tools — Firestore security rules (MVP)
+//
+// This app allows ANONYMOUS public creation of short links, so these rules
+// apply reasonable shape/type validation to limit obvious abuse.
+//
+// PRODUCTION HARDENING (strongly recommended):
+//   - Enable Firebase App Check to block non-app clients.
+//   - Move slug creation + click increments into Cloud Functions and lock
+//     direct client writes down.
+//   - Add Firebase Authentication so links can be owned/edited/deleted.
+//   - Add rate limiting (App Check + Functions) to stop spam/phishing floods.
+// ----------------------------------------------------------------------------
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /links/{slug} {
+
+      // Anyone may read a link that is active (needed for public redirects).
+      allow read: if resource.data.isActive == true;
+
+      // Public creation with required-field + type validation.
+      allow create: if isValidNewLink(slug, request.resource.data);
+
+      // Only allow updates that look like a click increment (clicks + timestamp).
+      // Destination, slug and creation data must stay immutable from the client.
+      allow update: if isClickUpdate(resource.data, request.resource.data);
+
+      // Never allow public deletes — abusive links are removed via admin tooling.
+      allow delete: if false;
+    }
+
+    // Optional contact messages collection (write-only from the public form).
+    match /messages/{id} {
+      allow create: if request.resource.data.keys().hasAll(['name', 'email', 'message'])
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() < 5000;
+      allow read, update, delete: if false;
+    }
+  }
+
+  function isValidNewLink(slug, data) {
+    return slug.size() >= 3 && slug.size() <= 64
+      && data.slug == slug
+      && data.longUrl is string
+      && data.longUrl.size() > 3
+      && data.longUrl.size() < 2048
+      && (data.longUrl.matches('https?://.*'))
+      && data.shortUrl is string
+      && data.clicks == 0
+      && data.isActive == true;
+  }
+
+  function isClickUpdate(oldData, newData) {
+    return newData.clicks == oldData.clicks + 1
+      && newData.longUrl == oldData.longUrl
+      && newData.slug == oldData.slug
+      && newData.isActive == oldData.isActive;
+  }
+}

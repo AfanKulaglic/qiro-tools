@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>Qiro — Short links, QR codes & image conversion in one studio</title>
+    <meta
+      name="description"
+      content="One clean studio to shorten links, generate QR codes, and convert images. Branded short links, instant QR downloads, and private in-browser image conversion."
+    />
+    <meta property="og:title" content="Qiro — Links, QR Codes & Image Conversion" />
+    <meta
+      property="og:description"
+      content="Shorten links, generate QR codes, and convert images in one clean studio. Fast, private, and free to start."
+    />
+    <meta property="og:type" content="website" />
+    <!-- Apply the saved theme before paint; default is light (no class). -->
+    <script>
+      try {
+        if (JSON.parse(localStorage.getItem('qiro.theme')) === 'dark') {
+          document.documentElement.classList.add('dark')
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "links": {
+      ".read": true,
+      "$slug": {
+        ".write": true,
+        ".validate": "newData.hasChildren(['longUrl', 'shortUrl']) || newData.hasChild('reservedAt') || newData.hasChild('clicks')"
+      }
+    },
+
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    }
+  }
+}

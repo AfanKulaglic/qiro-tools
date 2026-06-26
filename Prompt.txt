@@ -1,0 +1,1678 @@
+Build a complete premium SaaS web application called "LinkQR Tools" using Vite, React, TypeScript, Tailwind CSS, Firebase Firestore, Firebase Hosting, React Router DOM, Framer Motion, lucide-react icons, and a modern client-side QR code library.
+
+This must not look like a basic free online tool.
+It must look like a serious, high-end SaaS company website worth millions of dollars.
+
+The product is an all-in-one platform for:
+1. URL shortening with our own domain/subdomain
+2. QR code generation
+3. Image conversion
+4. Link history
+5. Basic click tracking
+6. Future-ready dashboard structure
+7. Professional marketing pages
+
+The design should be inspired by premium SaaS websites and modern link-management platforms such as Bitly, Rebrandly, Canva-style tool pages, Adobe Express-style utility pages, modern Webflow SaaS landing pages, and premium AI tool websites.
+
+Do not copy any website directly.
+Use the best practices:
+- simple but powerful hero section
+- strong value proposition
+- beautiful product preview
+- bento grid feature sections
+- clear navigation
+- trust/security blocks
+- use-case sections
+- dashboard mockups
+- pricing page
+- FAQ
+- legal pages
+- responsive mobile-first design
+- smooth animations
+- polished empty/loading/error states
+
+====================================================
+MAIN PRODUCT POSITIONING
+====================================================
+
+Position the website as:
+
+"One clean platform to shorten links, generate QR codes, and convert images."
+
+Main value:
+- Create branded short links using your own domain
+- Generate QR codes instantly
+- Convert images privately in the browser
+- Track basic clicks
+- Copy, share, and download everything fast
+- No complicated setup
+- No external URL shortener API
+- Firebase-powered infrastructure
+
+Important honesty:
+QR generation and image conversion can be described as free and unlimited because they run locally in the browser.
+URL shortening should be described as free to start and powered by Firebase, but do not falsely claim Firebase is literally unlimited.
+Mention fair-use/Firebase quota limits in FAQ and pricing notes.
+
+====================================================
+TECH REQUIREMENTS
+====================================================
+
+Use:
+- Vite
+- React
+- TypeScript
+- Tailwind CSS
+- React Router DOM
+- Firebase
+- Firebase Firestore
+- Firebase Hosting
+- Framer Motion
+- lucide-react
+- qrcode.react or react-qr-code
+- sonner or react-hot-toast
+- clsx if needed
+
+Do not use:
+- Bitly API
+- TinyURL API
+- Cuttly API
+- Rebrandly API
+- Firebase Dynamic Links
+- paid APIs
+- server backend unless absolutely necessary
+
+The URL shortener must be our own system using Firebase Firestore.
+
+====================================================
+CUSTOM DOMAIN URL SHORTENER
+====================================================
+
+Support two short link formats:
+
+Main domain format:
+https://mydomain.com/s/abc123
+
+Short subdomain format:
+https://go.mydomain.com/abc123
+
+Use environment variable:
+
+VITE_SHORT_DOMAIN=https://go.mydomain.com
+
+If VITE_SHORT_DOMAIN exists:
+Generated short links should be:
+VITE_SHORT_DOMAIN + "/" + slug
+
+If VITE_SHORT_DOMAIN does not exist:
+Generated short links should be:
+window.location.origin + "/s/" + slug
+
+Routes:
+- /s/:slug should redirect on the main domain
+- /:slug should redirect on the short subdomain
+- normal routes must be protected from being treated as slugs
+
+Reserved routes:
+shorten
+qr
+qr-generator
+image-converter
+convert
+features
+use-cases
+pricing
+about
+contact
+help
+faq
+history
+privacy
+terms
+admin
+dashboard
+login
+signup
+api
+s
+settings
+support
+blog
+
+====================================================
+PROJECT STRUCTURE
+====================================================
+
+Use a clean scalable structure:
+
+src/
+  app/
+    App.tsx
+    router.tsx
+  components/
+    layout/
+      Navbar.tsx
+      Footer.tsx
+      MobileMenu.tsx
+      PageShell.tsx
+    ui/
+      Button.tsx
+      Badge.tsx
+      Card.tsx
+      GlassCard.tsx
+      Input.tsx
+      Textarea.tsx
+      Select.tsx
+      Tabs.tsx
+      Accordion.tsx
+      Modal.tsx
+      ToastProvider.tsx
+      EmptyState.tsx
+      ErrorState.tsx
+      LoadingSpinner.tsx
+      SectionHeader.tsx
+      Container.tsx
+    sections/
+      HeroSection.tsx
+      TrustStrip.tsx
+      BentoFeatures.tsx
+      ProductPreview.tsx
+      HowItWorks.tsx
+      UseCasesPreview.tsx
+      PrivacySection.tsx
+      PricingPreview.tsx
+      FAQSection.tsx
+      FinalCTA.tsx
+    tools/
+      ShortenerForm.tsx
+      ShortenerResult.tsx
+      QRGeneratorTool.tsx
+      QRPreview.tsx
+      ImageConverterTool.tsx
+      ImageDropzone.tsx
+      HistoryList.tsx
+  pages/
+    HomePage.tsx
+    ShortenPage.tsx
+    QRGeneratorPage.tsx
+    ImageConverterPage.tsx
+    FeaturesPage.tsx
+    UseCasesPage.tsx
+    PricingPage.tsx
+    AboutPage.tsx
+    ContactPage.tsx
+    HelpPage.tsx
+    FAQPage.tsx
+    HistoryPage.tsx
+    PrivacyPage.tsx
+    TermsPage.tsx
+    RedirectPage.tsx
+    NotFoundPage.tsx
+  lib/
+    firebase.ts
+  services/
+    linkService.ts
+  utils/
+    slug.ts
+    validateUrl.ts
+    reservedSlugs.ts
+    format.ts
+    storage.ts
+  hooks/
+    useLocalStorage.ts
+    useTheme.ts
+    useClipboard.ts
+    useDocumentTitle.ts
+  types/
+    link.ts
+    qr.ts
+  data/
+    faq.ts
+    useCases.ts
+    features.ts
+  styles/
+    globals.css
+
+====================================================
+VISUAL IDENTITY
+====================================================
+
+The website should feel premium, trustworthy, and futuristic, but still easy to understand.
+
+Design keywords:
+- premium SaaS
+- million-dollar startup
+- clean product platform
+- modern AI tool style
+- elegant glassmorphism
+- bento grid
+- soft gradients
+- dashboard preview
+- clear information hierarchy
+- minimal but rich
+- professional, not playful
+- trustworthy, not flashy
+
+Avoid:
+- childish colors
+- too much neon
+- confusing navigation
+- too many animations
+- heavy 3D libraries
+- cluttered sections
+- generic template feeling
+- basic utility website look
+
+Dark mode first:
+Background:
+#050816
+#070B14
+#0B1020
+
+Cards:
+rgba(255,255,255,0.06)
+rgba(255,255,255,0.08)
+
+Borders:
+rgba(255,255,255,0.12)
+
+Text:
+#FFFFFF
+#AAB2C0
+#64748B
+
+Accents:
+#3B82F6 blue
+#06B6D4 cyan
+#8B5CF6 purple
+#22C55E green
+
+Light mode:
+Background:
+#FFFFFF
+#F8FAFC
+
+Text:
+#0F172A
+#475569
+#64748B
+
+Borders:
+#E2E8F0
+
+Use gradients:
+- blue to purple
+- cyan to blue
+- green to cyan
+- purple to blue
+
+Use gradients subtly.
+
+Typography:
+- Very strong hero headings
+- Big, clean, modern headings
+- Short paragraphs
+- Clear labels
+- Beautiful button text
+- Avoid long messy text blocks
+
+Spacing:
+- Large section padding
+- Max-width containers
+- 12-column feeling on desktop
+- Cards with breathing room
+- Mobile spacing must be excellent
+
+Border radius:
+- Cards: rounded-3xl
+- Buttons: rounded-xl or rounded-2xl
+- Inputs: rounded-xl
+
+Shadows:
+- soft glow on important cards
+- subtle card shadows
+- no harsh shadows
+
+Background:
+- subtle grid pattern
+- radial gradient glow behind hero
+- soft blurred gradient blobs
+- optional noise texture
+- animated gradient only if lightweight
+
+====================================================
+GLOBAL COMPONENT STYLE
+====================================================
+
+Navbar:
+- sticky top
+- glassmorphism blur
+- transparent on top
+- subtle border after scroll
+- logo on left
+- desktop nav in center
+- CTA on right
+- mobile hamburger menu
+
+Navbar links:
+- Tools
+- Features
+- Use Cases
+- Pricing
+- Help
+
+Right side:
+- Theme toggle
+- "Shorten URL" CTA
+
+Mobile menu:
+- full width dropdown
+- large links
+- icons
+- CTA button
+- smooth Framer Motion animation
+
+Footer:
+Make it look like a real SaaS footer.
+
+Columns:
+1. Brand
+   - logo
+   - short description
+   - "Fast, private, and simple tools for links, QR codes, and images."
+
+2. Product
+   - URL Shortener
+   - QR Generator
+   - Image Converter
+   - History
+
+3. Company
+   - About
+   - Pricing
+   - Contact
+   - Use Cases
+
+4. Resources
+   - Help Center
+   - FAQ
+   - Privacy
+   - Terms
+
+Footer bottom:
+- copyright
+- status text
+- simple social icons placeholders
+
+====================================================
+PAGES
+====================================================
+
+Create these routes:
+
+/
+Home page
+
+/shorten
+URL shortener tool
+
+/qr-generator
+QR code generator tool
+
+/image-converter
+Image converter tool
+
+/features
+Full feature overview
+
+/use-cases
+Use cases page
+
+/pricing
+Pricing page
+
+/about
+About page
+
+/contact
+Contact page
+
+/help
+Help center
+
+/faq
+Full FAQ page
+
+/history
+Local history page
+
+/privacy
+Privacy policy
+
+/terms
+Terms of service
+
+/s/:slug
+Redirect route
+
+/:slug
+Short subdomain redirect fallback
+
+*
+404 page
+
+====================================================
+HOME PAGE — DETAILED DESIGN
+====================================================
+
+The home page must be the most polished page.
+
+It should feel like the homepage of a serious SaaS company.
+
+Section 1: Hero
+
+Layout:
+- Desktop: left content, right product preview
+- Mobile: content first, preview second
+- Full viewport feeling but not too tall
+- Lots of whitespace
+- Dark gradient background
+- subtle grid
+- glow behind product card
+
+Hero badge:
+"Free tools for links, QR codes & images"
+
+Hero title:
+"Shorten links, generate QR codes, and convert images in one clean workspace."
+
+Hero subtitle:
+"Create branded short links on your own domain, generate downloadable QR codes, and convert images privately in your browser — fast, simple, and free to start."
+
+Primary CTA:
+"Shorten a URL"
+
+Secondary CTA:
+"Generate QR Code"
+
+Mini trust row:
+- No signup required
+- Own-domain short links
+- Private image conversion
+- QR downloads
+
+Hero product preview:
+Create a beautiful floating dashboard card.
+
+It should include:
+- long URL input
+- generated short URL
+- copy button
+- QR preview
+- small analytics badge
+- click count
+- "go.yourdomain.com/sale"
+- tiny graph line
+- status badge: "Live"
+
+Hero animation:
+- text fades up
+- buttons fade up
+- product card slides/fades in
+- small floating badges gently move
+- keep it smooth and subtle
+
+Section 2: Trust / Audience Strip
+
+Text:
+"Built for small businesses, creators, agencies, restaurants, events, and online stores."
+
+Design:
+- horizontal pill badges
+- icons
+- calm, premium
+- no fake company logos
+
+Badges:
+- Agencies
+- Restaurants
+- E-commerce
+- Events
+- Freelancers
+- Creators
+
+Section 3: Main Tools Bento Grid
+
+Title:
+"One platform. Three everyday tools."
+
+Subtitle:
+"Everything is designed to be fast, clean, and useful from the first click."
+
+Use bento grid layout.
+
+Big card 1:
+URL Shortener
+
+Visual:
+- long messy URL transforms into go.domain.com/offer
+- small analytics mini chart
+- QR icon
+
+Text:
+"Create clean, memorable links with custom aliases and basic click tracking."
+
+Features:
+- custom aliases
+- own-domain support
+- QR code for every link
+- click counter
+
+CTA:
+"Start shortening"
+
+Card design:
+- largest card
+- dark glass card
+- gradient border
+- animated small link chain icon
+
+Card 2:
+QR Code Generator
+
+Visual:
+- large QR code mockup
+- color dots
+- download buttons
+
+Text:
+"Generate customizable QR codes and download them for print, menus, flyers, and campaigns."
+
+Features:
+- PNG download
+- SVG download if supported
+- color customization
+- live preview
+
+CTA:
+"Create QR code"
+
+Card 3:
+Image Converter
+
+Visual:
+- file cards: image.jpg → image.webp
+- upload cloud icon
+- privacy lock
+
+Text:
+"Convert JPG, PNG, and WebP images directly in your browser."
+
+Features:
+- private
+- browser-based
+- no upload
+- quality control
+
+CTA:
+"Convert image"
+
+Section 4: Product Dashboard Preview
+
+Title:
+"Designed like a real workspace, not a basic utility page."
+
+Subtitle:
+"Your recent links, QR codes, and image conversions are organized in a clean local dashboard."
+
+Visual:
+Large dashboard mockup with:
+- sidebar
+- recent links table
+- QR preview card
+- analytics card
+- recent activity
+- copy buttons
+- local history label
+
+Design:
+- premium dashboard card
+- glassmorphism
+- large gradient border
+- floating stats cards
+- responsive screenshot-style layout
+
+Section 5: How It Works
+
+Title:
+"From long link to share-ready asset in seconds."
+
+Steps:
+1. Paste your link
+2. Customize alias or QR style
+3. Copy, download, or share
+
+Design:
+- horizontal stepper on desktop
+- vertical cards on mobile
+- each step has number badge
+- animated connector line
+- simple icons
+
+Section 6: Why It Feels Better
+
+Title:
+"Built for clarity, speed, and trust."
+
+Create 6 cards:
+1. Own-domain links
+2. Fast redirects
+3. QR downloads
+4. Private image conversion
+5. Local history
+6. Clean mobile experience
+
+Each card:
+- icon
+- short title
+- 2-line explanation
+- hover border glow
+
+Section 7: Use Cases Preview
+
+Title:
+"Made for real businesses and daily work."
+
+Create 6 use-case cards:
+1. Restaurants
+   "QR menus, location links, daily offers."
+
+2. Agencies
+   "Campaign links, branded QR codes, client assets."
+
+3. E-commerce
+   "Product links, discount campaigns, packaging QR codes."
+
+4. Events
+   "Ticket links, check-in pages, location QR codes."
+
+5. Freelancers
+   "Portfolio links, digital business cards, social profiles."
+
+6. Print shops
+   "Flyers, business cards, posters, QR-ready designs."
+
+Design:
+- elegant cards
+- small mockups inside each card
+- CTA: "Explore use cases"
+
+Section 8: Privacy / Security Section
+
+Title:
+"Private where it matters."
+
+Text:
+"QR generation and image conversion happen in your browser. Images are not uploaded to a server. Short links are stored only when you choose to create them."
+
+Visual:
+- lock icon
+- browser window illustration
+- "Your files never leave your device" badge
+
+Design:
+- split layout
+- calm background
+- security checklist
+
+Checklist:
+- Browser-based image conversion
+- No image uploads
+- QR generation is local
+- Firebase-powered short links
+- No external shortener API
+
+Section 9: Pricing Preview
+
+Title:
+"Start free. Upgrade later if needed."
+
+Free card:
+$0
+- QR generation in browser
+- Image conversion in browser
+- Firebase-powered short links
+- Custom aliases
+- Basic click tracking
+- Local history
+- No signup required
+
+Coming soon card:
+Pro
+- User accounts
+- Advanced analytics
+- Branded dashboards
+- Bulk QR generation
+- Expiring links
+- Password-protected links
+
+Important note:
+"QR generation and image conversion run locally in your browser. Short links use Firebase infrastructure and may be subject to fair-use and Firebase quota limits."
+
+Section 10: FAQ Preview
+
+Questions:
+- Is this really free?
+- Can I use my own domain?
+- Are QR codes unlimited?
+- Are images uploaded to a server?
+- Does this use Bitly or Firebase Dynamic Links?
+- Are short links permanent?
+
+Section 11: Final CTA
+
+Title:
+"Create your first short link now."
+
+Subtitle:
+"Paste a link, customize it, copy it, and share it in seconds."
+
+Buttons:
+- Shorten URL
+- Generate QR Code
+
+Design:
+- centered gradient glass card
+- premium glow
+- strong CTA
+
+====================================================
+URL SHORTENER PAGE
+====================================================
+
+Route:
+/shorten
+
+This is the core product page.
+
+Page header:
+Badge:
+"Own-domain URL shortener"
+
+Title:
+"Free URL Shortener"
+
+Subtitle:
+"Turn long links into clean, shareable URLs with custom aliases, QR codes, and basic click tracking."
+
+Layout:
+Two-column desktop, single-column mobile.
+
+Left card: Shortener Form
+
+Card title:
+"Create a short link"
+
+Fields:
+1. Long URL
+Placeholder:
+"Paste your long URL here..."
+
+Helper:
+"Example: https://example.com/products/summer-sale"
+
+2. Custom alias optional
+Prefix preview:
+go.yourdomain.com/
+
+Placeholder:
+"summer-sale"
+
+Helper:
+"Use lowercase letters, numbers, and hyphens."
+
+3. Optional title
+Placeholder:
+"Summer Sale Campaign"
+
+4. Advanced options accordion
+- notes
+- expiration date placeholder, disabled: "Coming soon"
+- password protection placeholder, disabled: "Coming soon"
+
+Button:
+"Create short link"
+
+Validation:
+- auto-add https:// if missing
+- accept only http and https
+- block javascript:
+- block data:
+- block file:
+- block ftp:
+- block empty values
+- block reserved aliases
+- show friendly errors
+
+Right card: Result
+
+Empty state:
+- icon
+- "Your short link will appear here"
+- QR placeholder
+
+After success:
+- short URL in a beautiful copy field
+- copy button
+- open button
+- QR code preview
+- download QR button
+- long URL preview
+- created date
+- click counter
+- status badge: Active
+
+Design:
+- result card should feel like a premium asset card
+- QR code sits in white rounded card
+- success animation when generated
+- toast when copied
+
+Section: Recent Links
+
+Show localStorage history.
+
+Desktop:
+table
+
+Mobile:
+cards
+
+Fields:
+- short URL
+- long URL
+- date
+- copy button
+- open button
+- QR button
+- remove from history
+
+Section: Features
+
+Cards:
+- Custom aliases
+- Own-domain links
+- Click tracking
+- QR code included
+- Firebase-powered
+- Fast redirects
+
+Section: Best Practices
+
+Title:
+"Tips for better short links"
+
+Tips:
+- Keep aliases short
+- Use readable campaign names
+- Test links before printing
+- Use QR codes for offline materials
+- Do not use misleading links
+
+Section: Shortener FAQ
+
+Questions:
+- How does the shortener work?
+- Can I use go.mydomain.com?
+- Is this using Bitly?
+- Is Firebase Dynamic Links used?
+- Are links permanent?
+- Can I edit destination later?
+
+====================================================
+QR GENERATOR PAGE
+====================================================
+
+Route:
+/qr-generator
+
+Header:
+Badge:
+"Client-side QR generator"
+
+Title:
+"Free QR Code Generator"
+
+Subtitle:
+"Create clean, downloadable QR codes for websites, menus, business cards, campaigns, and events."
+
+Main layout:
+Left settings card, right preview card.
+
+Settings:
+- content textarea
+- type selector:
+  URL
+  Text
+  Email
+  Phone
+  WiFi placeholder
+- foreground color
+- background color
+- transparent background toggle
+- size slider
+- error correction level
+- margin selector if supported
+- reset button
+
+Preview:
+- large QR code
+- white preview background
+- download PNG
+- download SVG if supported
+- copy image if supported
+- copy content
+
+Templates section:
+Cards:
+- Website QR
+- Menu QR
+- Business Card QR
+- Event QR
+- Social Profile QR
+- WiFi QR
+
+Each template should prefill sample content.
+
+Best practices:
+- Use high contrast
+- Test before printing
+- Use short URLs for cleaner QR codes
+- Do not overcustomize
+- Use PNG for digital, SVG/PDF for print if available
+
+====================================================
+IMAGE CONVERTER PAGE
+====================================================
+
+Route:
+/image-converter
+
+Header:
+Badge:
+"Private browser conversion"
+
+Title:
+"Free Image Converter"
+
+Subtitle:
+"Convert JPG, PNG, and WebP files directly in your browser. Your images are never uploaded."
+
+Main tool:
+- drag and drop upload
+- file picker
+- original file preview
+- output format selector
+- quality slider for JPG/WebP
+- background color for JPG if PNG has transparency
+- convert button
+- reset button
+- result preview
+- download button
+
+Supported formats:
+- JPG to PNG
+- PNG to JPG
+- JPG to WebP
+- PNG to WebP
+- WebP to PNG
+- WebP to JPG
+
+Privacy card:
+"Your files never leave your device."
+
+Design:
+- clean upload zone
+- file cards
+- before/after preview
+- no clutter
+
+====================================================
+FEATURES PAGE
+====================================================
+
+Route:
+/features
+
+Purpose:
+Make the product feel bigger and more professional.
+
+Hero:
+Title:
+"All the tools you need to share links, QR codes, and images faster."
+
+Sections:
+1. Feature bento grid
+2. URL shortener deep dive
+3. QR generator deep dive
+4. Image converter deep dive
+5. Comparison table
+6. CTA
+
+Comparison table:
+Columns:
+Feature / Basic free tools / LinkQR Tools
+
+Rows:
+- Own-domain short links
+- Custom aliases
+- QR code generation
+- Image conversion
+- Local history
+- Private browser processing
+- Clean mobile UI
+- Firebase-powered redirects
+
+====================================================
+USE CASES PAGE
+====================================================
+
+Route:
+/use-cases
+
+Hero:
+Title:
+"Practical tools for real-world sharing."
+
+Create detailed use-case sections:
+
+1. Restaurants and Cafes
+Use cases:
+- QR menus
+- Google Maps links
+- Instagram links
+- daily offers
+
+2. Small Businesses
+- flyers
+- business cards
+- booking links
+- promo campaigns
+
+3. Agencies
+- campaign links
+- client QR codes
+- reporting
+- branded links
+
+4. Events
+- ticket links
+- schedules
+- check-in pages
+- location QR codes
+
+5. E-commerce
+- product links
+- discounts
+- packaging QR
+- influencer campaigns
+
+6. Print Shops
+- QR-ready flyers
+- business cards
+- brochures
+- posters
+
+Each section:
+- title
+- description
+- visual mockup card
+- benefits list
+- CTA
+
+====================================================
+PRICING PAGE
+====================================================
+
+Route:
+/pricing
+
+Hero:
+Title:
+"Simple pricing for simple tools."
+
+Pricing cards:
+
+Free:
+$0
+- QR generation in browser
+- Image conversion in browser
+- Short links powered by Firebase
+- Custom aliases
+- Basic click tracking
+- Local history
+- No signup required
+
+Pro:
+Coming soon
+- Accounts
+- Dashboard
+- Advanced analytics
+- Editable links
+- Expiring links
+- Password links
+- Bulk QR generation
+
+Business:
+Coming soon
+- Custom domain setup
+- Team workspace
+- White label
+- API access
+- Campaign reports
+- Priority support
+
+Important:
+Do not claim unlimited Firebase short links.
+Say:
+"QR and image tools run locally in your browser. Short links are powered by Firebase and may be subject to fair-use limits."
+
+====================================================
+ABOUT PAGE
+====================================================
+
+Route:
+/about
+
+Hero:
+Title:
+"Simple tools, built for faster digital sharing."
+
+Sections:
+1. Mission
+2. Why we built this
+3. Values
+4. Technology
+5. CTA
+
+Values:
+- Simplicity
+- Speed
+- Privacy
+- Professional design
+- Accessibility
+- Practicality
+
+Technology cards:
+- React
+- TypeScript
+- Tailwind
+- Firebase
+- Browser APIs
+
+No fake team photos.
+Use abstract professional visuals.
+
+====================================================
+CONTACT PAGE
+====================================================
+
+Route:
+/contact
+
+Hero:
+Title:
+"Contact us"
+
+Layout:
+Left:
+- Support card
+- Business inquiries card
+- Feature request card
+
+Right:
+Contact form:
+- name
+- email
+- subject
+- message
+- submit
+
+For MVP:
+Show toast on submit:
+"Message form is ready for backend integration."
+
+Optional:
+Store message in Firestore if simple.
+
+====================================================
+HELP CENTER PAGE
+====================================================
+
+Route:
+/help
+
+Hero:
+Title:
+"Help Center"
+
+Search bar:
+Frontend filter.
+
+Categories:
+- Getting Started
+- URL Shortener
+- QR Generator
+- Image Converter
+- Custom Domains
+- Privacy
+
+Article cards:
+- How to create a short link
+- How to use a custom alias
+- How to generate a QR code
+- How to download a QR code
+- How image conversion works
+- How to connect go.mydomain.com
+- Why Firebase Dynamic Links is not used
+
+Design:
+- documentation style
+- sidebar on desktop
+- cards on mobile
+
+====================================================
+FAQ PAGE
+====================================================
+
+Route:
+/faq
+
+Create full FAQ with categories.
+
+General:
+- What is LinkQR Tools?
+- Is it free?
+- Do I need an account?
+- Can I use it commercially?
+
+URL Shortener:
+- How does the shortener work?
+- Can I use my own domain?
+- Can I create custom aliases?
+- Are links permanent?
+- Is Bitly used?
+- Is Firebase Dynamic Links used?
+
+QR Codes:
+- Are QR codes unlimited?
+- Can I download PNG?
+- Can I customize colors?
+- Can I use QR codes for print?
+
+Image Converter:
+- Are images uploaded?
+- Which formats are supported?
+- Why does JPG remove transparency?
+- Can I batch convert files?
+
+Privacy:
+- What data is stored?
+- Are images stored?
+- Are QR codes stored?
+- What is saved in localStorage?
+
+====================================================
+HISTORY PAGE
+====================================================
+
+Route:
+/history
+
+Purpose:
+Local user history.
+
+No login required.
+
+Tabs:
+- Short Links
+- QR Codes
+- Image Conversions
+
+Short links:
+- short URL
+- long URL
+- date
+- copy
+- open
+- QR
+- remove
+
+QR history:
+- QR content
+- date
+- regenerate
+- remove
+
+Image conversion history:
+Only metadata:
+- file name
+- output format
+- date
+- note: converted files are not stored
+
+Empty state:
+"Your recent activity will appear here."
+
+====================================================
+PRIVACY PAGE
+====================================================
+
+Route:
+/privacy
+
+Professional legal layout.
+
+Mention:
+- QR generation happens in browser
+- Image conversion happens in browser
+- Images are not uploaded
+- Short URLs are stored in Firebase Firestore
+- Click counts may be stored
+- Local history is stored in localStorage
+- No user accounts in MVP
+- Firebase infrastructure may process short-link data
+- Abuse links may be removed
+
+Design:
+- readable legal layout
+- table of contents
+- max-width content
+
+====================================================
+TERMS PAGE
+====================================================
+
+Route:
+/terms
+
+Mention:
+- acceptable use
+- no phishing
+- no malware
+- no spam
+- no illegal links
+- service is provided as-is
+- no guarantee of permanent availability
+- short links may have technical limits
+- abusive links can be disabled
+- user responsibility
+
+====================================================
+REDIRECT PAGE
+====================================================
+
+Routes:
+/s/:slug
+/:slug
+
+Design:
+- very lightweight
+- centered card
+- spinner
+- "Redirecting..."
+- "Taking you to your destination."
+
+Behavior:
+1. Read slug
+2. Check Firestore
+3. If exists and active:
+   - increment clicks
+   - update lastClickedAt
+   - redirect using window.location.replace(longUrl)
+4. If not found:
+   show polished not found state
+5. If inactive:
+   show inactive link state
+6. If error:
+   show error state
+
+Use Firestore increment().
+
+====================================================
+404 PAGE
+====================================================
+
+Professional 404 page.
+
+Text:
+"This page does not exist or the link has expired."
+
+Buttons:
+- Go home
+- Shorten a URL
+
+====================================================
+FIREBASE DETAILS
+====================================================
+
+Create:
+
+src/lib/firebase.ts
+src/services/linkService.ts
+src/utils/slug.ts
+src/utils/validateUrl.ts
+src/utils/reservedSlugs.ts
+
+Firestore collection:
+links
+
+Document ID:
+slug
+
+Fields:
+slug
+longUrl
+shortUrl
+createdAt
+updatedAt
+clicks
+lastClickedAt
+isActive
+customAlias
+source
+title
+notes
+
+Service functions:
+- createShortLink(longUrl, customAlias?, title?, notes?)
+- getLinkBySlug(slug)
+- incrementLinkClicks(slug)
+- checkSlugAvailability(slug)
+- normalizeUrl(url)
+- validateLongUrl(url)
+- generateSlug(length?)
+- isReservedSlug(slug)
+
+Use:
+- doc
+- getDoc
+- setDoc
+- updateDoc
+- serverTimestamp
+- increment
+
+====================================================
+URL VALIDATION
+====================================================
+
+Rules:
+- accept only http and https
+- auto-add https:// if protocol missing
+- reject javascript:
+- reject data:
+- reject file:
+- reject ftp:
+- reject empty values
+- reject malformed URLs
+- reject reserved aliases
+- reject aliases with invalid characters
+
+Friendly errors:
+- "Please enter a valid URL."
+- "Only http and https links are supported."
+- "This alias is already taken."
+- "This alias is reserved."
+- "Aliases can only contain lowercase letters, numbers, and hyphens."
+
+====================================================
+SLUG RULES
+====================================================
+
+Random slug:
+- 6 to 8 characters
+- letters and numbers
+- avoid confusing characters if possible
+- check availability before saving
+- retry if collision
+
+Custom alias:
+- 3 to 32 characters
+- lowercase letters
+- numbers
+- hyphens
+- no leading hyphen
+- no trailing hyphen
+- no double hyphens
+- not reserved
+
+====================================================
+FIRESTORE RULES
+====================================================
+
+Create firestore.rules.
+
+Because public link creation is allowed, include reasonable MVP validation.
+
+Rules should:
+- allow public read for active links
+- allow creation with required fields
+- prevent public deletion
+- limit document ID size
+- validate field types where possible
+- include comments that production should use Firebase App Check, Cloud Functions, authentication, and rate limiting for stronger abuse protection
+
+====================================================
+FIREBASE HOSTING
+====================================================
+
+Create firebase.json:
+
+Use SPA rewrite:
+All routes serve index.html.
+
+Explain in README:
+- how to deploy to Firebase Hosting
+- how to connect mydomain.com
+- how to connect go.mydomain.com
+- how to set VITE_SHORT_DOMAIN
+- how redirect route works
+- why Firebase Dynamic Links is not used
+
+====================================================
+SEO
+====================================================
+
+Every page should have:
+- title
+- meta description
+- semantic headings
+- clean content
+
+Titles:
+Home:
+"LinkQR Tools — Free URL Shortener, QR Code Generator & Image Converter"
+
+Shortener:
+"Free URL Shortener with Custom Domain Support"
+
+QR:
+"Free QR Code Generator"
+
+Converter:
+"Free JPG, PNG and WebP Image Converter"
+
+Features:
+"Features — LinkQR Tools"
+
+Pricing:
+"Pricing — LinkQR Tools"
+
+FAQ:
+"FAQ — LinkQR Tools"
+
+====================================================
+ANIMATIONS
+====================================================
+
+Use Framer Motion for:
+- page transitions
+- hero entrance
+- product card entrance
+- bento card hover
+- FAQ accordion
+- result reveal
+- QR preview animation
+- image upload animation
+- mobile menu
+
+Animation style:
+- smooth
+- premium
+- subtle
+- fast
+- not distracting
+
+====================================================
+FINAL DELIVERABLE
+====================================================
+
+Deliver a complete working Vite React TypeScript project.
+
+Include:
+- full source code
+- Tailwind setup
+- routing
+- Firebase setup
+- Firestore services
+- all pages
+- all components
+- QR generator
+- URL shortener
+- redirect route
+- image converter
+- localStorage history
+- dark/light mode
+- responsive design
+- animations
+- error/loading/empty states
+- README
+- .env.example
+- firebase.json
+- firestore.rules
+
+After code generation, provide:
+1. Installation commands
+2. Firebase setup steps
+3. Firestore setup steps
+4. Firebase Hosting deployment steps
+5. Custom domain/subdomain setup
+6. Explanation of redirect logic
+7. Explanation of free/unlimited limitations
+8. Future improvements
+
+Most important:
+Make it look premium.
+Make it look like a real SaaS company.
+Do not make it look like a basic online utility website.
+Every page should be polished, responsive, and consistent.

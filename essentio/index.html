@@ -1,0 +1,1293 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6Q4WB74HM3"></script>
+    <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-6Q4WB74HM3');
+        document.addEventListener('astro:page-load', () => {
+            gtag('config', 'G-6Q4WB74HM3', {
+                page_path: window.location.pathname
+            });
+        });
+    </script>
+    <title>Home | Essentio - Single Product E-Commerce Tailwind CSS 4 Template</title>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="title" content="Essentio - Single Product E-Commerce Tailwind CSS 4 Template">
+    <meta name="description" content="Essentio is a modern and fully responsive Single Product E-Commerce website template built with Tailwind CSS 4. Perfect for shared offices, startups, creative spaces, and workspace rental businesses. Easy to customize with clean and professional design.">
+
+    <meta name="keywords" content="Single Product E-Commerce template, Single Product E-Commerce website, shared office template, workspace rental website, office space tailwind template, Single Product E-Commerce tailwind css template, startup office website, meeting room website">
+
+    <meta name="author" content="Unifato">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/essentio/images/favicon.ico">
+    <!-- Google Font Link (https://fonts.google.com/) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+
+    <script type="module" crossorigin src="/essentio/assets/app.js"></script>
+    <link rel="stylesheet" crossorigin href="/essentio/assets/app.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="nav-sticky navbar fixed inset-x-0 top-0 z-120 w-full border-b lg:border-transparent lg:bg-transparent border-default-200 bg-body-bg transition-all duration-300 lg:[.nav-sticky-on]:border-default-700 [.nav-sticky-on]:bg-default-950 text-white py-2.5">
+            <div class="container-full">
+                <div class="flex items-center justify-between gap-25">
+                    <a href="index.html" class="flex items-center text-current">
+              <svg width="220" height="50" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg" class="md:h-12.5 h-7.5 w-auto">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M14.8466 7.41353C24.0205 2.11693 35.6094 4.79187 41.5923 13.2892L31.9115 18.8784C29.6649 16.3461 26.1035 15.1484 22.6112 16.0842C17.687 17.4036 14.7647 22.4651 16.0842 27.3894C16.1326 27.5702 16.1861 27.7484 16.2445 27.9237L6.56216 33.5138C2.19474 24.0838 5.6726 12.7101 14.8466 7.41353ZM33.7561 22.0769L43.4384 16.4868C47.8059 25.9168 44.328 37.2905 35.154 42.5871C25.9801 47.8837 14.3912 45.2087 8.40829 36.7114L18.0891 31.1222C20.3357 33.6545 23.897 34.8522 27.3894 33.9164C32.3136 32.597 35.2359 27.5355 33.9164 22.6112C33.868 22.4304 33.8145 22.2522 33.7561 22.0769Z" fill="#2781EC" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M19.4609 24.9993C19.4609 21.9406 21.9406 19.4609 24.9993 19.4609C28.0581 19.4609 30.5377 21.9406 30.5377 24.9993C30.5377 28.0581 28.0581 30.5377 24.9993 30.5377C21.9406 30.5377 19.4609 28.0581 19.4609 24.9993Z" fill="#FFEA8F" />
+                <path d="M60.9531 37V34.4375L63.4062 33.9688V17.2969L60.9531 16.8281V14.25H78.4375V20.25H75.1562L74.9219 17.5156H67.6562V23.5938H75.5V26.8906H67.6562V33.75H75.3281L75.5625 30.9531H78.8125V37H60.9531ZM90.4531 37.3281C88.8385 37.3281 87.349 37.1406 85.9844 36.7656C84.6302 36.3802 83.3073 35.7344 82.0156 34.8281V29.4531H85.2969L85.7969 32.7656C86.3073 33.1615 86.9688 33.4792 87.7812 33.7188C88.6042 33.9583 89.4948 34.0781 90.4531 34.0781C91.3281 34.0781 92.0625 33.9583 92.6562 33.7188C93.2604 33.4688 93.7188 33.1198 94.0312 32.6719C94.3438 32.2135 94.5 31.6823 94.5 31.0781C94.5 30.4948 94.3594 29.9844 94.0781 29.5469C93.7969 29.099 93.3333 28.6979 92.6875 28.3438C92.0521 27.9792 91.1875 27.6354 90.0938 27.3125C88.3438 26.8229 86.8854 26.2656 85.7188 25.6406C84.5521 25.0156 83.6771 24.2656 83.0938 23.3906C82.5208 22.5052 82.2344 21.4531 82.2344 20.2344C82.2344 19.0156 82.5677 17.9375 83.2344 17C83.9115 16.0521 84.8438 15.3073 86.0312 14.7656C87.2292 14.224 88.6042 13.9479 90.1562 13.9375C91.8854 13.9167 93.4115 14.1302 94.7344 14.5781C96.0573 15.026 97.1875 15.6302 98.125 16.3906V21.3906H94.9219L94.3438 18.25C93.9271 17.9688 93.3802 17.7292 92.7031 17.5312C92.026 17.3333 91.2448 17.2344 90.3594 17.2344C89.599 17.2344 88.9271 17.3542 88.3438 17.5938C87.7604 17.8229 87.3021 18.1615 86.9688 18.6094C86.6354 19.0573 86.4688 19.5938 86.4688 20.2188C86.4688 20.7604 86.6146 21.2344 86.9062 21.6406C87.1979 22.0469 87.6875 22.4219 88.375 22.7656C89.0625 23.1094 89.9948 23.4635 91.1719 23.8281C93.6615 24.5052 95.5469 25.4219 96.8281 26.5781C98.1198 27.724 98.7656 29.2135 98.7656 31.0469C98.7656 32.3177 98.4167 33.4271 97.7188 34.375C97.0312 35.3125 96.0625 36.0417 94.8125 36.5625C93.5729 37.0729 92.1198 37.3281 90.4531 37.3281ZM109.797 37.3281C108.182 37.3281 106.693 37.1406 105.328 36.7656C103.974 36.3802 102.651 35.7344 101.359 34.8281V29.4531H104.641L105.141 32.7656C105.651 33.1615 106.312 33.4792 107.125 33.7188C107.948 33.9583 108.839 34.0781 109.797 34.0781C110.672 34.0781 111.406 33.9583 112 33.7188C112.604 33.4688 113.062 33.1198 113.375 32.6719C113.688 32.2135 113.844 31.6823 113.844 31.0781C113.844 30.4948 113.703 29.9844 113.422 29.5469C113.141 29.099 112.677 28.6979 112.031 28.3438C111.396 27.9792 110.531 27.6354 109.438 27.3125C107.688 26.8229 106.229 26.2656 105.062 25.6406C103.896 25.0156 103.021 24.2656 102.438 23.3906C101.865 22.5052 101.578 21.4531 101.578 20.2344C101.578 19.0156 101.911 17.9375 102.578 17C103.255 16.0521 104.188 15.3073 105.375 14.7656C106.573 14.224 107.948 13.9479 109.5 13.9375C111.229 13.9167 112.755 14.1302 114.078 14.5781C115.401 15.026 116.531 15.6302 117.469 16.3906V21.3906H114.266L113.688 18.25C113.271 17.9688 112.724 17.7292 112.047 17.5312C111.37 17.3333 110.589 17.2344 109.703 17.2344C108.943 17.2344 108.271 17.3542 107.688 17.5938C107.104 17.8229 106.646 18.1615 106.312 18.6094C105.979 19.0573 105.812 19.5938 105.812 20.2188C105.812 20.7604 105.958 21.2344 106.25 21.6406C106.542 22.0469 107.031 22.4219 107.719 22.7656C108.406 23.1094 109.339 23.4635 110.516 23.8281C113.005 24.5052 114.891 25.4219 116.172 26.5781C117.464 27.724 118.109 29.2135 118.109 31.0469C118.109 32.3177 117.76 33.4271 117.062 34.375C116.375 35.3125 115.406 36.0417 114.156 36.5625C112.917 37.0729 111.464 37.3281 109.797 37.3281ZM120.078 37V34.4375L122.531 33.9688V17.2969L120.078 16.8281V14.25H137.562V20.25H134.281L134.047 17.5156H126.781V23.5938H134.625V26.8906H126.781V33.75H134.453L134.688 30.9531H137.938V37H120.078ZM140.531 37V34.4375L142.969 33.9688V17.2969L140.531 16.8281V14.25H142.969H147.281L157.453 30.4375L157.547 30.4219V17.2969L154.656 16.8281V14.25H161.359H163.812V16.8281L161.359 17.2969V37H157.281L146.891 20.9219L146.797 20.9375V33.9688L149.688 34.4375V37H140.531ZM170.875 37V34.4375L173.328 33.9688V17.5156H168.969L168.672 20.3281H165.469V14.25H185.469V20.3281H182.25L181.953 17.5156H177.578V33.9688L180.047 34.4375V37H170.875ZM187.328 37V34.4375L189.781 33.9688V17.2969L187.328 16.8281V14.25H196.484V16.8281L194.031 17.2969V33.9688L196.484 34.4375V37H187.328ZM208.578 37.3281C207.057 37.3281 205.677 37.0469 204.438 36.4844C203.198 35.9115 202.13 35.1094 201.234 34.0781C200.349 33.0365 199.667 31.8177 199.188 30.4219C198.708 29.0156 198.469 27.474 198.469 25.7969V25.4531C198.469 23.7865 198.708 22.2552 199.188 20.8594C199.667 19.4531 200.349 18.2344 201.234 17.2031C202.13 16.1615 203.193 15.3542 204.422 14.7812C205.661 14.2083 207.042 13.9219 208.562 13.9219C210.115 13.9219 211.51 14.2083 212.75 14.7812C214 15.3542 215.073 16.1615 215.969 17.2031C216.865 18.2344 217.547 19.4531 218.016 20.8594C218.495 22.2552 218.734 23.7865 218.734 25.4531V25.7969C218.734 27.474 218.495 29.0156 218.016 30.4219C217.547 31.8177 216.865 33.0365 215.969 34.0781C215.083 35.1094 214.016 35.9115 212.766 36.4844C211.516 37.0469 210.12 37.3281 208.578 37.3281ZM208.578 33.9844C209.911 33.9844 211.016 33.6458 211.891 32.9688C212.766 32.2812 213.417 31.3229 213.844 30.0938C214.281 28.8646 214.5 27.4323 214.5 25.7969V25.4219C214.5 23.8073 214.281 22.3906 213.844 21.1719C213.406 19.9531 212.745 19 211.859 18.3125C210.984 17.625 209.885 17.2812 208.562 17.2812C207.271 17.2812 206.193 17.625 205.328 18.3125C204.464 18.9896 203.812 19.9375 203.375 21.1562C202.948 22.375 202.734 23.7969 202.734 25.4219V25.7969C202.734 27.4219 202.948 28.8542 203.375 30.0938C203.812 31.3229 204.464 32.2812 205.328 32.9688C206.203 33.6458 207.286 33.9844 208.578 33.9844Z" fill="currentColor" />
+              </svg>
+            </a>
+
+                    <div id="navbar" class="hidden lg:flex items-center justify-center mx-auto uppercase">
+                        <a href="index.html" class="flex items-center p-3.75 text-lg transition-all hover:text-primary">
+                Home
+              </a>
+
+                        <a href="about.html" class="flex items-center p-3.75 text-lg transition-all hover:text-primary">
+                About
+              </a>
+
+                        <div class="hs-dropdown relative inline-flex [--trigger:hover]">
+                            <button type="button" class="hs-dropdown-toggle uppercase flex items-center p-3.75 text-lg transition-all hover:text-primary" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                  Pages
+                  <i class="iconify tabler--chevron-down ms-1"></i>
+                </button>
+
+                            <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 mt-6 hidden w-45 rounded-xl border border-default-600 bg-white py-2.5 px-5 opacity-0 transition-[opacity,margin] duration-300 before:absolute before:inset-s-0 before:-top-4 before:h-4 before:w-full after:absolute after:inset-s-0 after:-bottom-4 after:h-4 after:w-full"
+                                role="menu" aria-orientation="vertical">
+                                <div class="flex flex-col gap-2">
+                                    <a href="index.html" class="block text-lg text-default-800 hover:text-primary">Home
+                    </a>
+                                    <a href="home-2.html" class="block text-lg text-default-800 hover:text-primary">Home 2</a>
+                                    <a href="about.html" class="block text-lg text-default-800 hover:text-primary">About</a>
+                                    <a href="shop.html" class="block text-lg text-default-800 hover:text-primary">Shop</a>
+                                    <a href="blog.html" class="block text-lg text-default-800 hover:text-primary">Blog</a>
+                                    <a href="contact.html" class="block text-lg text-default-800 hover:text-primary">Contact</a>
+                                    <a href="faqs.html" aria-current="page" class="block text-lg text-default-800 hover:text-primary">FAQs</a>
+                                    <a href="privacy-policy.html" class="block text-lg text-default-800 hover:text-primary">Privacy Policy</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="shop.html" class="flex items-center p-3.75 text-lg transition-all hover:text-primary">
+                Shop
+              </a>
+
+                        <a href="contact.html" class="flex items-center p-3.75 text-lg transition-all hover:text-primary">
+                Contact
+              </a>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-4">
+                        <!-- Search Button -->
+                        <button type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-modal" data-hs-overlay="#search-modal" class="lg:size-14 size-11.25 rounded-full bg-white md:flex hidden items-center justify-center">
+                <i class="iconify lucide--search text-2xl text-default-800"></i>
+              </button>
+
+                        <!-- Cart Button -->
+                        <button type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="cart-modal" data-hs-overlay="#cart-modal" class="flex items-center md:gap-3 gap-1.5 bg-primary-2 lg:px-5.75 md:px-5 px-2.5 lg:py-3.75 md:py-2.5 py-1.25 rounded-full">
+                <div class="relative">
+                  <!-- Cart Icon -->
+                  <i class="iconify lucide--shopping-bag md:text-xl text-sm text-black mt-1"></i>
+    
+                  <!-- Badge -->
+                  <span class="absolute -top-1 -inset-e-2 bg-default-900 text-white text-[10px] size-4 flex items-center justify-center rounded-full">
+                    0
+                  </span>
+                </div>
+    
+                <!-- Text -->
+                <span class="font-medium text-black md:text-lg text-sm">Cart</span>
+              </button>
+
+                        <div class="flex items-center lg:hidden">
+                            <button type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobile-menu" data-hs-overlay="#mobile-menu" class="inline-flex md:size-12 size-8.5 items-center justify-center rounded-full bg-primary text-base font-medium text-white transition-all">
+                  <i class="iconify tabler--align-right size-6"></i>
+                </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Modal -->
+        <div id="cart-modal" class="hs-overlay hidden size-full fixed top-0 start-0 z-[150] overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="cart-modal-label" data-hs-overlay-options='{"backdropClasses": "bg-black/75 fixed inset-0 z-[149] transition-opacity"}'>
+            <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+                <div class="flex flex-col bg-white pointer-events-auto rounded-xl shadow-2xl w-full">
+                    <!-- Header -->
+                    <div class="flex justify-between items-center py-4 px-5 sm:px-6 border-b border-default-200">
+                        <h2 id="cart-modal-label" class="text-xl sm:text-2xl font-heading text-default-950 font-normal">
+                            Your Cart
+                        </h2>
+                        <button type="button" class="text-default-500 hover:text-default-800 transition-colors p-1" aria-label="Close" data-hs-overlay="#cart-modal">
+                <i class="iconify tabler--x text-2xl"></i>
+              </button>
+                    </div>
+
+                    <!-- Content Body (Empty State) -->
+                    <div class="flex flex-col items-center justify-center px-5 py-10 md:py-15 text-center overflow-y-auto">
+                        <!-- Cart Illustration SVG -->
+                        <img src="/essentio/images/blog/empty-cart.svg" alt="Empty Cart" class="h-44 sm:h-60 md:h-72 object-contain mb-8 sm:mb-12" />
+
+                        <!-- Text -->
+                        <p class="text-base sm:text-xl font-bold text-default-500 font-body mb-6 sm:mb-8 tracking-tight">
+                            No products inside your bag.
+                        </p>
+
+                        <!-- Start Shopping Button -->
+                        <a href="shop.html" class="bg-primary hover:bg-primary-2 text-white hover:text-default-800 font-bold w-full sm:w-auto sm:px-12 py-3.5 sm:py-4 rounded-xl uppercase text-sm sm:text-base tracking-wider transition-all duration-300 hover:shadow-lg inline-block text-center"
+                            data-hs-overlay="#cart-modal">
+                Start Shopping
+              </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Modal -->
+        <div id="search-modal" class="hs-overlay hs-overlay-open:translate-y-0 -translate-y-full fixed top-0 inset-x-0 transition-all duration-300 transform h-auto z-[130] bg-default-100 border-b border-default-200 shadow-xl hidden" tabindex="-1" aria-labelledby="search-modal-label">
+            <div class="lg:py-25 py-12.5">
+                <div class="lg:max-w-3xl max-w-2xl mx-auto px-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 id="search-modal-label" class="text-3xl font-heading text-default-900 font-normal">
+                            Start your
+                        </h2>
+                        <button type="button" class="text-default-500 hover:text-default-800 transition-colors" aria-label="Close" data-hs-overlay="#search-modal">
+                <i class="iconify tabler--x text-2xl"></i>
+              </button>
+                    </div>
+                    <form class="flex gap-2.5">
+                        <input type="text" placeholder="Search here" class="w-full border border-default-600 rounded-lg px-5 py-4 text-base bg-white text-default-800 placeholder:text-default-600 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                        />
+                        <button type="submit" class="bg-primary hover:bg-primary-2 text-white hover:text-default-800 font-bold px-10 py-4 rounded-lg uppercase text-lg tracking-wider whitespace-nowrap transition-colors">
+                Find Now
+              </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hs-overlay hs-overlay-open:translate-y-0 md:hs-overlay-open:top-17.5 top-13.5 [--body-scroll:true] fixed inset-x-0 z-110 h-auto max-h-[calc(100vh-3.375rem)] md:max-h-[calc(100vh-4.375rem)] -translate-y-full transform overflow-y-auto bg-default-100 shadow-xl transition-all duration-300 lg:hidden"
+            role="dialog" tabindex="-1" aria-labelledby="mobile-menu-label">
+            <div class="flex flex-col gap-1 divide-y divide-default-200">
+                <a href="index.html" class="flex items-center px-4 py-2 text-base font-medium text-default-800 transition-all hover:text-primary">
+            Home
+          </a>
+
+                <a href="about.html" class="flex items-center px-4 py-2 text-base font-medium text-default-800 transition-all hover:text-primary">
+            About
+          </a>
+
+                <div class="hs-accordion">
+                    <button type="button" class="hs-accordion-toggle flex items-center px-4 py-2 text-base font-medium text-default-800 transition-all hover:text-primary" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+              Pages
+              <i class="iconify tabler--chevron-down ms-4"></i>
+            </button>
+
+                    <div class="hs-accordion-content hidden w-full overflow-hidden ps-5 pb-4 transition-[height]">
+                        <a href="index.html" class="block rounded-sm px-4 py-2 text-sm font-semibold text-default-800 hover:bg-primary/6 hover:text-primary">Home
+              </a>
+                        <a href="home-2.html" class="block rounded-sm px-4 py-2 text-sm font-semibold text-default-800 hover:bg-primary/6 hover:text-primary">Home2</a>
+                        <a href="about.html" class="block rounded-sm px-4 py-2 text-sm font-semibold text-default-800 hover:bg-primary/6 hover:text-primary">About</a>
+                        <a href="shop.html" class="block rounded-sm px-4 py-2 text-sm font-semibold text-default-800 hover:bg-primary/6 hover:text-primary">Shop</a>
+                        <a href="blog.html" class="block rounded-sm px-4 py-2 text-sm font-semibold text-default-800 hover:bg-primary/6 hover:text-primary">Blog</a>
+                        <a href="contact.html" class="block rounded-sm px-4 py-2 text-sm font-semibold text-default-800 hover:bg-primary/6 hover:text-primary">Contact</a>
+                        <a href="faqs.html" aria-current="page" class="block rounded-sm px-4 py-2 text-sm font-semibold text-default-800 hover:bg-primary/6 hover:text-primary">FAQs</a>
+                        <a href="privacy-policy.html" class="block rounded-sm px-4 py-2 text-sm font-semibold text-default-800 hover:bg-primary/6 hover:text-primary">Privacy Policy</a>
+                    </div>
+                </div>
+
+                <a href="shop.html" class="flex items-center px-4 py-2 text-base font-medium text-default-800 transition-all hover:text-primary">
+            Shop
+          </a>
+
+                <a href="contact.html" class="flex items-center px-4 py-2 text-base font-medium text-default-800 transition-all hover:text-primary">
+            Contact
+          </a>
+            </div>
+        </div>
+    </header>
+    <section class="relative w-full lg:py-55 md:pt-35 md:pb-25 flex items-center justify-center overflow-hidden rounded-b-[50px] md:rounded-b-[86px]">
+        <div class="md:block hidden">
+            <!-- Background Image -->
+            <img src="/essentio/images/hero-main.png" alt="Robot vacuum on wooden floor" class="absolute inset-0 w-full h-full object-cover" />
+
+            <!-- Dark Overlay -->
+            <div class="absolute inset-0 bg-linear-to-b from-black via-transparent to-black opacity-70"></div>
+
+            <!-- Content Container -->
+            <div class="relative z-10 container text-center text-white">
+                <!-- Heading: Using a serif font to match the image style -->
+                <h1 class="lg:text-8xl text-7xl text-white font-normal leading-tight mb-5 lg:w-12/12 mx-auto">
+                    Effortless cleaning,<br />smart living
+                </h1>
+
+                <!-- Description -->
+                <p class="text-sm md:text-lg max-w-2xl mx-auto lg:mb-17.5 mb-12.5 leading-relaxed">
+                    Your cleaning routine with our innovative, spherical cleaning solutions with unmatched efficiency and precision with every floor roll.
+                </p>
+
+                <!-- Button -->
+                <div class="flex justify-center">
+                    <a href="shop.html" class="group flex items-center gap-2.5 bg-primary hover:bg-secondary-1 text-white p-3.75 rounded-full font-medium uppercase text-lg tracking-normal transition-all duration-300">
+                        <!-- Shopping Cart Icon -->
+                        <i class="iconify solar--bag-3-outline text-2xl leading-none"></i> Shop now
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden block bg-black pt-26 pb-10 text-center">
+            <!-- Heading: Using a serif font to match the image style -->
+            <h1 class="text-5xl text-white font-normal leading-tight mb-5">
+                Effortless cleaning,<br />smart living
+            </h1>
+
+            <!-- Description -->
+            <p class="text-lg leading-relaxed px-3.5 text-white font-normal">
+                Your cleaning routine with our innovative, spherical cleaning solutions with unmatched efficiency and precision with every floor roll.
+            </p>
+
+            <!-- Button -->
+            <div class="flex justify-center md:mt-0 mt-2.5">
+                <a href="shop.html" class="group flex items-center md:gap-2.5 gap-1.5 bg-primary hover:bg-secondary-1 text-white md:p-3.75 p-3 rounded-full font-medium uppercase md:text-lg tracking-normal transition-all duration-300">
+                    <!-- Shopping Cart Icon -->
+                    <i class="iconify solar--bag-3-outline text-2xl leading-none"></i> Shop now
+                </a>
+            </div>
+
+            <img src="/essentio/images/hero-main.png" alt="Robot vacuum on wooden floor" class="mt-12.5 w-full h-full object-cover px-3.5 rounded-2xl!" />
+        </div>
+    </section>
+
+    <!-- Main Section: Spacing matches your CSS (120px default, 150px on screens >= 1280px) -->
+    <section class="lg:py-37.5 md:py-25 py-15">
+        <div class="container-full">
+            <!-- Grid Layout: 1 column on mobile, 3 columns on medium screens and up -->
+            <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-12 lg:gap-33.75 items-start text-center">
+                <!-- Client 01 -->
+                <div class="flex flex-col items-center group">
+                    <img src="/essentio/images/client/1.svg" alt="Emblem Logo" class="h-10 md:h-12 w-auto lg:mb-8 md:mb-5 mb-2.5 opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <p class="text-default-400 text-lg leading-relaxed">
+                        I’m amazed at how Essentio learned about my home layout. It tackles dirt under furniture and transitions smoothly between surfaces.
+                    </p>
+                </div>
+
+                <!-- Client 02 -->
+                <div class="flex flex-col items-center group">
+                    <img src="/essentio/images/client/2.svg" alt="Grapherz Logo" class="h-10 md:h-12 w-auto lg:mb-8 md:mb-5 mb-2.5 opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <p class="text-default-400 text-lg leading-relaxed">
+                        Essentio has transformed my daily routine. It cleans efficiently, avoids obstacles, and keeps my floors spotless without any hassle.
+                    </p>
+                </div>
+
+                <!-- Client 03 -->
+                <div class="flex flex-col items-center group">
+                    <img src="/essentio/images/client/3.svg" alt="Grapho Logo" class="h-10 md:h-12 w-auto lg:mb-8 md:mb-5 mb-2.5 opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <p class="text-default-400 text-lg leading-relaxed">
+                        The app control and AI navigation are a game-changer. I can schedule cleanings remotely, and it handles my entire home effortlessly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container-full">
+            <div class="lg:flex grid md:grid-cols-2 grid-cols-1 md:gap-0 gap-12.5 items-start justify-start">
+                <!-- Left Content -->
+                <div class="flex flex-col lg:gap-y-42.5 gap-y-12.5">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl lg:text-6xl text-default-800 leading-normal md:mb-12.5 mb-10 lg:max-w-4xl">
+                            Cleaning industry solutions designed to make cleaning faster, easier & more effective
+                        </h2>
+
+                        <!-- Button with requested icon format -->
+                        <div>
+                            <a href="about.html" class="group inline-flex items-center gap-2.5 bg-black hover:bg-primary text-white px-3.75 py-3.5 rounded-full transition-all duration-300">
+                  <i
+                    class="iconify tabler--circle-chevron-right-filled size-6 leading-none group-hover:-rotate-45 transition-all duration-500"
+                  ></i>
+                  <span
+                    class="md:text-lg text-base font-bold uppercase tracking-normal"
+                    >More about</span
+                  >
+                </a>
+                        </div>
+                    </div>
+
+                    <!-- Features Grid -->
+                    <div class="grid lg:grid-cols-3 grid-cols-1 gap-4 md:gap-7.5 mt-auto">
+                        <div class="flex flex-col lg:gap-4 gap-2.5">
+                            <img src="/essentio/images/icons/about-icon-01.svg" class="lg:size-14 size-7.5 object-cover" />
+                            <p class="md:text-lg text-base font-bold uppercase tracking-normal leading-tight text-default-800">
+                                Dust Removal Efficiency
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col lg:gap-4 gap-2.5">
+                            <img src="/essentio/images/icons/about-icon-02.svg" class="lg:size-14 size-7.5 object-cover" />
+                            <p class="md:text-lg text-base font-bold uppercase tracking-normal leading-tight text-default-800">
+                                Continuous Cleaning
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col lg:gap-4 gap-2.5">
+                            <img src="/essentio/images/icons/about-icon-03.svg" class="lg:size-14 size-7.5 object-cover" />
+                            <p class="md:text-lg text-base font-bold uppercase tracking-normal leading-tight text-default-800">
+                                Happy Customers Worldwide
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Image -->
+                <div class="relative ms-auto float-end">
+                    <img src="/essentio/images/about-split-image.avif" alt="Robot Vacuum" class="lg:w-162 lg:h-auto h-full! object-cover rounded-[40px]" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lg:py-37.5 md:py-25 py-15">
+        <div class="container-full">
+            <!-- Top Grid Row -->
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 lg:gap-12.5 gap-7.5 lg:mb-12.5 mb-7.5">
+                <!-- Key Features Title -->
+                <div class="flex flex-col lg:py-8 lg:col-span-1 md:col-span-2">
+                    <span class="text-lg font-bold uppercase tracking-tight text-default-800 mb-1">Key</span
+            >
+            <h2 class="text-4xl md:text-5xl lg:text-6xl text-default-900">
+              Features
+            </h2>
+          </div>
+
+          <!-- AI Navigation Card (Yellow) -->
+          <div
+            class="bg-primary-2 lg:rounded-[50px] rounded-2xl lg:p-10 p-5 flex flex-col justify-between lg:min-h-114 md:min-h-90 min-h-70"
+          >
+            <div
+              class="bg-white lg:size-23.5 size-10.5 rounded-full flex items-center justify-center"
+            >
+              <img
+                src="/essentio/images/icons/feature-icon-01.svg"
+                class="lg:size-14 size-6 object-cover"
+              />
+            </div>
+            <div>
+              <h3
+                class="lg:text-3xl text-2xl font-body font-bold text-default-900 mb-2.5"
+              >
+                AI navigation
+              </h3>
+              <p class="text-lg text-default-500 leading-relaxed">
+                Learns your home layout to deliver efficient, customized
+                cleaning paths.
+              </p>
+            </div>
+          </div>
+
+          <!-- Effortless Cleaning Card (Image) -->
+          <div
+            class="lg:col-span-2 relative group overflow-hidden lg:rounded-[50px] rounded-2xl lg:min-h-114 md:min-h-90 min-h-70"
+          >
+            <img
+              src="/essentio/images/feature-image-01.avif"
+              class="absolute inset-0 w-full h-full object-cover"
+              alt="Robot vacuum"
+            />
+            <div
+              class="absolute inset-0 bg-linear-to-b from-black via-transparent to-black opacity-70"
+            ></div>
+            <div
+              class="relative z-10 lg:p-10 p-5 h-full flex flex-col justify-between"
+            >
+              <div>
+                <h3 class="text-3xl font-body font-bold text-white mb-2.5">
+                  Effortless cleaning starts here
+                </h3>
+                <p class="text-lg text-white/80">
+                  Discover the perfect solution for a sparkling home with
+                  minimal effort.
+                </p>
+              </div>
+              <a
+                href="shop.html"
+                class="flex items-center gap-2.5 text-primary-2 text-lg font-bold uppercase tracking-normal"
+              >
+                Shop Now
+                <i
+                  class="iconify tabler--circle-chevron-right-filled text-2xl text-primary-2 group-hover:-rotate-45 transition-all duration-500"
+                ></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Grid Row -->
+        <div
+          class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 lg:gap-12.5 gap-7.5"
+        >
+          <!-- Save Big Card (Wide Image) -->
+          <div
+            class="lg:col-span-2 relative group overflow-hidden lg:rounded-[50px] rounded-2xl lg:min-h-114 md:min-h-90 min-h-70"
+          >
+            <img
+              src="/essentio/images/feature-image-02.avif"
+              class="absolute inset-0 w-full h-full object-cover"
+              alt="Vacuum maintenance"
+            />
+            <div
+              class="absolute inset-0 bg-linear-to-b from-black via-transparent to-black opacity-70"
+            ></div>
+            <div
+              class="relative z-10 lg:p-10 p-5 h-full flex flex-col justify-end"
+            >
+              <span
+                class="text-lg font-bold text-white/90 uppercase tracking-normal mb-1"
+                >25% OFF</span
+              >
+              <h2 class="lg:text-6xl text-4xl text-white">Save big today!</h2>
+            </div>
+          </div>
+
+          <!-- Real-time Mapping Card (Grey) -->
+          <div
+            class="bg-default-100 lg:rounded-[50px] rounded-2xl lg:p-10 p-5 flex flex-col justify-between lg:min-h-114 md:min-h-90 min-h-70"
+          >
+            <div
+              class="bg-default-800 lg:size-23.5 size-10.5 rounded-full flex items-center justify-center"
+            >
+              <i
+                class="iconify solar--hourglass-outline lg:size-14 size-6 text-white"
+              ></i>
+            </div>
+            <div>
+              <p class="lg:text-3xl text-2xl font-bold text-default-900 mb-2.5">
+                Real-time mapping
+              </p>
+              <p class="text-lg text-default-500 leading-relaxed">
+                Creates a detailed map of your home for precise cleaning
+                coverage.
+              </p>
+            </div>
+          </div>
+
+          <!-- Self-charging Card (Blue) -->
+          <div
+            class="bg-primary lg:rounded-[50px] rounded-2xl lg:p-10 p-5 flex flex-col justify-between lg:min-h-114 md:min-h-90 min-h-70"
+          >
+            <div
+              class="bg-white lg:size-23.5 size-10.5 rounded-full flex items-center justify-center"
+            >
+              <i
+                class="iconify solar--battery-charge-outline lg:size-14 size-6 text-default-900"
+              ></i>
+            </div>
+            <div class="text-white">
+              <p class="lg:text-3xl text-2xl font-bold text-white mb-2.5">
+                Self-charging technology
+              </p>
+              <p class="text-lg text-white/60 leading-relaxed">
+                Automatically returns to its dock to recharge when the battery
+                runs low.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="overflow-hidden">
+      <div class="lg:ps-34">
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 lg:gap-28.75 gap-12.5 items-center"
+        >
+          <!-- Left Column: Product Slider Content -->
+          <div
+            class="relative w-full lg:max-w-3xl md:max-w-lg max-w-xs mx-auto lg:px-20"
+          >
+            <!-- Section Title -->
+            <div class="text-center mb-12.5">
+              <span
+                class="block text-lg uppercase tracking-tight font-bold text-default-800 mb-2"
+                >OUR</span
+              >
+              <h2
+                class="lg:text-6xl md:text-5xl text-4xl font-medium text-default-900"
+              >
+                Products
+              </h2>
+            </div>
+
+            <!-- Hidden on small screens, positioned relative to the center of the image box -->
+            <div
+              class="absolute inset-y-0 inset-s-0 lg:-start-6 flex items-center z-10 pointer-events-none"
+            >
+              <button
+                class="swiper-prev size-16.25 rounded-full bg-default-100 flex items-center justify-center transition-colors pointer-events-auto"
+              >
+                <i
+                  class="iconify lucide--move-left size-5 text-default-800"
+                ></i>
+              </button>
+            </div>
+            <div
+              class="absolute inset-y-0 right-0 lg:-end-6 flex items-center z-10 pointer-events-none"
+            >
+              <button
+                class="swiper-next size-16.25 rounded-full bg-default-100 flex items-center justify-center transition-colors pointer-events-auto"
+              >
+                <i
+                  class="iconify lucide--move-right size-5 text-default-800"
+                ></i>
+              </button>
+            </div>
+
+            <!-- Swiper Container -->
+            <div class="swiper productSwiper">
+              <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide flex flex-col items-center">
+                  <div
+                    class="bg-default-100 rounded-[3rem] w-full aspect-square flex items-center justify-center p-12 mb-8 group overflow-hidden"
+                  >
+                    <img
+                      src="/essentio/images/product/product-02.avif"
+                      class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-110"
+                      alt="Ecoclean spheres"
+                    />
+                  </div>
+
+                  <div class="text-center">
+                    <h3 class="text-2xl font-semibold text-default-900 mb-5">
+                      Ecoclean spheres
+                    </h3>
+
+                    <!-- Feature List -->
+                    <div
+                      class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-7.5 font-bold text-default-500"
+                    >
+                      <div class="flex items-center gap-1 text-lg">
+                        <i class="iconify lucide--circle-check text-lg"></i>
+                        <span class="text-default-800"
+                          >Eco-Friendly Materials</span
+                        >
+                      </div>
+                      <div class="flex items-center gap-1 text-lg">
+                        <i class="iconify lucide--circle-check text-lg"></i>
+                        <span class="text-default-800">Reusable Design</span>
+                </div>
+                <div class="flex items-center gap-1 text-lg">
+                    <i class="iconify lucide--circle-check text-lg"></i>
+                    <span class="text-default-800">Chemical-Free Solution</span
+                        >
+                      </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <a
+                      href="about.html"
+                      class="group inline-flex items-center gap-2.5 bg-primary hover:bg-secondary-1 text-white px-3.75 py-3.5 rounded-full transition-all duration-300"
+                    >
+                      <span class="text-lg font-bold uppercase tracking-normal"
+                        >$ 199.00 USD</span
+                      >
+                      <i
+                        class="iconify tabler--circle-chevron-right-filled size-6 leading-none group-hover:-rotate-45 transition-all duration-500"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center">
+                  <div
+                    class="bg-default-100 rounded-[3rem] w-full aspect-square flex items-center justify-center p-12 mb-8 group overflow-hidden"
+                  >
+                    <img
+                      src="/essentio/images/product/product-03.avif"
+                      class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-110"
+                      alt="Ultrafresh scented orbs"
+                    />
+                  </div>
+
+                  <div class="text-center">
+                    <h3
+                      class="md:text-2xl text-xl font-semibold text-default-900 md:mb-5 mb-2.5"
+                    >
+                      Ultrafresh scented orbs
+                    </h3>
+
+                    <!-- Feature List -->
+                    <div
+                      class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-7.5 font-bold text-default-500"
+                    >
+                      <div class="flex items-center gap-1 text-lg">
+                        <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Luxurious Scents</span>
+                </div>
+                <div class="flex items-center gap-1 text-lg">
+                    <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Gradual Release</span>
+                      </div>
+                      <div class="flex items-center gap-1 text-lg">
+                        <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Compact Design</span>
+                      </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <a
+                      href="about.html"
+                      class="group inline-flex items-center gap-2.5 bg-primary hover:bg-secondary-1 text-white px-3.75 py-3.5 rounded-full transition-all duration-300"
+                    >
+                      <span class="text-lg font-bold uppercase tracking-normal"
+                        >$ 299.00 USD</span
+                      >
+                      <i
+                        class="iconify tabler--circle-chevron-right-filled size-6 leading-none group-hover:-rotate-45 transition-all duration-500"
+                      ></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="swiper-slide flex flex-col items-center">
+                <div class="bg-default-100 rounded-[3rem] w-full aspect-square flex items-center justify-center p-12 mb-8 group overflow-hidden">
+                    <img src="/essentio/images/product/product-01.avif" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-110" alt="Quickshine polishing" />
+                </div>
+
+                <div class="text-center">
+                    <h3 class="md:text-2xl text-xl font-semibold text-default-900 md:mb-5 mb-2.5">
+                        Quickshine polishing
+                    </h3>
+
+                    <!-- Feature List -->
+                    <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-7.5 font-bold text-default-500">
+                        <div class="flex items-center gap-1 text-lg">
+                            <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Ergonomic Design</span>
+                      </div>
+                      <div class="flex items-center gap-1 text-lg">
+                        <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Durable Materials</span>
+                      </div>
+                      <div class="flex items-center gap-1 text-lg">
+                        <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Compact & Portable</span>
+                      </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <a
+                      href="about.html"
+                      class="group inline-flex items-center gap-2.5 bg-primary hover:bg-secondary-1 text-white px-3.75 py-3.5 rounded-full transition-all duration-300"
+                    >
+                      <span class="text-lg font-bold uppercase tracking-normal"
+                        >$ 399.00 USD</span
+                      >
+                      <i
+                        class="iconify tabler--circle-chevron-right-filled size-6 leading-none group-hover:-rotate-45 transition-all duration-500"
+                      ></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide flex flex-col items-center">
+                        <div class="bg-default-100 rounded-[3rem] w-full aspect-square flex items-center justify-center p-12 mb-8 group overflow-hidden">
+                            <img src="/essentio/images/product/product-05.avif" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-110" alt="SmartSweep AI" />
+                        </div>
+
+                        <div class="text-center">
+                            <h3 class="md:text-2xl text-xl font-semibold text-default-900 md:mb-5 mb-2.5">
+                                SmartSweep AI
+                            </h3>
+
+                            <!-- Feature List -->
+                            <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-7.5 font-bold text-default-500">
+                                <div class="flex items-center gap-1 text-lg">
+                                    <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Low-Noise Operation</span>
+                      </div>
+                      <div class="flex items-center gap-1 text-lg">
+                        <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Automatic Dirt Disposal</span>
+                      </div>
+                      <div class="flex items-center gap-1 text-lg">
+                        <i class="iconify lucide--circle-check text-lg"></i
+                        ><span>Obstacle Detection</span>
+                      </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <a
+                      href="about.html"
+                      class="group inline-flex items-center gap-2.5 bg-primary hover:bg-secondary-1 text-white px-3.75 py-3.5 rounded-full transition-all duration-300"
+                    >
+                      <span class="text-lg font-bold uppercase tracking-normal"
+                        >$ 295.00 USD</span
+                      >
+                      <i
+                        class="iconify tabler--circle-chevron-right-filled size-6 leading-none group-hover:-rotate-45 transition-all duration-500"
+                      ></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Lifestyle Image -->
+                <div class="h-86 md:h-50 lg:h-200 lg:px-0 md:px-5 px-3.5">
+                    <img src="/essentio/images/product-image.avif" class="w-full h-full object-cover rounded-2xl md:rounded-4xl lg:rounded-l-[4rem] lg:rounded-r-none" alt="Lifestyle Product Use" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lg:py-37.5 md:py-20 py-15">
+        <div class="container-full">
+            <div class="flex flex-col items-center text-center">
+                <!-- Split Heading Layout -->
+                <div class="flex flex-col items-center lg:mb-10 mb-6">
+                    <!-- Top Line -->
+                    <h2 class="lg:text-6xl md:text-5xl text-4xl text-default-900 leading-none mb-4 md:mb-7.5">
+                        Take full
+                    </h2>
+
+                    <!-- Bottom Line with Inline Image -->
+                    <div class="flex flex-wrap items-center justify-center lg:gap-x-10 gap-x-5 gap-y-6">
+                        <h2 class="lg:text-6xl md:text-5xl text-4xl text-default-900 leading-none">
+                            control with
+                        </h2>
+
+                        <!-- App Preview Image -->
+                        <div class="relative w-15 h-15 md:w-25 md:h-25 lg:w-50 lg:h-50 shrink-0">
+                            <img src="/essentio/images/cta-image.avif" alt="App UI" class="w-full h-full object-cover bg-cover rounded-2xl lg:rounded-[60px]" />
+                        </div>
+
+                        <h2 class="lg:text-6xl md:text-5xl text-4xl text-default-900 leading-none">
+                            Essentio app
+                        </h2>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <p class="lg:max-w-3xl text-default-500 text-lg leading-relaxed lg:mb-12.5 mb-7.5">
+                    Discover how
+                    <strong class="text-default-500 font-bold">ESSENTIO</strong> revolutionizes home cleaning with AI-driven precision. Watch as it navigates, cleans, and adapts to your home—effortlessly making every corner spotless.
+                </p>
+
+                <!-- App Store Buttons -->
+                <div class="flex flex-wrap justify-center md:gap-7.5 gap-5 lg:p-10 md:p-5">
+                    <a href="#" class="transition-transform hover:-translate-y-1 duration-300">
+              <img
+                src="/essentio/images/icons/google-play.svg"
+                alt="Get it on Google Play"
+                class="lg:h-18.75 md:h-17.5 h-15 w-auto rounded-xl"
+              />
+            </a>
+                    <a href="#" class="transition-transform hover:-translate-y-1 duration-300">
+              <img
+                src="/essentio/images/icons/app-store.svg"
+                alt="Available on the App Store"
+                class="lg:h-18.75 md:h-17.5 h-15 w-auto rounded-xl"
+              />
+            </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lg:pb-37.5 md:pb-20 pb-15">
+        <div class="container-full">
+            <!-- Section Header -->
+            <div class="lg:mb-12.5 mb-10">
+                <span class="text-lg uppercase tracking-normal font-medium text-default-800 block mb-2">TESTIMONIAL</span
+          >
+          <h2
+            class="text-4xl md:text-5xl lg:text-6xl text-default-900 leading-tight"
+          >
+            Customer reviews
+          </h2>
+        </div>
+
+        <!-- Testimonial Grid -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-26.25 gap-12.5"
+        >
+          <!-- Card 1: Standard Text -->
+          <div
+            class="rounded-3xl flex flex-col justify-between h-full min-h-60"
+          >
+            <div>
+              <div class="flex gap-1 mb-2.5 text-primary-2">
+                <i
+                  class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                ></i>
+                <i
+                  class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                ></i>
+                <i
+                  class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                ></i>
+                <i
+                  class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                ></i>
+                <i
+                  class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                ></i>
+              </div>
+              <p class="text-lg text-default-900 leading-normal font-bold">
+                Essentio is a game-changer! It maps my home perfectly and
+                handles all the mess while I relax.
+              </p>
+            </div>
+            <div class="md:flex items-center justify-between">
+              <div class="md:mb-0 mb-2.5">
+                <h3 class="md:text-xl text-lg font-bold text-default-900">
+                  Sophia M - New York
+                </h3>
+                <span class="text-lg text-default-400 tracking-normal"
+                  >Director</span
+                >
+              </div>
+              <div>
+                <img
+                  src="/essentio/images/user/3.avif"
+                  class="size-14 rounded-full object-cover"
+                  alt="Sophia"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Image with Bottom Overlay -->
+          <div
+            class="relative group overflow-hidden rounded-3xl h-full min-h-60"
+          >
+            <img
+              src="/essentio/images/blog/testimonial-05.avif"
+              class="absolute inset-0 w-full h-full object-cover"
+              alt="Review Image"
+            />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black to-transparent"
+            ></div>
+            <div class="absolute bottom-0 px-5 pb-5">
+              <p class="text-white text-lg leading-normal">
+                The multi-surface cleaning feature is amazing. It moves
+                effortlessly between tiles and rugs.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Text with Instagram Icon -->
+          <div
+            class="rounded-3xl flex flex-col justify-between h-full min-h-60"
+          >
+            <div>
+              <div class="flex justify-between items-center">
+                <div class="flex gap-1 mb-2.5 text-primary">
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                </div>
+
+                <div>
+                  <i
+                    class="iconify tabler--brand-instagram-filled text-2xl text-default-900 hover:-translate-y-1 duration-300 transition-all"
+                  ></i>
+                </div>
+              </div>
+              <p class="text-lg text-default-900 leading-normal font-bold">
+                Quiet, efficient, and powerful. My carpets look better than ever
+                without me lifting a finger!
+              </p>
+            </div>
+            <div class="md:flex items-center justify-between">
+              <div class="md:mb-0 mb-2.5">
+                <h3 class="md:text-xl text-lg font-bold text-default-900">
+                  James R - Austin
+                </h3>
+                <span class="text-lg text-default-400 tracking-normal"
+                  >Director</span
+                >
+              </div>
+              <img
+                src="/essentio/images/user/4.avif"
+                class="size-14 rounded-full object-cover"
+                alt="Sophia"
+              />
+            </div>
+          </div>
+
+          <!-- Card 4: Video Lightbox Card -->
+          <div
+            class="relative group overflow-hidden rounded-3xl h-full min-h-60 flex items-center justify-center cursor-pointer"
+          >
+            <img
+              src="/essentio/images/blog/testimonial-06.avif"
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
+              alt="Video Review"
+            />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black to-transparent"
+            ></div>
+            <div
+              class="relative bg-primary rounded-full size-11.5 flex items-center justify-center transition-transform duration-300"
+            >
+              <i
+                class="iconify tabler--player-play-filled text-xl text-white"
+              ></i>
+            </div>
+          </div>
+
+          <!-- Card 5: Image with Alexa Text -->
+          <div
+            class="relative group overflow-hidden rounded-3xl h-full min-h-60"
+          >
+            <img
+              src="/essentio/images/blog/estimonial-07.avif"
+              class="absolute inset-0 w-full h-full object-cover"
+              alt="Review Image"
+            />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black to-transparent"
+            ></div>
+            <div class="absolute bottom-0 px-5 pb-5">
+              <p class="text-white text-lg leading-normal">
+                Essentio integrates seamlessly with Alexa. I tell it to start
+                cleaning, and it’s done!
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 6: Text with Twitter Icon -->
+          <div
+            class="rounded-3xl flex flex-col justify-between h-full min-h-60"
+          >
+            <div>
+              <div class="flex justify-between items-center">
+                <div class="flex gap-1 mb-2.5 text-primary">
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary text-xl"
+                  ></i>
+                </div>
+
+                <div>
+                  <i
+                    class="iconify tabler--brand-x-filled text-2xl text-default-900 hover:-translate-y-1 duration-300 transition-all"
+                  ></i>
+                </div>
+              </div>
+              <p class="text-lg text-default-900 leading-normal font-bold">
+                The real-time mapping is amazing. I can see exactly where it’s
+                cleaning on the app—it’s like magic!
+              </p>
+            </div>
+            <div class="md:flex items-center justify-between">
+              <div class="md:mb-0 mb-2.5">
+                <h3 class="md:text-xl text-lg font-bold text-default-900">
+                  Mike R - Brooklyn
+                </h3>
+                <span class="text-lg text-default-400 tracking-normal"
+                  >Director</span
+                >
+              </div>
+              <img
+                src="/essentio/images/user/2.avif"
+                class="size-14 rounded-full object-cover"
+                alt="Sophia"
+              />
+            </div>
+          </div>
+
+          <!-- Card 7: Image with Skeptical Text -->
+          <div
+            class="relative group overflow-hidden rounded-3xl h-full min-h-60"
+          >
+            <img
+              src="/essentio/images/blog/testimonial-08.avif"
+              class="absolute inset-0 w-full h-full object-cover"
+              alt="Review Image"
+            />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black to-transparent"
+            ></div>
+            <div class="absolute bottom-0 px-5 pb-5">
+              <p class="text-white text-lg leading-normal">
+                I was skeptical at first, but Essentio is worth every penny. My
+                floors have never been this clean!
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 8: Text with Facebook Icon -->
+          <div
+            class="rounded-3xl flex flex-col justify-between h-full min-h-60"
+          >
+            <div>
+              <div class="flex justify-between items-center">
+                <div class="flex gap-1 mb-2.5 text-primary-2">
+                  <i
+                    class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                  ></i>
+                  <i
+                    class="iconify tabler--star-filled text-primary-2/80 text-xl"
+                  ></i>
+                </div>
+
+                <div>
+                  <i
+                    class="iconify tabler--brand-facebook-filled text-2xl text-default-900 hover:-translate-y-1 duration-300 transition-all"
+                  ></i>
+                </div>
+              </div>
+              <p class="text-lg text-default-900 leading-normal font-bold">
+                I completely transformed my cleaning routine! It’s like having a
+                personal assistant that never complains.
+              </p>
+            </div>
+            <div class="md:flex items-center justify-between">
+              <div class="md:mb-0 mb-2.5">
+                <h3 class="md:text-xl text-lg font-bold text-default-900">
+                  Emma L - Seattle
+                </h3>
+                <span class="text-lg text-default-400 tracking-normal"
+                  >Director</span
+                >
+              </div>
+              <img
+                src="/essentio/images/user/1.avif"
+                class="size-14 rounded-full object-cover"
+                alt="Sophia"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="relative lg:pt-25 pt-15 lg:pb-55 pb-40 flex items-center justify-center text-center -mb-25"
+    >
+      <!-- Background Image -->
+      <img
+        src="/essentio/images/cta-bg-image.avif"
+        class="absolute inset-0 w-full h-full object-cover"
+        alt="background"
+      />
+
+      <!-- Overlay -->
+      <div
+        class="absolute inset-0 bg-linear-to-b from-black via-transparent to-black opacity-70"
+      ></div>
+
+      <!-- Content -->
+      <div class="relative lg:max-w-4xl max-w-2xl text-white">
+        <!-- Title -->
+        <h2
+          class="text-4xl md:text-5xl lg:text-6xl text-white font-medium leading-tight lg:mb-75 md:mb-25 mb-7.5"
+        >
+          Essentio simplifies cleaning with its
+          <span class="text-primary-2">intelligent</span> features.
+                </h2>
+
+                <!-- Description -->
+                <p class="text-default-200 mb-7.5 text-lg">
+                    Discover how ESSENTIO revolutionizes home cleaning with AI-driven precision. Watch as it navigates, cleans, and adapts to your home—effortlessly making every corner spotless.
+                </p>
+
+                <!-- Button -->
+                <div class="flex justify-center">
+                    <a href="about.html" class="group inline-flex items-center gap-2.5 bg-primary hover:bg-secondary-1 text-white px-3.75 py-3.5 rounded-full transition-all duration-300">
+            <i
+              class="iconify tabler--circle-chevron-right-filled size-6 leading-none group-hover:-rotate-45 transition-all duration-500"
+            ></i>
+            <span class="text-lg font-bold uppercase tracking-normal"
+              >Show Now</span
+            >
+          </a>
+                </div>
+            </div>
+    </section>
+
+    <footer class="bg-black md:rounded-t-[100px] rounded-t-3xl text-white lg:pt-32.5 md:pt-20 pt-15 lg:pb-20 md:pb-10 pb-7.5 overflow-hidden relative z-10">
+        <!-- 1. Marquee Section -->
+        <div class="lg:pb-25 pb-15 relative whitespace-nowrap">
+            <div class="animate-marquee flex items-center">
+                <!-- Set 1 -->
+                <div class="flex items-center space-x-15 px-6">
+                    <h2 class="lg:text-7xl md:text-5xl text-3xl text-primary-2">
+                        and save big—get 25% off today!
+                    </h2>
+                    <span class="md:text-5xl text-3xl text-white">*</span>
+                    <h2 class="lg:text-7xl md:text-5xl text-3xl text-white">
+                        Clean smart and save big
+                    </h2>
+                    <span class="md:text-5xl text-3xl text-white">*</span>
+                </div>
+
+                <!-- Set 2 (for loop) -->
+                <div class="flex items-center space-x-15 px-6">
+                    <h2 class="lg:text-7xl md:text-5xl text-3xl text-primary-2">
+                        and save big—get 25% off today!
+                    </h2>
+                    <span class="md:text-5xl text-3xl text-white">*</span>
+                    <h2 class="lg:text-7xl md:text-5xl text-3xl text-white">
+                        Clean smart and save big
+                    </h2>
+                    <span class="md:text-5xl text-3xl text-white">*</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-full">
+            <!-- 2. Newsletter Section -->
+            <div class="flex flex-col md:flex-row justify-between items-start gap-8">
+                <h3 class="text-white lg:text-4xl text-3xl font-normal max-w-md leading-normal">
+                    Get the latest updates on smart home technology.
+                </h3>
+
+                <div class="w-full max-w-md">
+                    <form class="flex py-2 ps-5 pe-2 bg-white rounded-lg mb-3 relative">
+                        <input type="email" placeholder="Enter your email" class="ps-0 py-2 border-0 grow text-default-800 outline-none rounded-l-lg text-lg placeholder:text-default-800" required />
+                        <button type="submit" class="bg-primary hover:bg-primary-2 text-white px-6 py-2 rounded-md text-lg font-bold uppercase tracking-tight hover:text-default-800 transition-colors absolute md:inset-e-2 inset-e-6">
+                            Subscribe
+                        </button>
+                    </form>
+                    <p class="text-lg text-white">
+                        By clicking subscribe, you accept our
+                        <a href="#" class="text-primary">Privacy Policy</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="h-px bg-white/10 w-full lg:my-20 mt-10 mb-12.5"></div>
+
+            <!-- 3. Main Footer Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-12 gap-7.5">
+                <div>
+                    <!-- Column 1: Logo & Info -->
+                    <div class="flex flex-col justify-between h-full">
+                        <div>
+                            <div class="flex items-center gap-2 mb-7.5">
+                                <img src="/essentio/images/logo.svg" alt="Essentio" class="md:h-12.5 h-10" />
+                            </div>
+                            <p class="text-white text-lg leading-relaxed lg:max-w-sm mb-8">
+                                Get in touch, access support, and find all the information you need. Join the Essentio community for a smarter, cleaner home.
+                            </p>
+                        </div>
+                        <p class="text-lg text-white tracking-normal mt-auto">
+                            Designed by <a href="" class="text-primary uppercase">Unifato</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 grid-cols-1 lg:gap-10 md:gap-0 gap-3">
+                    <!-- Column 2: Links -->
+                    <div class="flex flex-col space-y-3 font-bold uppercase">
+                        <a href="index.html" class="hover:text-primary-2">Home</a>
+                        <a href="home-2.html" class="hover:text-primary-2">Home 2</a>
+                        <a href="about.html" class="hover:text-primary-2">About</a>
+                        <a href="shop.html" class="hover:text-primary-2">Shop</a>
+                        <a href="product-details.html" class="hover:text-primary-2">Product Details</a>
+                    </div>
+
+                    <!-- Column 3: Utility Links -->
+                    <div class="flex flex-col space-y-3 font-bold uppercase">
+                        <a href="blog.html" class="hover:text-primary-2">Blog</a>
+                        <a href="contact.html" class="hover:text-primary-2">Contact</a>
+                        <a href="faqs.html" class="hover:text-primary-2">FAQs</a>
+                        <a href="privacy-policy.html" class="hover:text-primary-2">Privacy Policy</a>
+                        <a href="shop-checkout.html" class="hover:text-primary-2">Checkout</a>
+                    </div>
+
+                    <!-- Column 4: Contact & Social (Integrated Your Style) -->
+                    <div class="flex flex-col justify-between">
+                        <div class="text-sm space-y-2">
+                            <a href="mailto:hello@example.com" class="block hover:text-primary text-lg transition-colors">hello@example.com</a>
+                            <a href="tel:+15551234567" class="block hover:text-primary text-lg transition-colors">+1 (555)
+                                123-4567</a>
+                            <p class="text-lg text-white mt-4 leading-relaxed">
+                                Chicago HQ Estica Cop. Macomb, MI 48042
+                            </p>
+                        </div>
+
+                        <!-- Your Requested Social Style -->
+                        <div class="flex gap-5 lg:mt-0 md:mt-2 mt-5">
+                            <a href="#" class="size-10.5 rounded-full bg-white flex items-center justify-center hover:bg-primary-2 transition-all">
+                                <i class="iconify tabler--brand-instagram-filled size-6 text-default-800"></i>
+                            </a>
+                            <a href="#" class="size-10.5 rounded-full bg-white flex items-center justify-center hover:bg-primary-2 transition-all">
+                                <i class="iconify tabler--brand-dribbble-filled size-6 text-default-800"></i>
+                            </a>
+                            <a href="#" class="size-10.5 rounded-full bg-white flex items-center justify-center hover:bg-primary-2 transition-all">
+                                <i class="iconify tabler--brand-facebook-filled size-6 text-default-800"></i>
+                            </a>
+                            <a href="#" class="size-10.5 rounded-full bg-white flex items-center justify-center hover:bg-primary-2 transition-all">
+                                <i class="iconify tabler--brand-x-filled size-6 text-default-800"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Swiper JS -->
+
+    <script src="https://unifato.com/web.js"></script>
+</body>
+
+</html>
