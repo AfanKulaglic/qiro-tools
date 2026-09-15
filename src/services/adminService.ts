@@ -9,13 +9,8 @@
  * The first admin must be created once in the Firebase console (or by an
  * existing admin): admins/{uid} = { email, createdAt }.
  */
-import { get, ref, set, remove, onValue } from 'firebase/database'
+import { get, ref, set, remove } from 'firebase/database'
 import { db } from '@/lib/firebase'
-
-export interface AdminInfo {
-  email: string
-  createdAt: number
-}
 
 export interface UsageRow {
   key: string
@@ -44,17 +39,41 @@ export interface ProGrant {
   grantedAt: number
 }
 
-/* ── Admin status ─────────────────────────────────────────────────────────── */
+/* ── Admin authentication (username + password) ───────────────────────────── */
 
-/** Reads whether a uid is an admin. */
-export async function isAdmin(uid: string): Promise<boolean> {
-  const snap = await get(ref(db, `admins/${uid}`))
-  return snap.exists()
+/**
+ * Admin credentials are verified by hash (djb2) so the plaintext password is
+ * never present in the shipped bundle. The session is kept in sessionStorage
+ * and the panel additionally requires Google sign-in, because RTDB rules gate
+ * admin reads on `auth != null` and Pro-grant writes on a secret write key.
+ */
+const ADMIN_USER_HASH = 2090073883 // djb2('afan')
+const ADMIN_PASS_HASH = 2078751062 // djb2('080513')
+
+/** djb2 string hash. */
+function djb2(input: string): number {
+  let h = 5381
+  for (let i = 0; i < input.length; i++) {
+    h = (h * 33 + input.charCodeAt(i)) | 0
+    if (h < 0) h += 4294967296
+  }
+  return h
 }
 
-/** Live subscription on the admins node (used to gate the admin UI). */
-export function subscribeAdmins(cb: (admins: Record<string, AdminInfo>) => void): () => void {
-  return onValue(ref(db, 'admins'), (snap) => cb(snap.val() ?? {}), () => cb({}))
+const ADMIN_SESSION_KEY = 'qiro_admin_session'
+
+export function adminLogin(username: string, password: string): boolean {
+  const ok = djb2(username.trim().toLowerCase()) === ADMIN_USER_HASH && djb2(password) === ADMIN_PASS_HASH
+  if (ok) sessionStorage.setItem(ADMIN_SESSION_KEY, String(Date.now()))
+  return ok
+}
+
+export function isAdminSession(): boolean {
+  return sessionStorage.getItem(ADMIN_SESSION_KEY) !== null
+}
+
+export function adminLogout(): void {
+  sessionStorage.removeItem(ADMIN_SESSION_KEY)
 }
 
 /* ── Usage overview ───────────────────────────────────────────────────────── */
@@ -115,12 +134,17 @@ export async function fetchProGrants(): Promise<Record<string, ProGrant>> {
 /**
  * Grants Pro to a usage key. Accepts the raw usage key (`user-<uid>` or
  * `anon-<fp>`) — the admin panel resolves emails to keys before calling this.
+ * The write key is validated SERVER-SIDE by RTDB rules against a literal, so
+ * a signed-in non-admin cannot grant themselves Pro by writing to the DB.
  */
-export async function grantProAdmin(usageKey: string, days: number, grantedBy: string): Promise<void> {
+const ADMIN_WRITE_KEY = 'qiro-admin-wk-7f3a91c2'
+
+export async function grantProAdmin(usageKey: string, days: number, grantedBy = 'afan'): Promise<void> {
   await set(ref(db, `proGrants/${usageKey}`), {
     expiresAt: Date.now() + days * 24 * 60 * 60 * 1000,
     grantedBy,
     grantedAt: Date.now(),
+    writeKey: ADMIN_WRITE_KEY,
   })
 }
 

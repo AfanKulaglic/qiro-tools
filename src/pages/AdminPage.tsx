@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import {
+  adminLogin,
+  adminLogout,
   fetchAllLinks,
   fetchAllUsage,
   fetchAnalytics,
   fetchProGrants,
   fetchRecentLogs,
   grantProAdmin,
-  isAdmin,
+  isAdminSession,
   revokeProAdmin,
   type AnalyticsDay,
   type LinkRow,
@@ -20,9 +22,11 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 /**
  * Admin panel — /admin.
  *
- * Access is decided by the `admins/{uid}` node in the database (enforced
- * server-side via RTDB rules). Log in with the Google account whose uid is
- * listed under `admins`.
+ * Two-factor gate:
+ *  1. Username + password (hash-verified, session in sessionStorage)
+ *  2. Google sign-in — RTDB rules allow admin reads only for signed-in users,
+ *     and Pro-grant writes additionally carry a secret write key validated
+ *     server-side by the database rules.
  */
 
 type Tab = 'overview' | 'users' | 'logs' | 'pro' | 'links'
@@ -59,7 +63,10 @@ function Card({ label, value }: { label: string; value: ReactNode }) {
 
 export default function AdminPage() {
   const { user, loading: authLoading, signInWithGoogle, signOut } = useAuth()
-  const [adminState, setAdminState] = useState<'checking' | 'yes' | 'no'>('checking')
+  const [adminState, setAdminState] = useState<'yes' | 'no'>(() => (isAdminSession() ? 'yes' : 'no'))
+  const [loginUser, setLoginUser] = useState('')
+  const [loginPass, setLoginPass] = useState('')
+  const [loginError, setLoginError] = useState<string | null>(null)
   const [tab, setTab] = useState<Tab>('overview')
   const [usage, setUsage] = useState<UsageRow[]>([])
   const [analytics, setAnalytics] = useState<AnalyticsDay[]>([])
@@ -73,14 +80,23 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (!user) return
-    setAdminState('checking')
-    isAdmin(user.uid)
-      .then((yes) => setAdminState(yes ? 'yes' : 'no'))
-      .catch(() => setAdminState('no'))
+    void load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (adminLogin(loginUser, loginPass)) {
+      setLoginError(null)
+      setLoginPass('')
+      setAdminState('yes')
+    } else {
+      setLoginError('Wrong username or password.')
+    }
+  }
+
   const load = async () => {
-    if (!user || adminState !== 'yes') return
+    if (adminState !== 'yes') return
     setLoadError(null)
     try {
       const [u, a, l, g, linksData] = await Promise.all([
@@ -103,7 +119,7 @@ export default function AdminPage() {
   useEffect(() => {
     void load()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, adminState])
+  }, [adminState])
 
   const totals = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10)
@@ -118,10 +134,57 @@ export default function AdminPage() {
     }
   }, [analytics, usage, links])
 
-  if (authLoading || (user && adminState === 'checking')) {
+  if (authLoading) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
         <LoadingSpinner className="text-2xl" />
+      </div>
+    )
+  }
+
+  if (adminState === 'no') {
+    return (
+      <div className="mx-auto flex min-h-[70vh] max-w-sm flex-col justify-center px-4">
+        <div className="rounded-2xl border border-stone-200 bg-white p-8 dark:border-stone-800 dark:bg-stone-900">
+          <h1 className="text-xl font-semibold text-stone-900 dark:text-stone-50">Admin panel</h1>
+          <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">Administrator access only.</p>
+          <form onSubmit={handleLogin} className="mt-6 space-y-4">
+            <div>
+              <label htmlFor="admin-user" className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                Username
+              </label>
+              <input
+                id="admin-user"
+                value={loginUser}
+                onChange={(e) => setLoginUser(e.target.value)}
+                autoComplete="username"
+                className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-50"
+                placeholder="Username"
+              />
+            </div>
+            <div>
+              <label htmlFor="admin-pass" className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                Password
+              </label>
+              <input
+                id="admin-pass"
+                type="password"
+                value={loginPass}
+                onChange={(e) => setLoginPass(e.target.value)}
+                autoComplete="current-password"
+                className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-50"
+                placeholder="••••••••"
+              />
+            </div>
+            {loginError && <p className="text-sm text-red-600 dark:text-red-400">{loginError}</p>}
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+            >
+              Sign in
+            </button>
+          </form>
+        </div>
       </div>
     )
   }
@@ -131,24 +194,23 @@ export default function AdminPage() {
       <div className="flex min-h-[70vh] flex-col items-center justify-center gap-4 px-4">
         <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-50">Admin panel</h1>
         <p className="max-w-sm text-center text-sm text-stone-600 dark:text-stone-400">
-          Sign in with the administrator Google account to view analytics and manage access.
+          One more step — confirm your Google account so the database grants access to the analytics.
         </p>
         <button
           onClick={() => void signInWithGoogle()}
           className="rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
         >
-          Sign in with Google
+          Continue with Google
         </button>
-      </div>
-    )
-  }
-
-  if (adminState === 'no') {
-    return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center gap-4 px-4">
-        <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-50">Access denied</h1>
-        <p className="text-sm text-stone-600 dark:text-stone-400">{user.email} is not an administrator.</p>
-        <button onClick={() => void signOut()} className="text-sm underline">Sign out</button>
+        <button
+          onClick={() => {
+            adminLogout()
+            setAdminState('no')
+          }}
+          className="text-sm underline text-stone-500"
+        >
+          Back to login
+        </button>
       </div>
     )
   }
@@ -176,7 +238,11 @@ export default function AdminPage() {
             Refresh
           </button>
           <button
-            onClick={() => void signOut()}
+            onClick={() => {
+              adminLogout()
+              setAdminState('no')
+              void signOut()
+            }}
             className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm hover:bg-stone-100 dark:border-stone-700 dark:hover:bg-stone-800"
           >
             Sign out
