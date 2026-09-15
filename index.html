@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -11,24 +11,24 @@
     <link rel="dns-prefetch" href="https://qiro-a23a4-default-rtdb.firebaseio.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <title>Qiro — Short links, QR codes & image conversion in one studio</title>
+    <title>Qiro â€” Short links, QR codes & image conversion in one studio</title>
     <meta
       name="description"
       content="One clean studio to shorten links, generate QR codes, and convert images. Branded short links, instant QR downloads, and private in-browser image conversion."
     />
     <!-- Help crawlers (including AI answer engines) understand the whole site. -->
-    <link rel="canonical" href="https://qiro.link/" />
+    <link rel="canonical" href="https://qiro-tools.vercel.app/" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
-    <meta property="og:url" content="https://qiro.link/" />
-    <meta property="og:image" content="https://qiro.link/hero-main.png" />
+    <meta property="og:url" content="https://qiro-tools.vercel.app/" />
+    <meta property="og:image" content="https://qiro-tools.vercel.app/hero-main.png" />
     <meta property="og:site_name" content="Qiro" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Qiro — Links, QR Codes & Image Conversion" />
+    <meta name="twitter:title" content="Qiro â€” Links, QR Codes & Image Conversion" />
     <meta
       name="twitter:description"
-      content="Shorten links, generate QR codes, and convert images — privately, right in your browser. Free to start."
+      content="Shorten links, generate QR codes, and convert images â€” privately, right in your browser. Free to start."
     />
-    <meta name="twitter:image" content="https://qiro.link/hero-main.png" />
+    <meta name="twitter:image" content="https://qiro-tools.vercel.app/hero-main.png" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -36,10 +36,10 @@
           {
             "@type": "WebApplication",
             "name": "Qiro",
-            "url": "https://qiro.link/",
+            "url": "https://qiro-tools.vercel.app/",
             "applicationCategory": "UtilitiesApplication",
             "operatingSystem": "Any (web browser)",
-            "description": "Free privacy-first web toolbox: branded short links with click analytics, QR code generation, and image/video/audio/GIF converters that run entirely in the browser — files are never uploaded to a server.",
+            "description": "Free privacy-first web toolbox: branded short links with click analytics, QR code generation, and image/video/audio/GIF converters that run entirely in the browser â€” files are never uploaded to a server.",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
             "featureList": [
               "Branded URL shortener with click analytics",
@@ -56,8 +56,8 @@
           {
             "@type": "Organization",
             "name": "Qiro",
-            "url": "https://qiro.link/",
-            "logo": "https://qiro.link/logo.svg"
+            "url": "https://qiro-tools.vercel.app/",
+            "logo": "https://qiro-tools.vercel.app/logo.svg"
           }
         ]
       }
@@ -73,7 +73,7 @@
     </script>
     <!--
       Short-link fast path. Runs before the React bundle so a short link opens
-      essentially instantly — we read the destination straight from the Firebase
+      essentially instantly â€” we read the destination straight from the Firebase
       Realtime Database REST API and hard-redirect, with no app load and no
       loading screen. Slugs are lowercase alnum with no dashes; every real route
       either contains a dash or is listed in RESERVED, so pages fall through and

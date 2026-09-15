@@ -1,8 +1,8 @@
-# Qiro — https://qiro.link
+﻿# Qiro â€” https://qiro-tools.vercel.app
 # Free, privacy-first web tools: short links, QR codes, and file converters
 # that run entirely in the browser (files never leave the user's device).
 
-# ── Search engines ──
+# â”€â”€ Search engines â”€â”€
 User-agent: Googlebot
 Allow: /
 
@@ -12,7 +12,7 @@ Allow: /
 User-agent: DuckDuckBot
 Allow: /
 
-# ── AI assistants & answer engines (explicitly welcome) ──
+# â”€â”€ AI assistants & answer engines (explicitly welcome) â”€â”€
 # ChatGPT / OpenAI
 User-agent: GPTBot
 Allow: /
@@ -71,4 +71,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://qiro.link/sitemap.xml
+Sitemap: https://qiro-tools.vercel.app/sitemap.xml
