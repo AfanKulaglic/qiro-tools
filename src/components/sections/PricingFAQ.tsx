@@ -35,11 +35,11 @@ const GROUPS: Array<{ title: string; items: Array<{ q: string; a: string }> }> =
     items: [
       {
         q: 'Is the free tier really free?',
-        a: 'Yes. Every service has a free tier you can use without paying. QR generation and image conversion run locally in your browser, so there are no usage caps on the in-browser tools.',
+        a: 'Yes. Every visitor gets 3 free actions across all tools, and signing in grants 3 more — genuinely free, no payment details. Conversions run locally in your browser. Pro removes the usage cap.',
       },
       {
         q: 'Do I need an account to use the free tools?',
-        a: 'No. Short links work straight from Qiro without signup. QR codes and image conversion never require an account because they run entirely in your browser.',
+        a: 'Not for your first 3 actions. An account is only needed afterwards — and signing in immediately grants 3 more free actions before any payment is required.',
       },
       {
         q: 'Will my free tier change in the future?',

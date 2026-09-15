@@ -269,7 +269,7 @@ export function ImageConverterTool({ simple = false }: { simple?: boolean }) {
       {/* ════ CONSOLE (left) — controls ════ */}
       <div className="space-y-4 lg:col-start-1">
         {lockedForAnon && (
-          <FreeLimitBanner onSignIn={promptSignIn} message="You've used your free conversion. Sign in for unlimited downloads." />
+          <FreeLimitBanner onSignIn={promptSignIn} />
         )}
 
         <div className={cardFlat}>

@@ -829,7 +829,7 @@ setFrameFootLabel('Point your camera at the code')
 
           {lockedForAnon && (
             <div className="relative mt-5">
-              <FreeLimitBanner onSignIn={promptSignIn} message="You've used your free QR code. Sign in for unlimited downloads." />
+              <FreeLimitBanner onSignIn={promptSignIn} />
             </div>
           )}
 

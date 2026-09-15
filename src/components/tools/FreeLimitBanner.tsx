@@ -1,19 +1,27 @@
 import { Lock, ArrowRight } from 'lucide-react'
 import { cn } from '@/utils/cn'
+import { useAuth } from '@/hooks/useAuth'
+import { FREE_LIMIT, FREE_LIMIT_SIGNED_IN } from '@/hooks/useToolGate'
 
 /**
- * Shown inside a tool once an anonymous visitor has spent their single free
- * action. Invites sign-in / registration to keep using the tool.
+ * Shown inside a tool once the visitor has spent their free actions.
+ * Auth-aware: anonymous visitors are invited to sign in (3 more free
+ * actions); signed-in users are invited to upgrade (paywall).
  */
 export function FreeLimitBanner({
   onSignIn,
   className,
-  message = 'You\'ve used your free usage. Sign in or register for unlimited access.',
+  message,
 }: {
   onSignIn: () => void
   className?: string
   message?: string
 }) {
+  const { user } = useAuth()
+  const defaultSignedOut = `You've used your ${FREE_LIMIT} free actions. Sign in to get ${FREE_LIMIT_SIGNED_IN} more — free.`
+  const defaultSignedIn = `You've used all ${FREE_LIMIT_SIGNED_IN} free actions. Upgrade to Pro for unlimited access.`
+  const text = message ?? (user ? defaultSignedIn : defaultSignedOut)
+
   return (
     <div
       className={cn(
@@ -25,16 +33,17 @@ export function FreeLimitBanner({
         <Lock className="h-3.5 w-3.5" />
       </span>
       <p className="min-w-0 flex-1 text-[12px] font-medium leading-snug text-amber-700 dark:text-amber-400">
-        {message}
+        {text}
       </p>
       <button
         type="button"
         onClick={onSignIn}
         className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-accent-blue to-accent-purple px-3 py-1.5 text-[12px] font-bold text-white shadow-glow-soft transition-all hover:brightness-110"
       >
-        Sign in
+        {user ? 'Upgrade' : 'Sign in'}
         <ArrowRight className="h-3.5 w-3.5" />
       </button>
     </div>
   )
 }
+

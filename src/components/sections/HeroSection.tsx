@@ -10,7 +10,7 @@ import { cn } from '@/utils/cn'
 const REASSURE = [
   { Icon: Zap, text: 'Instant — nothing to install' },
   { Icon: ShieldCheck, text: 'Private — runs in your browser' },
-  { Icon: BadgeCheck, text: 'Free to start, no signup' },
+  { Icon: BadgeCheck, text: '3 free actions — no signup' },
 ]
 
 /** Landscape fine-art backdrops that auto-crossfade behind the hero. */

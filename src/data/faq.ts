@@ -18,11 +18,11 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'Is it free?',
-        a: 'Yes. QR generation and image conversion run entirely in your browser and are free and unlimited. URL shortening is free to start and powered by Firebase, subject to fair-use and Firebase quota limits.',
+        a: 'Yes — you get 3 free actions across all tools, no account needed. Sign in and receive 3 more free actions. After that, a Pro plan unlocks unlimited use.',
       },
       {
         q: 'Do I need an account?',
-        a: 'No. Everything works without signing up. Your recent links, QR codes, and conversions are stored locally in your browser.',
+        a: 'Not to start. Your first 3 actions work without signing up, and sign-in gives you 3 more free actions. Your recent links, QR codes, and conversions are stored locally in your browser.',
       },
       {
         q: 'Can I use it commercially?',
@@ -64,7 +64,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     items: [
       {
         q: 'Are QR codes unlimited?',
-        a: 'Yes. QR generation runs locally in your browser, so you can create and download as many as you like, completely free.',
+        a: 'QR generation runs locally in your browser. Every visitor gets 3 free actions across all tools (sign-in adds 3 more); Pro removes the cap entirely.',
       },
       {
         q: 'Can I download PNG?',

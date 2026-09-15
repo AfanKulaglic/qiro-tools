@@ -234,7 +234,7 @@ export function ShortenerForm({ onCreated }: { onCreated: (link: ShortLink) => v
       </div>
 
       {lockedForAnon && (
-        <FreeLimitBanner onSignIn={promptSignIn} message="You've used your free link. Sign in for unlimited shortening." />
+        <FreeLimitBanner onSignIn={promptSignIn} />
       )}
 
       {/* ═══ The link you just made ═══ */}

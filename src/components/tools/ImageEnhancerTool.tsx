@@ -126,7 +126,7 @@ export function ImageEnhancerTool({ simple = false }: { simple?: boolean }) {
       {/* ════ CONSOLE (left) ════ */}
       <div className="space-y-4 lg:col-start-1">
         {lockedForAnon && (
-          <FreeLimitBanner onSignIn={promptSignIn} message="You've used your free enhance. Sign in for unlimited downloads." />
+          <FreeLimitBanner onSignIn={promptSignIn} />
         )}
 
         <div className={cardFlat}>

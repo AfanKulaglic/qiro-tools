@@ -16,6 +16,20 @@
         ".read": "auth != null && auth.uid === $uid",
         ".write": "auth != null && auth.uid === $uid"
       }
+    },
+
+    "usage": {
+      "$key": {
+        ".read": "$key.beginsWith('anon-') || (auth != null && $key === 'user-' + auth.uid)",
+        ".write": "$key.beginsWith('anon-') || (auth != null && $key === 'user-' + auth.uid)",
+        ".validate": "newData.hasChildren(['count'])",
+        "count": {
+          ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 99 && (!data.exists() && newData.val() === 1 || data.exists() && newData.val() === data.val() + 1)"
+        },
+        "updatedAt": {
+          ".validate": "newData.isNumber()"
+        }
+      }
     }
   }
 }
