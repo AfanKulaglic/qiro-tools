@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FFFFFF" />
     <!-- Warm the connection to the link database so the short-link fast path
@@ -22,7 +24,15 @@
     <meta name="msvalidate.01" content="02CDA265CB386B2A4FD42C4B2CD2CF32" />
     <meta name="google-site-verification" content="ABv55rffyi7LF3vCDL39nrx5xlvmdIrYLcew6APkXc4" />
     <meta property="og:url" content="https://qiro-tools.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Qiro — Short links, QR codes & in-browser file conversion" />
+    <meta
+      property="og:description"
+      content="Shorten links with analytics, generate QR codes, and convert images, video, audio and GIFs — 100% in your browser. Files are never uploaded."
+    />
     <meta property="og:image" content="https://qiro-tools.vercel.app/hero-main.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Qiro" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Qiro â€” Links, QR Codes & Image Conversion" />
@@ -60,6 +70,43 @@
             "name": "Qiro",
             "url": "https://qiro-tools.vercel.app/",
             "logo": "https://qiro-tools.vercel.app/logo.svg"
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is Qiro free to use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Every core tool — URL shortener, QR generator, image, video, audio and GIF converters — is free to use. A Pro plan adds higher limits and advanced analytics."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Are my files uploaded to a server?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Qiro's converters run entirely inside your browser using WebAssembly. Your files never leave your device, which makes it private and fast even for large files."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which formats can Qiro convert?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Images: JPG, PNG, WebP, AVIF, GIF, TIFF, HEIC, SVG, BMP, ICO, PDF, JXL and more. Video: MP4, WebM, MOV, MKV, AVI, 3GP, TS, FLV. Audio: MP3, WAV, FLAC, OGG, M4A, OPUS, AAC and more."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do I need to create an account?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No account is required for any converter or generator tool. An account is only needed if you want to manage saved links and analytics across devices."
+                }
+              }
+            ]
           }
         ]
       }

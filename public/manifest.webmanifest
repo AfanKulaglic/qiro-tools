@@ -1,0 +1,12 @@
+{
+  "name": "Qiro — Links, QR Codes & File Conversion",
+  "short_name": "Qiro",
+  "description": "Free privacy-first toolbox: shorten links, generate QR codes, and convert images, video, audio and GIFs entirely in your browser.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
