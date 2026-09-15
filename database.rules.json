@@ -3,6 +3,13 @@
     ".read": false,
     ".write": false,
 
+    "admins": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+
     "links": {
       ".read": true,
       "$slug": {
@@ -20,15 +27,47 @@
 
     "usage": {
       "$key": {
-        ".read": "$key.beginsWith('anon-') || (auth != null && $key === 'user-' + auth.uid)",
+        ".read": "$key.beginsWith('anon-') || (auth != null && $key === 'user-' + auth.uid) || auth != null && data.parent().parent().parent().child('admins').child(auth.uid).exists()",
         ".write": "$key.beginsWith('anon-') || (auth != null && $key === 'user-' + auth.uid)",
         ".validate": "newData.hasChildren(['count'])",
         "count": {
-          ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 99 && (!data.exists() && newData.val() === 1 || data.exists() && newData.val() === data.val() + 1)"
+          ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 99999 && (!data.exists() && newData.val() === 1 || data.exists() && newData.val() === data.val() + 1)"
         },
         "updatedAt": {
           ".validate": "newData.isNumber()"
         }
+      }
+    },
+
+    "usageLog": {
+      "$key": {
+        ".read": "auth != null && root.child('admins').child(auth.uid).exists()",
+        "$pushId": {
+          ".write": "!data.exists()",
+          ".validate": "newData.hasChildren(['tool', 'day'])",
+          "tool": { ".validate": "newData.isString()" },
+          "day": { ".validate": "newData.isString()" },
+          "uid": { ".validate": "newData.isString()" },
+          "ts": { ".validate": "newData.hasChildren()" }
+        }
+      }
+    },
+
+    "analytics": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).exists()",
+      "$day": {
+        "$tool": {
+          ".write": true,
+          ".validate": "newData.isNumber() && newData.val() >= 1 && (!data.exists() && newData.val() === 1 || data.exists() && newData.val() === data.val() + 1)"
+        }
+      }
+    },
+
+    "proGrants": {
+      ".read": "auth != null",
+      "$key": {
+        ".write": "auth != null && root.child('admins').child(auth.uid).exists()",
+        ".validate": "newData.hasChildren(['expiresAt', 'grantedBy']) || newData.val() === null"
       }
     }
   }

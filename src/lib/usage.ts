@@ -1,5 +1,6 @@
 import { get, ref, runTransaction } from 'firebase/database'
 import { db } from '@/lib/firebase'
+import { logUsage, type ToolId } from '@/lib/analytics'
 
 /**
  * Server-side usage accounting.
@@ -94,10 +95,38 @@ export async function getUsageCount(usageKey: string): Promise<number> {
  * (or 1 for the very first write), so this cannot be used to reset anything.
  * Resolves with the authoritative server count.
  */
-export async function consumeUse(usageKey: string): Promise<number> {
+export async function consumeUse(usageKey: string, tool?: ToolId, uid?: string | null): Promise<number> {
   const result = await runTransaction(ref(db, `usage/${usageKey}/count`), (current: unknown) =>
     typeof current === 'number' && current > 0 ? current + 1 : 1,
   )
   const value = result.snapshot.val()
-  return typeof value === 'number' && value > 0 ? value : 1
+  const count = typeof value === 'number' && value > 0 ? value : 1
+
+  // Best-effort analytics — never blocks or fails the user's action.
+  if (tool) logUsage({ usageKey, tool, uid })
+
+  return count
+}
+
+/** Whether a usage key has an active (non-expired) Pro grant. */
+export async function hasActivePro(usageKey: string): Promise<boolean> {
+  const snap = await get(ref(db, `proGrants/${usageKey}/expiresAt`))
+  const expiresAt = snap.val()
+  return typeof expiresAt === 'number' && expiresAt > Date.now()
+}
+
+/**
+ * Grants a Pro plan to a usage key. Admin-only (enforced by RTDB rules) — used
+ * by the admin panel to activate an email after (manual) payment.
+ */
+export async function grantPro(usageKey: string, days: number, grantedBy: string): Promise<void> {
+  const { set } = await import('firebase/database')
+  const expiresAt = Date.now() + days * 24 * 60 * 60 * 1000
+  await set(ref(db, `proGrants/${usageKey}`), { expiresAt, grantedBy, grantedAt: Date.now() })
+}
+
+/** Removes a Pro grant (admin action). */
+export async function revokePro(usageKey: string): Promise<void> {
+  const { set } = await import('firebase/database')
+  await set(ref(db, `proGrants/${usageKey}`), null)
 }

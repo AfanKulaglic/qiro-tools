@@ -1,7 +1,22 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useAuthPrompt } from '@/hooks/useAuthPrompt'
-import { consumeUse, deviceFingerprint, getUsageCount, localUsageCacheKey } from '@/lib/usage'
+import { consumeUse, deviceFingerprint, getUsageCount, hasActivePro, localUsageCacheKey } from '@/lib/usage'
+import type { ToolId } from '@/lib/analytics'
+
+/** Maps the UI tool key to the analytics ToolId used in the admin panel. */
+const TOOL_IDS: Record<ToolKey, ToolId> = {
+  qr: 'qr-generator',
+  shorten: 'shorten',
+  convert: 'image-converter',
+  video: 'video-converter',
+  audio: 'audio-converter',
+  gif: 'gif-maker',
+  utm: 'utm-builder',
+  bg: 'background-remover',
+  enhance: 'image-enhancer',
+  pdf: 'pdf-editor',
+}
 
 export type ToolKey = 'qr' | 'shorten' | 'convert' | 'video' | 'audio' | 'gif' | 'utm' | 'bg' | 'enhance' | 'pdf'
 
@@ -44,9 +59,10 @@ function writeCache(usageKey: string, count: number): void {
  * `gate()` returns true when the action may proceed (and records the use
  * server-side); otherwise it opens the appropriate dialog and returns false.
  */
-export function useToolGate(_tool: ToolKey) {
+export function useToolGate(tool: ToolKey) {
   const { user } = useAuth()
   const { promptSignIn, promptPaywall } = useAuthPrompt()
+  const toolId = TOOL_IDS[tool]
 
   // One shared pool per person — the tool argument is kept for API
   // compatibility but the count is deliberately NOT per-tool.
@@ -54,16 +70,19 @@ export function useToolGate(_tool: ToolKey) {
 
   const [count, setCount] = useState<number>(() => readCache(usageKey))
   const [ready, setReady] = useState(false)
+  const [pro, setPro] = useState(false)
 
   useEffect(() => {
     let alive = true
     setCount(readCache(usageKey))
     setReady(false)
-    getUsageCount(usageKey)
-      .then((serverCount) => {
+    setPro(false)
+    Promise.all([getUsageCount(usageKey), hasActivePro(usageKey)])
+      .then(([serverCount, proActive]) => {
         if (!alive) return
         setCount(serverCount)
         writeCache(usageKey, serverCount)
+        setPro(proActive)
       })
       .catch(() => {
         /* offline — keep serving the cached count */
@@ -78,12 +97,12 @@ export function useToolGate(_tool: ToolKey) {
 
   const limit = user ? FREE_LIMIT_SIGNED_IN : FREE_LIMIT
   const used = Math.max(0, count)
-  const locked = used >= limit
-  const remaining = Math.max(0, limit - used)
+  const locked = !pro && used >= limit
+  const remaining = pro ? Infinity : Math.max(0, limit - used)
 
   /** Call before a gated action. Returns true if it may proceed. */
   const gate = useCallback((): boolean => {
-    if (used >= limit) {
+    if (!pro && used >= limit) {
       // Signed-in users who exhausted their quota see the paywall; anonymous
       // visitors are invited to sign in (which grants a fresh quota).
       if (user) promptPaywall()
@@ -94,7 +113,7 @@ export function useToolGate(_tool: ToolKey) {
     // Optimistic update for instant UI; the server value reconciles right after.
     setCount(next)
     writeCache(usageKey, next)
-    void consumeUse(usageKey)
+    void consumeUse(usageKey, toolId, user?.uid ?? null)
       .then((serverCount) => {
         setCount(serverCount)
         writeCache(usageKey, serverCount)
@@ -103,7 +122,7 @@ export function useToolGate(_tool: ToolKey) {
         /* offline — cached count still advances */
       })
     return true
-  }, [used, limit, user, usageKey, promptPaywall, promptSignIn])
+  }, [used, limit, pro, user, usageKey, toolId, promptPaywall, promptSignIn])
 
   /** Opens sign-in (anonymous) or the paywall (signed-in). */
   const prompt = useCallback((): void => {

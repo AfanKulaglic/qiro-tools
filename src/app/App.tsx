@@ -33,6 +33,7 @@ const PrivacyPage = lazy(() => import('@/pages/PrivacyPage'))
 const TermsPage = lazy(() => import('@/pages/TermsPage'))
 const RedirectPage = lazy(() => import('@/pages/RedirectPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
+const AdminPage = lazy(() => import('@/pages/AdminPage'))
 
 /** Centered fallback shown while a route's chunk is being fetched. */
 function PageFallback() {
@@ -92,6 +93,11 @@ function AppRoutes() {
           {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
+
+        {/* Admin panel — outside the marketing chrome. Access is enforced
+            server-side via RTDB rules (admins/{uid}). Must rank ABOVE the
+            /:slug catch-all. */}
+        <Route path="/admin" element={<AdminPage />} />
 
         {/* Short-link resolver — OUTSIDE the marketing layout so a valid link
             redirects instantly with no navbar/footer flashing. Ranks below the
