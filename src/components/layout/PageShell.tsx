@@ -31,7 +31,7 @@ export function PageShell({
       <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-radial-glow" />
 
       <Container className={wide ? 'max-w-screen-xl' : undefined}>
-        <header className="pt-14 pb-10 text-center sm:pt-20">
+        <header className="pt-10 pb-7 text-center sm:pt-15">
           {badge && (
             <div className="mb-4 flex justify-center">
               {typeof badge === 'string' ? <Badge tone="blue">{badge}</Badge> : badge}
@@ -47,7 +47,7 @@ export function PageShell({
           )}
         </header>
 
-        <div className="pb-24">{children}</div>
+        <div className="pb-17.5">{children}</div>
       </Container>
     </motion.div>
   )

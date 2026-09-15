@@ -3,31 +3,33 @@ import { HeroSection } from '@/components/sections/HeroSection'
 import { HorizontalShowcase } from '@/components/sections/HorizontalShowcase'
 import { ToolStrip } from '@/components/sections/ToolStrip'
 import { BentoFeatures } from '@/components/sections/BentoFeatures'
-import { StudioCarousel } from '@/components/sections/StudioCarousel'
 import { Pricing } from '@/components/sections/Pricing'
 import { AppCTA } from '@/components/sections/AppCTA'
 import { TestimonialsMasonry } from '@/components/sections/TestimonialsMasonry'
 import { FeatureBanner } from '@/components/sections/FeatureBanner'
-import { Footer } from '@/components/layout/Footer'
 
 /**
- * Essentio-style home page. Section order mirrors the reference template:
+ * Essentio-style home page. Section order:
  *
- *   1. Hero           — full-bleed dark editorial hero
- *   2. Showcase       — three quick testimonials
- *   3. Tool strip     — three quick benefits + "More about" CTA
- *   4. Bento          — 4×2 feature grid (split into 2 rows)
- *   5. Studio carousel — three studios, Essentio Products Swiper analogue
- *   6. Pricing        — Qiro-only, kept because it's the homepage CTA
- *   7. App CTA        — inline visual + headline
- *   8. Testimonials   — 4-col review grid
- *   9. Banner         — pre-footer CTA band
- *  10. Footer         — marquee + newsletter + grid
+ *   1. Hero       — dark editorial hero with the live editor for all tools
+ *                   (QR / short link / image convert / ...) embedded directly.
+ *                   NOTE: the tool switcher + card live ONLY here — don't add
+ *                   a second tools section (HomeTools) below, it duplicates.
+ *   2. Showcase   — three quick testimonials
+ *   3. Tool strip — three quick benefits + "More about" CTA
+ *   4. Bento      — 4×2 feature grid (split into 2 rows)
+ *   5. Pricing    — Qiro-only, kept because it's the homepage CTA
+ *   6. App CTA    — inline visual + headline
+ *   7. Testimonials — 4-col review grid
+ *   8. Banner     — pre-footer CTA band
+ *
+ * The Footer itself is rendered by MarketingLayout (one global instance for
+ * every marketing page) — don't add a second <Footer /> here.
  */
 export default function HomePage() {
   useDocumentTitle(
-    'Qiro — Short links, QR codes & image conversion in one studio',
-    'One clean studio to shorten links, generate QR codes, and convert images. Branded short links, instant QR downloads, and private in-browser image conversion.',
+    'Qiro — Short links, QR codes, image conversion & AI PDF editing',
+    'One clean place to shorten links, generate QR codes, convert images, and edit PDFs with AI. Branded short links, instant QR downloads, and private in-browser conversion.',
   )
 
   return (
@@ -36,12 +38,10 @@ export default function HomePage() {
       <HorizontalShowcase />
       <ToolStrip />
       <BentoFeatures />
-      <StudioCarousel />
       <Pricing />
       <AppCTA />
       <TestimonialsMasonry />
       <FeatureBanner />
-      <Footer />
     </>
   )
 }

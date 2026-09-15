@@ -5,6 +5,10 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FFFFFF" />
+    <!-- Warm the connection to the link database so the short-link fast path
+         below can redirect without waiting on DNS + TLS. -->
+    <link rel="preconnect" href="https://qiro-a23a4-default-rtdb.firebaseio.com" crossorigin />
+    <link rel="dns-prefetch" href="https://qiro-a23a4-default-rtdb.firebaseio.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <title>Qiro — Short links, QR codes & image conversion in one studio</title>
@@ -12,12 +16,53 @@
       name="description"
       content="One clean studio to shorten links, generate QR codes, and convert images. Branded short links, instant QR downloads, and private in-browser image conversion."
     />
-    <meta property="og:title" content="Qiro — Links, QR Codes & Image Conversion" />
+    <!-- Help crawlers (including AI answer engines) understand the whole site. -->
+    <link rel="canonical" href="https://qiro.link/" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta property="og:url" content="https://qiro.link/" />
+    <meta property="og:image" content="https://qiro.link/hero-main.png" />
+    <meta property="og:site_name" content="Qiro" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Qiro — Links, QR Codes & Image Conversion" />
     <meta
-      property="og:description"
-      content="Shorten links, generate QR codes, and convert images in one clean studio. Fast, private, and free to start."
+      name="twitter:description"
+      content="Shorten links, generate QR codes, and convert images — privately, right in your browser. Free to start."
     />
-    <meta property="og:type" content="website" />
+    <meta name="twitter:image" content="https://qiro.link/hero-main.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "name": "Qiro",
+            "url": "https://qiro.link/",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any (web browser)",
+            "description": "Free privacy-first web toolbox: branded short links with click analytics, QR code generation, and image/video/audio/GIF converters that run entirely in the browser — files are never uploaded to a server.",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "featureList": [
+              "Branded URL shortener with click analytics",
+              "Free QR code generator",
+              "In-browser image converter (JPG, PNG, WebP, AVIF, GIF, TIFF, HEIC, BMP, ICO, PDF, JXL)",
+              "In-browser video converter (MP4, WebM, MOV, MKV, AVI)",
+              "In-browser audio converter (MP3, WAV, FLAC, OGG, M4A, OPUS)",
+              "Video to GIF maker",
+              "Background remover and image enhancer",
+              "UTM campaign link builder",
+              "PDF editor"
+            ]
+          },
+          {
+            "@type": "Organization",
+            "name": "Qiro",
+            "url": "https://qiro.link/",
+            "logo": "https://qiro.link/logo.svg"
+          }
+        ]
+      }
+    </script>
+
     <!-- Apply the saved theme before paint; default is light (no class). -->
     <script>
       try {
@@ -25,6 +70,58 @@
           document.documentElement.classList.add('dark')
         }
       } catch (e) {}
+    </script>
+    <!--
+      Short-link fast path. Runs before the React bundle so a short link opens
+      essentially instantly — we read the destination straight from the Firebase
+      Realtime Database REST API and hard-redirect, with no app load and no
+      loading screen. Slugs are lowercase alnum with no dashes; every real route
+      either contains a dash or is listed in RESERVED, so pages fall through and
+      load the app normally. Anything unknown does one tiny lookup: a hit
+      redirects, a miss un-hides and lets the app render its not-found page.
+    -->
+    <script>
+      (function () {
+        try {
+          var m = location.pathname.match(/^\/(?:s\/)?([a-z0-9]{4,24})$/)
+          if (!m) return
+          var slug = m[1]
+          var RESERVED = {
+            shorten: 1, qr: 1, convert: 1, features: 1, pricing: 1, about: 1,
+            contact: 1, help: 1, faq: 1, history: 1, privacy: 1, terms: 1,
+            admin: 1, dashboard: 1, login: 1, signup: 1, api: 1, s: 1,
+            settings: 1, support: 1, blog: 1, client: 1, user: 1, product: 1,
+            icons: 1, hero: 1, studio: 1
+          }
+          if (RESERVED[slug]) return
+          var root = document.documentElement
+          root.style.visibility = 'hidden'
+          var done = false
+          var reveal = function () { if (!done) { done = true; root.style.visibility = '' } }
+          setTimeout(reveal, 2500) // never hide for longer than this
+          var base = 'https://qiro-a23a4-default-rtdb.firebaseio.com/links/' + slug
+          fetch(base + '/longUrl.json', { priority: 'high' })
+            .then(function (r) { return r.ok ? r.json() : null })
+            .then(function (url) {
+              if (done) return
+              if (typeof url === 'string' && url) {
+                done = true
+                // Count the click without delaying the redirect (keepalive lets
+                // it finish after we navigate away). Atomic server-side increment.
+                try {
+                  fetch(base + '.json', {
+                    method: 'PATCH',
+                    keepalive: true,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ clicks: { '.sv': { increment: 1 } }, lastClickedAt: { '.sv': 'timestamp' } })
+                  })
+                } catch (e) {}
+                location.replace(url)
+              } else reveal()
+            })
+            .catch(reveal)
+        } catch (e) {}
+      })()
     </script>
   </head>
   <body>

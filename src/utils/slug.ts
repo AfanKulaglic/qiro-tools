@@ -18,5 +18,7 @@ export function buildShortUrl(slug: string): string {
   if (domain) {
     return `${domain.replace(/\/+$/, '')}/${slug}`
   }
-  return `${window.location.origin}/s/${slug}`
+  // Bare `/slug` — matches the `/:slug` resolver route. (Must not be `/s/slug`:
+  // that's two path segments and the single-segment route would never match it.)
+  return `${window.location.origin}/${slug}`
 }

@@ -7,14 +7,14 @@ type Mode = 'signin' | 'signup'
 
 const COPY: Record<Mode, { title: string; subtitle: string; cta: string }> = {
   signin: {
-    title: 'Dobro došao nazad',
-    subtitle: 'Prijavi se da otvoriš studio i sinhronizuješ linkove, QR kodove i slike.',
-    cta: 'Prijavi se',
+    title: 'Welcome back',
+    subtitle: 'Sign in to open Qiro and sync your links, QR codes and images.',
+    cta: 'Sign in',
   },
   signup: {
-    title: 'Napravi nalog',
-    subtitle: 'Besplatan nalog — sve se sinhronizuje na svim uređajima.',
-    cta: 'Kreiraj nalog',
+    title: 'Create account',
+    subtitle: 'Free account — everything syncs across all your devices.',
+    cta: 'Create account',
   },
 }
 
@@ -88,7 +88,7 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
             <button
               onClick={onClose}
               className="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-lg text-faint transition-colors hover:bg-black/[0.04] hover:text-[#211A14] dark:hover:bg-white/10 dark:hover:text-white"
-              aria-label="Zatvori"
+              aria-label="Close"
             >
               <X className="h-4 w-4" />
             </button>
@@ -142,7 +142,7 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                  {m === 'signin' ? 'Prijava' : 'Registracija'}
+                  {m === 'signin' ? 'Sign in' : 'Sign up'}
                 </button>
               ))}
             </div>
@@ -154,12 +154,12 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
               className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl border border-[#E8E0D6] bg-white px-4 py-2.5 text-sm font-medium text-[#211A14] transition-colors hover:bg-[#211A14]/[0.03] disabled:opacity-50 dark:border-white/12 dark:bg-white/[0.04] dark:text-white dark:hover:bg-white/[0.08]"
             >
               <GoogleIcon />
-              Nastavi sa Google
+              Continue with Google
             </button>
 
             <div className="my-4 flex items-center gap-3 text-xs text-faint">
               <div className="h-px flex-1 bg-[#E8E0D6] dark:bg-white/10" />
-              ili
+              or
               <div className="h-px flex-1 bg-[#E8E0D6] dark:bg-white/10" />
             </div>
 
@@ -175,7 +175,7 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
                   >
                     <Field
                       icon={UserIcon}
-                      placeholder="Ime (opcionalno)"
+                      placeholder="Name (optional)"
                       value={name}
                       onChange={setName}
                     />
@@ -194,7 +194,7 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
               <Field
                 icon={Lock}
                 type={showPw ? 'text' : 'password'}
-                placeholder="Lozinka"
+                placeholder="Password"
                 value={password}
                 onChange={setPassword}
                 required
@@ -203,7 +203,7 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
                     type="button"
                     onClick={() => setShowPw((s) => !s)}
                     className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-faint transition-colors hover:text-[#211A14] dark:hover:text-white"
-                    aria-label={showPw ? 'Sakrij lozinku' : 'Prikaži lozinku'}
+                    aria-label={showPw ? 'Hide password' : 'Show password'}
                   >
                     {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -240,13 +240,13 @@ export function AuthDialog({ open, onClose }: { open: boolean; onClose: () => vo
             </form>
 
             <p className="mt-5 text-center text-xs leading-relaxed text-faint">
-              Nastavkom prihvataš{' '}
+              By continuing you accept{' '}
               <a href="/terms" className="text-muted underline-offset-2 hover:underline">
-                Uslove
+                Terms
               </a>{' '}
-              i{' '}
+              and{' '}
               <a href="/privacy" className="text-muted underline-offset-2 hover:underline">
-                Politiku privatnosti
+                Privacy Policy
               </a>
               .
             </p>

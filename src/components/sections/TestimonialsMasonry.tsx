@@ -1,126 +1,39 @@
 import { motion } from 'framer-motion'
 import { Star, Play, Instagram, Twitter, Facebook } from 'lucide-react'
 import { Container } from '@/components/ui/Container'
+import { DEFAULT_STORY, type Item, type TextItem, type VisualItem } from '@/data/toolStory'
 
 /**
  * Essentio-style 4-column customer reviews grid. Eight cards mixing three
- * layouts — text review with social icon, image-with-bottom-overlay,
- * video play card — in the same asymmetric pattern as the reference.
- *
- * Uses real testimonial photos (`/blog/testimonial-N.avif`) and real
- * avatars (`/user/N.avif`) so the section reads like the Essentio
- * reference instead of an abstract gradient panel.
+ * layouts — text review with social icon, image-with-bottom-overlay, video play
+ * card. Header and items come from `props` so each tool page shows reviews about
+ * that specific service (defaults to the generic home reviews).
  */
-
-type TextItem = {
-  kind: 'text'
-  quote: string
-  name: string
-  role: string
-  social: 'instagram' | 'twitter' | 'facebook'
-  /** Yellow stars vs blue stars — Essentio alternates accent-yellow and accent-blue */
-  starTone: 'yellow' | 'blue'
-  avatar: string
-}
-
-type VisualItem = {
-  kind: 'visual'
-  /** Image-with-overlay (link / qr / convert) or video play card */
-  variant: 'overlay' | 'play'
-  /** Path under /blog — overlay cards reuse testimonial photos */
-  image: string
-  caption: string
-  /** Optional pull-quote shown at the bottom of overlay cards */
-  overlay?: string
-}
-
-type Item = TextItem | VisualItem
-
-const ITEMS: Item[] = [
-  {
-    kind: 'text',
-    quote:
-      'Qiro replaced three different tabs I used to keep open. Short links and QR codes from the same place — finally.',
-    name: 'Sophia M',
-    role: 'Director',
-    social: 'instagram',
-    starTone: 'yellow',
-    avatar: '/user/3.avif',
-  },
-  {
-    kind: 'visual',
-    variant: 'overlay',
-    image: '/blog/testimonial-05.avif',
-    caption: 'Custom aliases, click tracking, and a clean link on my own domain.',
-    overlay: 'Branded short links, ready to share in seconds.',
-  },
-  {
-    kind: 'text',
-    quote: 'The QR generator is clean and the export is instantly print-ready. No watermark nonsense.',
-    name: 'James R',
-    role: 'Director',
-    social: 'twitter',
-    starTone: 'blue',
-    avatar: '/user/4.avif',
-  },
-  {
-    kind: 'visual',
-    variant: 'play',
-    image: '/blog/testimonial-06.avif',
-    caption: 'See the studio in 60 seconds',
-  },
-  {
-    kind: 'visual',
-    variant: 'overlay',
-    image: '/blog/estimonial-07.avif',
-    caption: 'High-resolution SVG and PNG exports, with optional center logo.',
-    overlay: 'QR codes that match your brand and print beautifully.',
-  },
-  {
-    kind: 'text',
-    quote:
-      'I convert product photos to WebP all day. Knowing nothing gets uploaded is a real relief for client work.',
-    name: 'Mike R',
-    role: 'Director',
-    social: 'twitter',
-    starTone: 'blue',
-    avatar: '/user/2.avif',
-  },
-  {
-    kind: 'visual',
-    variant: 'overlay',
-    image: '/blog/testimonial-08.avif',
-    caption: 'JPG · PNG · WebP, batch-friendly. Files never leave your device.',
-    overlay: 'In-browser image conversion — private by design.',
-  },
-  {
-    kind: 'text',
-    quote: 'History view means I never lose a code I made last week. Small thing, huge time-saver.',
-    name: 'Emma L',
-    role: 'Director',
-    social: 'facebook',
-    starTone: 'yellow',
-    avatar: '/user/1.avif',
-  },
-]
-
-export function TestimonialsMasonry() {
+export function TestimonialsMasonry({
+  eyebrow = DEFAULT_STORY.testimonials.eyebrow,
+  title = DEFAULT_STORY.testimonials.title,
+  items = DEFAULT_STORY.testimonials.items,
+}: {
+  eyebrow?: string
+  title?: string
+  items?: Item[]
+}) {
   return (
     <section className="lg:pb-37.5 md:pb-20 pb-15">
       <Container full>
-        {/* Section header — Essentio: TESTIMONIAL eyebrow + big serif title */}
+        {/* Section header — Essentio: eyebrow + big serif title */}
         <div className="mb-12 lg:mb-12.5">
           <span className="block text-lg uppercase tracking-normal font-medium text-default-800 dark:text-white/70">
-            Testimonial
+            {eyebrow}
           </span>
           <h2 className="mt-2 text-4xl font-normal leading-tight text-default-900 sm:text-5xl lg:text-6xl dark:text-white">
-            Customer reviews
+            {title}
           </h2>
         </div>
 
         {/* 4-column review grid — Essentio asymmetric mix */}
         <div className="grid grid-cols-1 gap-12.5 md:grid-cols-2 lg:grid-cols-4 lg:gap-26.25">
-          {ITEMS.map((it, idx) =>
+          {items.map((it, idx) =>
             it.kind === 'visual' ? (
               <VisualCard key={`v${idx}`} item={it} index={idx} />
             ) : (

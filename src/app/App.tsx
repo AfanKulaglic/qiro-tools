@@ -4,20 +4,24 @@ import { AnimatePresence } from 'framer-motion'
 
 import { ThemeProvider } from '@/hooks/useThemeContext'
 import { AuthProvider } from '@/hooks/useAuth'
+import { AuthPromptProvider } from '@/hooks/useAuthPrompt'
 import { ToastProvider } from '@/components/ui/ToastProvider'
 import { MarketingLayout } from '@/components/layout/MarketingLayout'
-import { StudioLayout } from '@/components/studio/StudioLayout'
-import { RequireAuth } from '@/components/auth/RequireAuth'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 
-// Landing page stays eager — it's the most common entry and the LCP target.
-import HomePage from '@/pages/HomePage'
-
-// Every other route is code-split so the initial bundle only ships the landing
-// page + shell. Heavy deps (firebase, qrcode, image conversion) load on demand.
+// The three tool pages each ship a heavy tool (firebase, qrcode, image
+// conversion), so every route is code-split — the initial bundle stays small.
+const HomePage = lazy(() => import('@/pages/HomePage'))
 const ShortenPage = lazy(() => import('@/pages/ShortenPage'))
-const QRGeneratorPage = lazy(() => import('@/pages/QRGeneratorPage'))
+const HistoryPage = lazy(() => import('@/pages/HistoryPage'))
 const ImageConverterPage = lazy(() => import('@/pages/ImageConverterPage'))
+const VideoConverterPage = lazy(() => import('@/pages/VideoConverterPage'))
+const AudioConverterPage = lazy(() => import('@/pages/AudioConverterPage'))
+const GifMakerPage = lazy(() => import('@/pages/GifMakerPage'))
+const UtmBuilderPage = lazy(() => import('@/pages/UtmBuilderPage'))
+const BackgroundRemoverPage = lazy(() => import('@/pages/BackgroundRemoverPage'))
+const ImageEnhancerPage = lazy(() => import('@/pages/ImageEnhancerPage'))
+const PdfEditorPage = lazy(() => import('@/pages/PdfEditorPage'))
 const FeaturesPage = lazy(() => import('@/pages/FeaturesPage'))
 const UseCasesPage = lazy(() => import('@/pages/UseCasesPage'))
 const PricingPage = lazy(() => import('@/pages/PricingPage'))
@@ -29,12 +33,6 @@ const PrivacyPage = lazy(() => import('@/pages/PrivacyPage'))
 const TermsPage = lazy(() => import('@/pages/TermsPage'))
 const RedirectPage = lazy(() => import('@/pages/RedirectPage'))
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
-
-const StudioHomePage = lazy(() => import('@/pages/studio/StudioHomePage'))
-const QRStudioPage = lazy(() => import('@/pages/studio/QRStudioPage'))
-const ShortenStudioPage = lazy(() => import('@/pages/studio/ShortenStudioPage'))
-const ConvertStudioPage = lazy(() => import('@/pages/studio/ConvertStudioPage'))
-const StudioHistoryPage = lazy(() => import('@/pages/studio/StudioHistoryPage'))
 
 /** Centered fallback shown while a route's chunk is being fetched. */
 function PageFallback() {
@@ -60,14 +58,23 @@ function AppRoutes() {
     <AnimatePresence mode="wait">
       <Suspense fallback={<PageFallback />}>
       <Routes location={location} key={location.pathname}>
-        {/* Presentation site — marketing chrome (navbar + footer) */}
+        {/* Whole site uses marketing chrome (navbar + footer). */}
         <Route element={<MarketingLayout />}>
+          {/* Root renders the marketing home page. */}
           <Route path="/" element={<HomePage />} />
 
-          {/* Service-description pages (no working tool — they link into Studio) */}
+          {/* Tool home pages — full home-style layout with the working tool embedded */}
+          {/* /qr-generator retired: QR lives on the homepage (HomeTools). Old links redirect here. */}
+          <Route path="/qr-generator" element={<Navigate to="/" replace />} />
           <Route path="/shorten" element={<ShortenPage />} />
-          <Route path="/qr-generator" element={<QRGeneratorPage />} />
           <Route path="/image-converter" element={<ImageConverterPage />} />
+          <Route path="/video-converter" element={<VideoConverterPage />} />
+          <Route path="/audio-converter" element={<AudioConverterPage />} />
+          <Route path="/gif-maker" element={<GifMakerPage />} />
+          <Route path="/utm-builder" element={<UtmBuilderPage />} />
+          <Route path="/background-remover" element={<BackgroundRemoverPage />} />
+          <Route path="/image-enhancer" element={<ImageEnhancerPage />} />
+          <Route path="/pdf-editor" element={<PdfEditorPage />} />
 
           {/* Marketing */}
           <Route path="/features" element={<FeaturesPage />} />
@@ -82,27 +89,24 @@ function AppRoutes() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
 
-          {/* Short-link resolver — must stay above the catch-all */}
-          <Route path="/:slug" element={<RedirectPage />} />
-
           {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
 
-        {/* Studio — auth-gated workspace shell (sidebar, no marketing chrome).
-            RequireAuth blocks every studio route for signed-out visitors. */}
-        <Route path="/studio" element={<RequireAuth />}>
-          <Route element={<StudioLayout />}>
-            <Route index element={<StudioHomePage />} />
-            <Route path="qr" element={<QRStudioPage />} />
-            <Route path="shorten" element={<ShortenStudioPage />} />
-            <Route path="convert" element={<ConvertStudioPage />} />
-            <Route path="history" element={<StudioHistoryPage />} />
-          </Route>
-        </Route>
+        {/* Short-link resolver — OUTSIDE the marketing layout so a valid link
+            redirects instantly with no navbar/footer flashing. Ranks below the
+            static routes above and above the in-layout catch-all. `/s/:slug` is
+            kept for backward compatibility with links minted as `/s/…`. */}
+        <Route path="/s/:slug" element={<RedirectPage />} />
+        <Route path="/:slug" element={<RedirectPage />} />
 
-        {/* Legacy history path → studio */}
-        <Route path="/history" element={<Navigate to="/studio/history" replace />} />
+        {/* Legacy studio paths → the new tool pages (studio was removed). */}
+        <Route path="/studio" element={<Navigate to="/" replace />} />
+        <Route path="/studio/qr" element={<Navigate to="/" replace />} />
+        <Route path="/studio/shorten" element={<Navigate to="/shorten" replace />} />
+        <Route path="/studio/convert" element={<Navigate to="/image-converter" replace />} />
+        <Route path="/studio/history" element={<Navigate to="/" replace />} />
+        <Route path="/history" element={<HistoryPage />} />
       </Routes>
       </Suspense>
     </AnimatePresence>
@@ -113,9 +117,11 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <ScrollToTop />
-        <AppRoutes />
-        <ToastProvider />
+        <AuthPromptProvider>
+          <ScrollToTop />
+          <AppRoutes />
+          <ToastProvider />
+        </AuthPromptProvider>
       </AuthProvider>
     </ThemeProvider>
   )

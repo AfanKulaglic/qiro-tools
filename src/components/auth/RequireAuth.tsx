@@ -44,17 +44,17 @@ export function RequireAuth() {
           <span className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-accent-blue/15 text-accent-blue">
             <Lock className="h-6 w-6" />
           </span>
-          <h1 className="text-2xl font-bold tracking-tight">Studio je zaključan</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Access locked</h1>
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted">
-            Prijava je obavezna. Prijavi se da koristiš QR, Link i Konverter studio te da čuvaš
-            svoju historiju.
+            Sign in is required. Sign in to use the QR, Link and Converter tools, and to keep
+            your history.
           </p>
           <div className="mt-7 flex flex-col items-center gap-3">
             <Button onClick={() => setDialogOpen(true)} size="lg" className="w-full max-w-xs">
-              Prijavi se
+              Sign in
             </Button>
             <Button to="/" variant="ghost" size="sm">
-              Nazad na sajt
+              Back to site
             </Button>
           </div>
         </div>

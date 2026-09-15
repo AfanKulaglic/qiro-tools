@@ -1,0 +1,382 @@
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { motion } from 'framer-motion'
+import { Download, RotateCcw, Loader2, ShieldCheck, Sliders, FileType, ArrowRight, Wand2, AudioLines } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
+import { Dropdown } from '@/components/ui/Dropdown'
+import { AudioDropzone } from './AudioDropzone'
+import { FreeLimitBanner } from './FreeLimitBanner'
+import { useToolGate } from '@/hooks/useToolGate'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { STORAGE_KEYS } from '@/utils/storage'
+import {
+  convertAudio,
+  downloadBlob,
+  replaceExtension,
+  isFFmpegLoaded,
+  LOSSLESS_FORMATS,
+  FORMAT_LABEL,
+  type AudioConvertResult,
+  type AudioOutputFormat,
+} from '@/utils/audioConvert'
+import { formatBytes } from '@/utils/format'
+import type { AudioConversionHistoryItem } from '@/types/qr'
+import { cn } from '@/utils/cn'
+
+const FORMATS: { value: AudioOutputFormat; name: string; desc: string }[] = [
+  { value: 'mp3', name: 'MP3', desc: 'Universal, small size' },
+  { value: 'wav', name: 'WAV', desc: 'Lossless, raw' },
+  { value: 'ogg', name: 'OGG', desc: 'Open, for web' },
+  { value: 'opus', name: 'Opus', desc: 'Modern, best efficiency' },
+  { value: 'm4a', name: 'M4A', desc: 'AAC, Apple devices' },
+  { value: 'aac', name: 'AAC', desc: 'Raw AAC stream' },
+  { value: 'flac', name: 'FLAC', desc: 'Lossless, compressed' },
+  { value: 'aiff', name: 'AIFF', desc: 'Lossless, Apple raw' },
+  { value: 'alac', name: 'ALAC', desc: 'Apple Lossless (.m4a)' },
+  { value: 'ac3', name: 'AC3', desc: 'Dolby Digital, surround' },
+]
+const TARGET_OPTIONS = FORMATS.map((f) => ({ value: f.value, label: f.name, hint: f.desc }))
+const SOURCE_OPTIONS = [
+  { value: 'auto', label: 'Auto (detect)' },
+  { value: 'mp3', label: 'MP3' },
+  { value: 'wav', label: 'WAV' },
+  { value: 'ogg', label: 'OGG' },
+  { value: 'opus', label: 'Opus' },
+  { value: 'm4a', label: 'M4A' },
+  { value: 'aac', label: 'AAC' },
+  { value: 'flac', label: 'FLAC' },
+  { value: 'aiff', label: 'AIFF' },
+  { value: 'ac3', label: 'AC3' },
+]
+
+function mimeToFmt(file: File): string {
+  const ext = file.name.match(/\.([^.]+)$/)?.[1]?.toLowerCase()
+  if (ext && SOURCE_OPTIONS.some((o) => o.value === ext)) return ext
+  return 'auto'
+}
+
+const QUALITY_MARKS = [
+  { value: 0.3, label: 'Min' },
+  { value: 0.6, label: 'Good' },
+  { value: 0.8, label: 'High' },
+  { value: 1, label: 'Max' },
+]
+
+export function AudioConverterTool({ simple = false }: { simple?: boolean }) {
+  const [file, setFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [format, setFormat] = useState<AudioOutputFormat>('mp3')
+  const [sourceFmt, setSourceFmt] = useState('auto')
+  const [quality, setQuality] = useState(0.8)
+  const [result, setResult] = useState<AudioConvertResult | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [engineLoading, setEngineLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [, setHistory] = useLocalStorage<AudioConversionHistoryItem[]>(STORAGE_KEYS.audios, [])
+  const { gate, lockedForAnon, promptSignIn } = useToolGate('audio')
+
+  useEffect(() => {
+    return () => { if (previewUrl) URL.revokeObjectURL(previewUrl) }
+  }, [previewUrl])
+
+  function selectFile(f: File) {
+    setError(null)
+    setResult(null)
+    setFile(f)
+    setSourceFmt(mimeToFmt(f))
+    if (previewUrl) URL.revokeObjectURL(previewUrl)
+    setPreviewUrl(URL.createObjectURL(f))
+  }
+
+  // A converted result is stale once any setting changes — clear it.
+  useEffect(() => {
+    setResult((prev) => { if (prev) URL.revokeObjectURL(prev.url); return null })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [format, quality])
+
+  async function handleConvert() {
+    if (!file || busy) return
+    setBusy(true)
+    setError(null)
+    setProgress(0)
+    setEngineLoading(!isFFmpegLoaded())
+    try {
+      const res = await convertAudio(file, { format, quality }, setProgress)
+      setResult((prev) => { if (prev) URL.revokeObjectURL(prev.url); return res })
+      recordHistory()
+      toast.success('Audio converted')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Konverzija nije uspjela.')
+    } finally {
+      setBusy(false)
+      setEngineLoading(false)
+    }
+  }
+
+  function recordHistory() {
+    if (!file) return
+    setHistory((prev) => [
+      { id: `${Date.now()}`, fileName: file.name, outputFormat: FORMAT_LABEL[format], createdAt: Date.now() },
+      ...prev.filter((h) => !(h.fileName === file.name && h.outputFormat === FORMAT_LABEL[format])),
+    ].slice(0, 50))
+  }
+
+  function handleDownload() {
+    if (!result || !file) return
+    if (!gate()) return
+    downloadBlob(result.blob, replaceExtension(file.name, format))
+    toast.success('Audio downloaded')
+  }
+
+  function handleReset() {
+    if (previewUrl) URL.revokeObjectURL(previewUrl)
+    if (result) URL.revokeObjectURL(result.url)
+    setFile(null)
+    setPreviewUrl(null)
+    setResult(null)
+    setError(null)
+    setSourceFmt('auto')
+  }
+
+  const showQuality = !LOSSLESS_FORMATS.includes(format)
+  const savings = file && result ? ((file.size - result.size) / file.size) * 100 : 0
+
+  /* ── From → To format picker (shared by start screen + controls) ── */
+  const formatRow = (
+    <div className="flex items-end gap-2.5">
+      <div className="min-w-0 flex-1">
+        <Dropdown label="From format" accent="purple" options={SOURCE_OPTIONS} value={sourceFmt} onChange={setSourceFmt} />
+      </div>
+      <ArrowRight className="mb-3 h-5 w-5 shrink-0 text-accent-purple" />
+      <div className="min-w-0 flex-1">
+        <Dropdown label="To format" accent="purple" options={TARGET_OPTIONS} value={format} onChange={(v) => setFormat(v as AudioOutputFormat)} />
+      </div>
+    </div>
+  )
+
+  /* ─── Start screen — pick the target format FIRST, then add the audio ─── */
+  if (!file) {
+    const activeName = FORMATS.find((f) => f.value === format)?.name
+    const sourceName = SOURCE_OPTIONS.find((o) => o.value === sourceFmt)?.label
+    return (
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)] lg:items-stretch xl:gap-7">
+        {/* LEFT — from → to + why */}
+        <div className="flex flex-col rounded-[1.75rem] border border-accent-purple/20 bg-gradient-to-br from-accent-purple/12 via-white to-accent-blue/[0.07] p-6 dark:border-accent-purple/15 dark:from-accent-purple/10 dark:via-ink-950 dark:to-accent-blue/[0.07]">
+          <div className="flex items-center gap-3">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-accent-purple/20 to-accent-blue/10 text-accent-purple ring-1 ring-inset ring-accent-purple/25">
+              <AudioLines className="h-5 w-5" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-base font-extrabold text-[#211A14] dark:text-white">Audio converter</p>
+              <p className="mt-0.5 text-[12px] text-faint">From which format to which — then add the audio</p>
+            </div>
+          </div>
+
+          <div className="mt-5">{formatRow}</div>
+          <p className="mt-3 text-[12.5px] text-muted">
+            Selected:{' '}
+            <strong className="text-accent-purple dark:text-accent-cyan">{sourceName} → {activeName}</strong>
+          </p>
+
+          <div className="mt-auto space-y-2 pt-6">
+            {[
+              { Icon: ShieldCheck, t: 'Private — all in your browser' },
+              { Icon: AudioLines, t: 'Extract audio from a video file too' },
+              { Icon: Download, t: 'Download instantly, no signup' },
+            ].map(({ Icon, t }) => (
+              <div key={t} className="flex items-center gap-2.5 text-[12.5px] text-muted">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/70 text-accent-purple shadow-sm dark:bg-white/10">
+                  <Icon className="h-3.5 w-3.5" />
+                </span>
+                {t}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* RIGHT — big dropzone */}
+        <AudioDropzone onFile={selectFile} />
+      </div>
+    )
+  }
+
+  const cardFlat =
+    'rounded-3xl border border-[#E8E0D6]/70 bg-white shadow-[0_10px_40px_-24px_rgba(33,26,20,0.25)] dark:border-white/[0.08] dark:bg-white/[0.03]'
+
+  return (
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)] lg:items-start xl:gap-7">
+      {/* ════ CONSOLE (left) — controls ════ */}
+      <div className="space-y-4 lg:col-start-1">
+        {lockedForAnon && (
+          <FreeLimitBanner onSignIn={promptSignIn} message="You've used your free conversion. Sign in for unlimited downloads." />
+        )}
+
+        <div className={cardFlat}>
+          <div className="space-y-5 p-5">
+            {/* Source file */}
+            <div className="flex items-center gap-2 rounded-2xl border border-[#E8E0D6] bg-[#211A14]/[0.015] px-3 py-2.5 dark:border-white/10 dark:bg-white/[0.01]">
+              <FileType className="h-4 w-4 shrink-0 text-faint" />
+              <span className="truncate text-[13px] font-semibold text-[#211A14] dark:text-white">{file.name}</span>
+              <span className="ml-auto shrink-0 font-mono text-[11px] font-bold text-faint">{formatBytes(file.size)}</span>
+            </div>
+
+            {/* From → To format */}
+            {formatRow}
+
+            {/* Quality */}
+            {showQuality ? (
+              <div>
+                <div className="mb-2 flex items-center justify-between">
+                  <label className="flex items-center gap-1.5 text-sm font-bold text-muted">
+                    <Sliders className="h-4 w-4" /> Quality
+                  </label>
+                  <span className="font-mono text-[13px] font-bold text-accent-purple dark:text-accent-cyan">
+                    {Math.round(quality * 100)}%
+                  </span>
+                </div>
+                <input
+                  type="range" min={0.3} max={1} step={0.05} value={quality}
+                  onChange={(e) => setQuality(Number(e.target.value))}
+                  className="custom-range h-1.5 w-full cursor-pointer appearance-none rounded-full bg-[#E8E0D6] dark:bg-white/10 accent-accent-purple outline-none"
+                />
+                <div className="mt-2 flex justify-between px-0.5">
+                  {QUALITY_MARKS.map((m) => (
+                    <button
+                      key={m.value} type="button" onClick={() => setQuality(m.value)}
+                      className={cn('text-[10px] font-semibold transition-colors', quality >= m.value ? 'text-accent-purple dark:text-accent-cyan' : 'text-faint')}
+                    >
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="rounded-xl border border-[#E8E0D6]/50 bg-[#211A14]/[0.015] px-3.5 py-3 text-[12px] leading-snug text-muted dark:border-white/[0.06] dark:bg-white/[0.01]">
+                {FORMAT_LABEL[format]} is lossless — no quality settings.
+              </p>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div className="grid grid-cols-2 gap-2 border-t border-[#E8E0D6]/50 p-4 dark:border-white/[0.06]">
+            <Button onClick={handleConvert} disabled={busy} size="lg" className="rounded-2xl shadow-glow-soft">
+              {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <Wand2 className="h-5 w-5" />}
+              {busy ? `${Math.round(progress * 100)}%` : 'Convert'}
+            </Button>
+            <Button variant="secondary" onClick={handleDownload} disabled={!result || busy} className="rounded-2xl">
+              <Download className="h-5 w-5" /> Download
+            </Button>
+          </div>
+        </div>
+
+        {!simple && (
+          <div className="flex items-start gap-3 rounded-2xl border border-accent-green/20 bg-gradient-to-r from-accent-green/5 to-transparent px-4 py-3 text-xs leading-relaxed text-muted dark:border-accent-green/10 dark:from-accent-green/[0.02]">
+            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent-green" />
+            <div><strong className="text-[#211A14] dark:text-white">Private:</strong> everything is converted in your browser — the audio is never sent to a server.</div>
+          </div>
+        )}
+      </div>
+
+      {/* ════ STAGE (right) — players ════ */}
+      <div className="lg:col-start-2 lg:sticky lg:top-24">
+        <div className="relative overflow-hidden rounded-[1.75rem] border border-accent-purple/20 bg-gradient-to-br from-accent-purple/12 via-white to-accent-blue/[0.07] p-5 dark:border-accent-purple/15 dark:from-accent-purple/10 dark:via-ink-950 dark:to-accent-blue/[0.07] sm:p-6">
+          <div className="pointer-events-none absolute -top-16 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-accent-purple/25 blur-[90px]" />
+
+          {/* header */}
+          <div className="relative mb-5 flex items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-accent-purple shadow-sm backdrop-blur dark:bg-white/10">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent-green" /> Live preview
+            </span>
+          </div>
+
+          {/* media card with both players */}
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1b1726] to-[#0b0b0e] p-5 shadow-[0_40px_80px_-24px_rgba(33,26,20,0.35)] ring-1 ring-black/5 sm:p-7">
+            <div className="flex min-h-[200px] flex-col justify-center gap-5">
+              {/* Original */}
+              <div className="space-y-2">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-white/50">Original</p>
+                {previewUrl && <audio controls src={previewUrl} className="w-full" />}
+              </div>
+              {/* Converted */}
+              <div className="space-y-2">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-accent-cyan">
+                  {FORMAT_LABEL[format]} — result
+                </p>
+                {result ? (
+                  <motion.audio
+                    key={result.url} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    controls src={result.url} className="w-full"
+                  />
+                ) : (
+                  <div className="flex items-center gap-2.5 rounded-xl border border-dashed border-white/15 px-4 py-3 text-[12px] text-white/40">
+                    <AudioLines className="h-4 w-4" /> Click "Convert" to hear the result
+                  </div>
+                )}
+              </div>
+            </div>
+            {busy && (
+              <div className="absolute inset-0 z-20 grid place-items-center bg-black/55 backdrop-blur-[1px]">
+                <div className="flex flex-col items-center gap-3 text-center">
+                  <Loader2 className="h-7 w-7 animate-spin text-white" />
+                  <div>
+                    <p className="text-sm font-bold text-white">
+                      {engineLoading ? 'Loading audio engine…' : `Converting… ${Math.round(progress * 100)}%`}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-white/60">
+                      {engineLoading ? 'First time downloads ~31 MB (once)' : 'Everything happens in your browser'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* meta */}
+          <div className="relative mt-4 flex flex-wrap items-center gap-2">
+            <Pill label="Original" value={formatBytes(file.size)} />
+            <span className="text-faint">→</span>
+            <Pill label={FORMAT_LABEL[format]} value={result ? formatBytes(result.size) : '…'} accent />
+            {result && savings !== 0 && (
+              <span className={cn(
+                'ml-auto rounded-full px-3 py-1 text-[12px] font-extrabold',
+                savings > 0 ? 'bg-accent-green/15 text-accent-green' : 'bg-red-400/15 text-red-500',
+              )}>
+                {savings > 0 ? `−${savings.toFixed(0)}% smaller` : `+${Math.abs(savings).toFixed(0)}% larger`}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Replace audio */}
+        <button
+          type="button"
+          onClick={handleReset}
+          className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#E8E0D6]/60 bg-white py-2.5 text-[12px] font-semibold text-faint transition-all duration-200 hover:border-accent-purple/40 hover:text-accent-purple dark:border-white/[0.06] dark:bg-white/[0.02] dark:hover:text-white"
+        >
+          <RotateCcw className="h-3.5 w-3.5" /> Replace audio
+        </button>
+
+        {error && (
+          <motion.p
+            initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+            className="mt-3 rounded-xl border border-red-400/30 bg-red-500/5 px-4 py-3 text-sm text-red-400"
+          >
+            {error}
+          </motion.p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ─── Small Helpers ─── */
+
+function Pill({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-[11px] shadow-sm backdrop-blur dark:bg-white/10">
+      <span className="font-bold uppercase tracking-wider text-faint">{label}</span>
+      <span className={cn('font-mono font-bold', accent ? 'text-accent-purple dark:text-accent-cyan' : 'text-[#211A14] dark:text-white')}>{value}</span>
+    </span>
+  )
+}

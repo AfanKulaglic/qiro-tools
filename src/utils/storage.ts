@@ -7,7 +7,12 @@ export const STORAGE_KEYS = {
   links: 'linkqr.history.links',
   qr: 'linkqr.history.qr',
   images: 'linkqr.history.images',
+  videos: 'linkqr.history.videos',
+  audios: 'linkqr.history.audios',
+  gifs: 'linkqr.history.gifs',
+  utm: 'linkqr.history.utm',
   theme: 'qiro.theme',
+  freeUsage: 'qiro.free.usage',
 } as const
 
 export function readStorage<T>(key: string, fallback: T): T {

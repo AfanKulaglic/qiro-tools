@@ -23,7 +23,7 @@ export function AppCTA() {
           {/* Split heading layout (Essentio `leading-none mb-4 md:mb-7.5`) */}
           <div className="mb-6 flex flex-col items-center lg:mb-10">
             <h2 className="text-4xl leading-none text-default-900 mb-4 md:mb-7.5 md:text-5xl lg:text-6xl">
-              Open the studio,
+              Open Qiro,
             </h2>
 
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-6 lg:gap-x-10">
@@ -35,7 +35,7 @@ export function AppCTA() {
               <div className="relative h-15 w-15 shrink-0 md:h-25 md:w-25 lg:h-50 lg:w-50">
                 <img
                   src="/cta-image.avif"
-                  alt="Qiro studio UI"
+                  alt="Qiro workspace"
                   className="h-full w-full rounded-2xl object-cover lg:rounded-[60px]"
                 />
               </div>
@@ -47,14 +47,14 @@ export function AppCTA() {
           </div>
 
           <p className="mx-auto max-w-3xl text-lg leading-relaxed text-default-500 lg:mb-12.5 mb-7.5">
-            No installs, no accounts to start, no files leaving your device. Open the studio and
+            No installs, no accounts to start, no files leaving your device. Open Qiro and
             your links, codes, and images are one click away.
           </p>
 
           {/* Essentio-style CTA pills — two pill buttons (acts like app store tiles) */}
           <div className="flex flex-wrap items-stretch justify-center gap-5 md:gap-7.5 lg:p-10 md:p-5">
             <a
-              href="/studio/shorten"
+              href="/shorten"
               className="group flex items-center gap-3 rounded-2xl bg-default-900 px-5 py-3 text-white transition-all hover:bg-primary md:px-6 md:py-3.5"
             >
               <span className="text-2xl font-bold leading-none">↗</span>
@@ -66,7 +66,7 @@ export function AppCTA() {
               </div>
             </a>
             <a
-              href="/studio/qr"
+              href="/qr-generator"
               className="group flex items-center gap-3 rounded-2xl bg-default-100 px-5 py-3 text-default-900 transition-all hover:bg-primary-2 md:px-6 md:py-3.5"
             >
               <span className="text-2xl font-bold leading-none">◇</span>
@@ -78,7 +78,7 @@ export function AppCTA() {
               </div>
             </a>
             <a
-              href="/studio/convert"
+              href="/image-converter"
               className="group flex items-center gap-3 rounded-2xl bg-primary-2 px-5 py-3 text-default-900 transition-all hover:bg-accent-yellow md:px-6 md:py-3.5"
             >
               <span className="text-2xl font-bold leading-none">⤓</span>

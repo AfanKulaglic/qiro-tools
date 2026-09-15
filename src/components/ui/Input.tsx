@@ -6,10 +6,12 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   hint?: ReactNode
   error?: string
   prefix?: string
+  /** Extra classes for the bordered field wrapper (e.g. to emphasize the field). */
+  wrapperClassName?: string
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, hint, error, prefix, className, id, ...props },
+  { label, hint, error, prefix, className, wrapperClassName, id, ...props },
   ref,
 ) {
   const inputId = id || props.name
@@ -26,6 +28,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           error
             ? 'border-red-400/70 focus-within:border-red-400'
             : 'border-[#E8E0D6] dark:border-white/12 focus-within:border-accent-blue/70',
+          wrapperClassName,
         )}
       >
         {prefix && (

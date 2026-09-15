@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { LogOut, History, User as UserIcon } from 'lucide-react'
+import { LogOut, User as UserIcon } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
+import { cn } from '@/utils/cn'
 import { AuthDialog } from './AuthDialog'
 
-export function AuthButton() {
+export function AuthButton({ signInClassName }: { signInClassName?: string }) {
   const { user, loading, signOut } = useAuth()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -18,7 +18,10 @@ export function AuthButton() {
       <>
         <button
           onClick={() => setDialogOpen(true)}
-          className="rounded-full px-3.5 py-2 text-sm font-medium text-muted transition-colors hover:text-[#211A14] dark:hover:text-white"
+          className={cn(
+            'rounded-full px-3.5 py-2 text-sm font-medium text-muted transition-colors hover:text-[#211A14] dark:hover:text-white',
+            signInClassName,
+          )}
         >
           Sign in
         </button>
@@ -64,13 +67,6 @@ export function AuthButton() {
               </span>
             </div>
             <div className="my-1 h-px bg-[#E8E0D6] dark:bg-white/10" />
-            <Link
-              to="/studio/history"
-              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-black/[0.04] hover:text-[#211A14] dark:hover:bg-white/10 dark:hover:text-white"
-            >
-              <History className="h-4 w-4" />
-              My history
-            </Link>
             <button
               onClick={() => signOut()}
               className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-black/[0.04] hover:text-[#211A14] dark:hover:bg-white/10 dark:hover:text-white"

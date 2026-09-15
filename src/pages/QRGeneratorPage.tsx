@@ -1,93 +1,120 @@
-import { useState } from 'react'
-import { Globe, UtensilsCrossed, IdCard, CalendarDays, AtSign, Wifi, ArrowRight } from 'lucide-react'
-import { PageShell } from '@/components/layout/PageShell'
-import { Card } from '@/components/ui/Card'
+import { motion } from 'framer-motion'
+import { QrCode, History, Trash2, RotateCcw, CalendarDays } from 'lucide-react'
+import { ToolHero } from '@/components/sections/ToolHero'
+import { QRGeneratorTool } from '@/components/tools/QRGeneratorTool'
+import { BentoFeatures } from '@/components/sections/BentoFeatures'
+import { Pricing } from '@/components/sections/Pricing'
+import { TestimonialsMasonry } from '@/components/sections/TestimonialsMasonry'
+import { FeatureBanner } from '@/components/sections/FeatureBanner'
+import { getToolStory } from '@/data/toolStory'
+import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
-import { SectionHeader } from '@/components/ui/SectionHeader'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
-
-const TEMPLATES = [
-  { icon: Globe, label: 'Website QR', hint: 'https://yourbrand.com' },
-  { icon: UtensilsCrossed, label: 'Menu QR', hint: 'https://yourbrand.com/menu' },
-  { icon: IdCard, label: 'Business Card QR', hint: 'Your contact details' },
-  { icon: CalendarDays, label: 'Event QR', hint: 'https://tickets.com/event' },
-  { icon: AtSign, label: 'Social Profile QR', hint: 'https://instagram.com/you' },
-  { icon: Wifi, label: 'WiFi QR', hint: 'NetworkName,password' },
-]
-
-const BEST_PRACTICES = [
-  'Use high contrast between foreground and background.',
-  'Always test before printing.',
-  'Use short URLs for cleaner, faster-scanning codes.',
-  'Avoid over-customizing — readability comes first.',
-  'Use PNG for digital, SVG for print.',
-]
+import { STORAGE_KEYS } from '@/utils/storage'
+import { formatDateTime } from '@/utils/format'
+import type { QRHistoryItem } from '@/types/qr'
 
 export default function QRGeneratorPage() {
   useDocumentTitle(
-    'Free QR Code Generator — LinkQR Tools',
-    'Create clean, downloadable QR codes for websites, menus, business cards, campaigns, and events. PNG and SVG export, fully client-side.',
+    'QR Generator — Qiro',
+    'Create, customize and download QR codes. PNG and SVG export, all in your browser. First QR free, no sign-up required.',
   )
 
-  // Note: templates are illustrative prefill hints shown to the user. The tool
-  // owns its own state; we surface guidance here without coupling components.
-  const [, setActiveTemplate] = useState<string | null>(null)
+  const [qrs, setQrs] = useLocalStorage<QRHistoryItem[]>(STORAGE_KEYS.qr, [])
+
+  function removeQR(id: string) {
+    setQrs((prev) => prev.filter((q) => q.id !== id))
+  }
+
+  const story = getToolStory('qr')
 
   return (
-    <PageShell
-      badge="Client-side QR generator"
-      title="Free QR Code Generator"
-      subtitle="Create clean, downloadable QR codes for websites, menus, business cards, campaigns, and events."
-      wide
-    >
-      {/* Open the working tool in the Studio */}
-      <div className="flex flex-col items-center gap-4">
-        <Button to="/studio/qr" size="lg">
-          Otvori QR studio
-          <ArrowRight className="h-4 w-4" />
-        </Button>
-        <p className="text-sm text-faint">Kreiranje, podešavanje i preuzimanje radi se u studiju.</p>
-      </div>
+    <>
+      <ToolHero
+        eyebrow="QR generator"
+        title="QR codes that look like your brand, not a tool"
+        subtitle="Customize content, colors, frame and logo, then download as PNG or SVG — all in your browser."
+        accent="cyan"
+      />
 
-      {/* Templates */}
-      <div className="mt-20">
-        <SectionHeader title="Start from a template" align="center" />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {TEMPLATES.map((t) => (
-            <Card
-              key={t.label}
-              hover
-              className="cursor-default p-5"
-              onMouseEnter={() => setActiveTemplate(t.label)}
-            >
-              <div className="flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent-cyan/15 to-accent-blue/15 text-accent-cyan">
-                  <t.icon className="h-5 w-5" />
-                </span>
-                <div>
-                  <h3 className="text-sm font-semibold text-[#211A14] dark:text-white">{t.label}</h3>
-                  <p className="text-xs text-faint">{t.hint}</p>
-                </div>
+      {/* ═══ Working tool ═══ */}
+      <section className="container-max pb-14">
+        <QRGeneratorTool />
+
+        {/* ═══ History ═══ */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-12"
+        >
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-accent-cyan/10 to-accent-blue/10 text-accent-cyan">
+                <History className="h-4 w-4" />
+              </span>
+              <div>
+                <h2 className="text-base font-extrabold text-[#211A14] dark:text-white">Recently downloaded QR codes</h2>
+                <p className="text-[11px] text-faint">Automatically saved when downloaded</p>
               </div>
-            </Card>
-          ))}
-        </div>
-      </div>
+            </div>
+            <Badge tone="cyan" className="text-[11px]">{qrs.length} on device</Badge>
+          </div>
 
-      {/* Best practices */}
-      <div className="mt-16">
-        <Card className="p-7 sm:p-9">
-          <h2 className="text-xl font-bold text-[#211A14] dark:text-white">QR best practices</h2>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-            {BEST_PRACTICES.map((tip) => (
-              <li key={tip} className="flex items-start gap-2.5 text-sm text-muted">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-cyan" />
-                {tip}
-              </li>
-            ))}
-          </ul>
-        </Card>
-      </div>
-    </PageShell>
+          {qrs.length === 0 ? (
+            <div className="flex flex-col items-center rounded-2xl border border-dashed border-[#E8E0D6] py-10 text-center dark:border-white/10">
+              <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-accent-cyan/10 via-accent-blue/10 to-accent-purple/10">
+                <QrCode className="h-7 w-7 text-accent-cyan" />
+              </div>
+              <p className="text-sm font-bold text-[#211A14] dark:text-white">No downloaded QR codes yet</p>
+              <p className="mt-1 max-w-[280px] text-xs text-muted">When you download a QR code (PNG or SVG), it will be automatically saved here.</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {qrs.map((qr, i) => (
+                <motion.div
+                  key={qr.id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.03, duration: 0.25 }}
+                  className="group flex items-center gap-3 rounded-2xl border border-[#E8E0D6] bg-white p-3.5 transition-all duration-200 hover:border-accent-cyan/30 hover:shadow-md dark:border-white/10 dark:bg-white/[0.02] dark:hover:border-accent-cyan/20"
+                >
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-accent-cyan/10 to-accent-blue/10 text-accent-cyan">
+                    <QrCode className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold text-[#211A14] dark:text-white">{qr.content}</p>
+                    <p className="mt-0.5 flex items-center gap-2 text-xs text-faint">
+                      <span className="rounded bg-accent-cyan/10 px-1.5 py-0.5 text-[10px] font-bold uppercase text-accent-cyan">{qr.type}</span>
+                      <span className="flex items-center gap-1"><CalendarDays className="h-3 w-3" />{formatDateTime(qr.createdAt)}</span>
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                    <Button variant="ghost" size="sm" to="/qr-generator" aria-label="Regenerate">
+                      <RotateCcw className="h-4 w-4" />
+                    </Button>
+                    <button
+                      onClick={() => removeQR(qr.id)}
+                      className="grid h-9 w-9 place-items-center rounded-lg text-faint transition-colors hover:text-red-400"
+                      aria-label="Remove"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </motion.div>
+      </section>
+
+      {/* ═══ Home-style marketing sections ═══ */}
+      <BentoFeatures story={story.bento} />
+      <Pricing intro={story.pricing} defaultService={story.pricing?.service} />
+      <TestimonialsMasonry {...story.testimonials} />
+      <FeatureBanner {...story.banner} />
+    </>
   )
 }

@@ -1,26 +1,20 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { ExternalLink, Link2 } from 'lucide-react'
+import { useParams, Link } from 'react-router-dom'
 
-import { PageShell } from '@/components/layout/PageShell'
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
-import { ErrorState } from '@/components/ui/ErrorState'
-import { Button } from '@/components/ui/Button'
 import { getLinkBySlug, incrementLinkClicks } from '@/services/linkService'
 import { isReservedSlug } from '@/utils/reservedSlugs'
-import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
-type State =
-  | { status: 'loading' }
-  | { status: 'redirecting'; url: string }
-  | { status: 'not-found' }
-  | { status: 'inactive' }
-  | { status: 'error' }
+type State = 'resolving' | 'not-found' | 'inactive' | 'error'
 
+/**
+ * Short-link resolver. Rendered *outside* the marketing layout (no navbar/footer)
+ * so a valid link sends the visitor straight to its destination with no visible
+ * stop on our site — just a brief spinner while we look the slug up, then a hard
+ * `location.replace`. Only invalid/disabled links ever show UI.
+ */
 export default function RedirectPage() {
   const { slug = '' } = useParams()
-  const [state, setState] = useState<State>({ status: 'loading' })
-  useDocumentTitle('Redirecting…')
+  const [state, setState] = useState<State>('resolving')
 
   useEffect(() => {
     let cancelled = false
@@ -28,7 +22,7 @@ export default function RedirectPage() {
 
     // Reserved slugs are real routes; they should never resolve as links.
     if (!clean || isReservedSlug(clean)) {
-      setState({ status: 'not-found' })
+      setState('not-found')
       return
     }
 
@@ -37,19 +31,18 @@ export default function RedirectPage() {
         const link = await getLinkBySlug(clean)
         if (cancelled) return
         if (!link) {
-          setState({ status: 'not-found' })
+          setState('not-found')
           return
         }
         if (!link.isActive) {
-          setState({ status: 'inactive' })
+          setState('inactive')
           return
         }
-        setState({ status: 'redirecting', url: link.longUrl })
-        // Fire-and-forget; a failed counter must not block the redirect.
+        // Redirect immediately; count the click without blocking it.
         void incrementLinkClicks(clean).catch(() => {})
         window.location.replace(link.longUrl)
       } catch {
-        if (!cancelled) setState({ status: 'error' })
+        if (!cancelled) setState('error')
       }
     })()
 
@@ -58,62 +51,35 @@ export default function RedirectPage() {
     }
   }, [slug])
 
-  if (state.status === 'loading' || state.status === 'redirecting') {
+  // While resolving (and during the replace) show a near-blank screen with no app
+  // chrome — it should feel like a normal redirector, not a page on our site.
+  if (state === 'resolving') {
     return (
-      <PageShell
-        badge="Short link"
-        title="Taking you there…"
-        subtitle={
-          state.status === 'redirecting'
-            ? 'If your browser does not redirect automatically, use the button below.'
-            : 'Resolving your link.'
-        }
-      >
-        <div className="flex flex-col items-center gap-6 py-10">
-          <LoadingSpinner className="h-8 w-8" />
-          {state.status === 'redirecting' && (
-            <Button href={state.url} rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4" />
-              Continue to destination
-            </Button>
-          )}
-        </div>
-      </PageShell>
+      <div className="grid min-h-screen place-items-center bg-white dark:bg-ink-950">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent-blue/30 border-t-accent-blue" />
+      </div>
     )
   }
 
-  const copy: Record<'not-found' | 'inactive' | 'error', { title: string; description: string }> = {
-    'not-found': {
-      title: 'Link not found',
-      description: `We couldn't find a short link for "${slug}". It may have been removed or never existed.`,
-    },
-    inactive: {
-      title: 'Link disabled',
-      description: 'This short link has been deactivated and no longer redirects anywhere.',
-    },
-    error: {
-      title: 'Something went wrong',
-      description: 'We had trouble resolving this link. Please try again in a moment.',
-    },
+  const COPY: Record<Exclude<State, 'resolving'>, { title: string; desc: string }> = {
+    'not-found': { title: 'Link not found', desc: 'This short link doesn’t exist or has been removed.' },
+    inactive: { title: 'Link disabled', desc: 'This short link has been deactivated and no longer redirects.' },
+    error: { title: 'Something went wrong', desc: 'We couldn’t resolve this link. Please try again in a moment.' },
   }
-
-  const c = copy[state.status]
+  const msg = COPY[state]
 
   return (
-    <PageShell badge="Short link" title={c.title} subtitle={c.description}>
-      <div className="mx-auto max-w-md">
-        <ErrorState title={c.title} description={c.description}>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Button to="/shorten">
-              <Link2 className="h-4 w-4" />
-              Create a new link
-            </Button>
-            <Button to="/" variant="outline">
-              Back home
-            </Button>
-          </div>
-        </ErrorState>
+    <div className="grid min-h-screen place-items-center bg-white px-6 text-center dark:bg-ink-950">
+      <div className="max-w-sm">
+        <h1 className="text-xl font-extrabold text-[#211A14] dark:text-white">{msg.title}</h1>
+        <p className="mt-2 text-sm text-muted">{msg.desc}</p>
+        <Link
+          to="/shorten"
+          className="mt-5 inline-block rounded-xl bg-accent-blue px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90"
+        >
+          Create a new link
+        </Link>
       </div>
-    </PageShell>
+    </div>
   )
 }

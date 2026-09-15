@@ -9,6 +9,7 @@ import {
   Check,
 } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
+import { TOOLS } from '@/data/tools'
 
 /**
  * Essentio-style footer — black surface with a rounded top edge, animated
@@ -28,19 +29,15 @@ import { Logo } from '@/components/ui/Logo'
 const MARQUEE_PHRASES = [
   { text: 'Short links · ready in a click', accent: true },
   { text: 'QR codes · print-ready, no watermark', accent: false },
-  { text: 'Image conversion · 100% in your browser', accent: true },
-  { text: 'Free to start · no signup required', accent: false },
+  { text: 'Convert image, video & audio · in your browser', accent: true },
+  { text: 'Remove backgrounds · private, on-device AI', accent: false },
+  { text: 'Free to start · no signup required', accent: true },
 ]
 
 const COLUMNS = [
   {
-    title: 'Studio',
-    links: [
-      { label: 'Open the Studio', to: '/studio' },
-      { label: 'Link Shortener', to: '/shorten' },
-      { label: 'QR Generator', to: '/qr-generator' },
-      { label: 'Image Converter', to: '/image-converter' },
-    ],
+    title: 'Tools',
+    links: TOOLS.map((t) => ({ label: t.navLabel, to: t.to })),
   },
   {
     title: 'Pages',
@@ -102,7 +99,7 @@ export function Footer() {
 
         <div className="lg:mt-20 lg:mb-20 mt-10 mb-12.5 h-px w-full bg-white/10" />
 
-        {/* 3. Five-column footer grid: Logo(2) | Studio | Pages | Resources | Contact */}
+        {/* 3. Five-column footer grid: Logo(2) | Tools | Pages | Resources | Contact */}
         <div className="grid grid-cols-2 gap-7.5 md:grid-cols-5 lg:gap-10">
           {/* Column 1 — Logo + tagline + designed-by (spans 2 cols on desktop) */}
           <div className="col-span-2 flex flex-col justify-between">
@@ -111,7 +108,7 @@ export function Footer() {
                 <Logo className="text-white" />
               </div>
               <p className="mb-8 max-w-sm text-base leading-relaxed text-white/70">
-                One studio to shorten links, generate QR codes, and convert images — fast, private,
+                One place to shorten links, generate QR codes, and convert images — fast, private,
                 and genuinely free to start.
               </p>
             </div>
@@ -152,7 +149,7 @@ export function Footer() {
                   hello@qiro.tools
                 </a>
                 <p className="mt-3 text-sm leading-relaxed text-white/70">
-                  A small, focused studio — built so sharing on the web feels lighter.
+                  A small, focused toolkit — built so sharing on the web feels lighter.
                 </p>
               </div>
 
