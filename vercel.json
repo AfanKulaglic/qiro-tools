@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.vercel.com",
+  "rewrites": [{ "source": "/((?!.*\\.).*)", "destination": "/index.html" }],
   "headers": [
     {
       "source": "/(.*)",
