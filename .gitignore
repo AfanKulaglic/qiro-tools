@@ -22,3 +22,7 @@ dist-ssr
 # Firebase
 .firebase
 firebase-debug.log
+
+# Local scratch (temp scripts / verification screenshots)
+.tmp-*
+admin-shot.png
