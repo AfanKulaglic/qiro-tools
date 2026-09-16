@@ -20,7 +20,7 @@
 
     "usage": {
       "$key": {
-        ".read": "$key.beginsWith('anon-') || auth != null",
+        ".read": true,
         ".write": "$key.beginsWith('anon-') || (auth != null && $key === 'user-' + auth.uid)",
         ".validate": "newData.hasChildren(['count'])",
         "count": {
@@ -33,7 +33,7 @@
     },
 
     "usageLog": {
-      ".read": "auth != null",
+      ".read": true,
       "$key": {
         "$pushId": {
           ".write": "!data.exists()",
@@ -47,7 +47,7 @@
     },
 
     "analytics": {
-      ".read": "auth != null",
+      ".read": true,
       "$day": {
         "$tool": {
           ".write": true,
@@ -57,7 +57,7 @@
     },
 
     "proGrants": {
-      ".read": "auth != null",
+      ".read": true,
       "$key": {
         ".write": "auth != null && (!newData.exists() || newData.child('writeKey').val() === 'qiro-admin-wk-7f3a91c2')",
         ".validate": "newData.hasChildren(['expiresAt', 'grantedBy']) || newData.val() === null"

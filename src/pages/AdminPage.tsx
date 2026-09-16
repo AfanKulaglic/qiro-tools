@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { useAuth } from '@/hooks/useAuth'
 import {
   adminLogin,
   adminLogout,
@@ -17,7 +16,6 @@ import {
   type ProGrant,
   type UsageRow,
 } from '@/services/adminService'
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 
 /**
  * Admin panel — /admin.
@@ -62,7 +60,6 @@ function Card({ label, value }: { label: string; value: ReactNode }) {
 }
 
 export default function AdminPage() {
-  const { user, loading: authLoading, signInWithGoogle, signOut } = useAuth()
   const [adminState, setAdminState] = useState<'yes' | 'no'>(() => (isAdminSession() ? 'yes' : 'no'))
   const [loginUser, setLoginUser] = useState('')
   const [loginPass, setLoginPass] = useState('')
@@ -79,10 +76,9 @@ export default function AdminPage() {
   const [grantMsg, setGrantMsg] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!user) return
     void load()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+  }, [adminState])
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -134,14 +130,6 @@ export default function AdminPage() {
     }
   }, [analytics, usage, links])
 
-  if (authLoading) {
-    return (
-      <div className="flex min-h-[70vh] items-center justify-center">
-        <LoadingSpinner className="text-2xl" />
-      </div>
-    )
-  }
-
   if (adminState === 'no') {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-sm flex-col justify-center px-4">
@@ -189,32 +177,6 @@ export default function AdminPage() {
     )
   }
 
-  if (!user) {
-    return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center gap-4 px-4">
-        <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-50">Admin panel</h1>
-        <p className="max-w-sm text-center text-sm text-stone-600 dark:text-stone-400">
-          One more step — confirm your Google account so the database grants access to the analytics.
-        </p>
-        <button
-          onClick={() => void signInWithGoogle()}
-          className="rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
-        >
-          Continue with Google
-        </button>
-        <button
-          onClick={() => {
-            adminLogout()
-            setAdminState('no')
-          }}
-          className="text-sm underline text-stone-500"
-        >
-          Back to login
-        </button>
-      </div>
-    )
-  }
-
   const tabs: { id: Tab; label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'users', label: 'Users & usage' },
@@ -228,7 +190,7 @@ export default function AdminPage() {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-50">Admin panel</h1>
-          <p className="text-sm text-stone-500 dark:text-stone-400">Signed in as {user.email}</p>
+          <p className="text-sm text-stone-500 dark:text-stone-400">Signed in as afan</p>
         </div>
         <div className="flex gap-2">
           <button
@@ -241,7 +203,6 @@ export default function AdminPage() {
             onClick={() => {
               adminLogout()
               setAdminState('no')
-              void signOut()
             }}
             className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm hover:bg-stone-100 dark:border-stone-700 dark:hover:bg-stone-800"
           >
@@ -441,9 +402,9 @@ export default function AdminPage() {
               </div>
               <button
                 onClick={async () => {
-                  if (!grantKey.trim() || !user) return
+                  if (!grantKey.trim()) return
                   try {
-                    await grantProAdmin(grantKey.trim(), Number(grantDays) || 30, user.email ?? 'admin')
+                    await grantProAdmin(grantKey.trim(), Number(grantDays) || 30)
                     setGrantMsg(`Granted Pro to ${grantKey.trim()} for ${grantDays} days.`)
                     setGrantKey('')
                     void load()
