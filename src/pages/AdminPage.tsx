@@ -243,6 +243,9 @@ export default function AdminPage() {
             }`}
           >
             {t.label}
+          </button>
+        ))}
+      </div>
 
       {tab === 'overview' && (
         <div className="space-y-6">
@@ -381,11 +384,6 @@ export default function AdminPage() {
           </table>
         </div>
       )}
-
-
-          </button>
-        ))}
-      </div>
 
       {tab === 'pro' && (
         <div className="space-y-6">
