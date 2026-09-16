@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { ShieldCheck, RefreshCw } from 'lucide-react'
 import {
   adminLogin,
   adminLogout,
@@ -52,9 +53,9 @@ function fmtDate(ms: number): string {
 
 function Card({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white p-5 dark:border-stone-800 dark:bg-stone-900">
-      <div className="text-xs font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">{label}</div>
-      <div className="mt-1 text-3xl font-semibold text-stone-900 dark:text-stone-50">{value}</div>
+    <div className="glass p-5">
+      <div className="text-xs font-medium uppercase tracking-wide text-[#8A8177] dark:text-white/50">{label}</div>
+      <div className="mt-1 text-3xl font-bold text-[#1A1714] dark:text-white">{value}</div>
     </div>
   )
 }
@@ -132,13 +133,20 @@ export default function AdminPage() {
 
   if (adminState === 'no') {
     return (
-      <div className="mx-auto flex min-h-[70vh] max-w-sm flex-col justify-center px-4">
-        <div className="rounded-2xl border border-stone-200 bg-white p-8 dark:border-stone-800 dark:bg-stone-900">
-          <h1 className="text-xl font-semibold text-stone-900 dark:text-stone-50">Admin panel</h1>
-          <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">Administrator access only.</p>
-          <form onSubmit={handleLogin} className="mt-6 space-y-4">
+      <div className="container-max flex min-h-[70vh] max-w-md flex-col justify-center py-16">
+        <div className="glass p-8">
+          <div className="flex items-center gap-3">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent-blue to-accent-purple text-white shadow-glow-soft">
+              <ShieldCheck className="size-5" />
+            </span>
             <div>
-              <label htmlFor="admin-user" className="text-sm font-medium text-stone-700 dark:text-stone-300">
+              <h1 className="text-xl font-bold text-[#1A1714] dark:text-white">Admin panel</h1>
+              <p className="text-sm text-[#8A8177] dark:text-white/50">Administrator access only.</p>
+            </div>
+          </div>
+          <form onSubmit={handleLogin} className="mt-7 space-y-4">
+            <div>
+              <label htmlFor="admin-user" className="text-sm font-medium text-[#5C554C] dark:text-white/70">
                 Username
               </label>
               <input
@@ -146,12 +154,12 @@ export default function AdminPage() {
                 value={loginUser}
                 onChange={(e) => setLoginUser(e.target.value)}
                 autoComplete="username"
-                className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-50"
+                className="mt-1 w-full rounded-xl border border-black/10 bg-white/70 px-4 py-2.5 text-sm text-[#1A1714] outline-none transition focus:border-accent-blue dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
                 placeholder="Username"
               />
             </div>
             <div>
-              <label htmlFor="admin-pass" className="text-sm font-medium text-stone-700 dark:text-stone-300">
+              <label htmlFor="admin-pass" className="text-sm font-medium text-[#5C554C] dark:text-white/70">
                 Password
               </label>
               <input
@@ -160,14 +168,14 @@ export default function AdminPage() {
                 value={loginPass}
                 onChange={(e) => setLoginPass(e.target.value)}
                 autoComplete="current-password"
-                className="mt-1 w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-50"
+                className="mt-1 w-full rounded-xl border border-black/10 bg-white/70 px-4 py-2.5 text-sm text-[#1A1714] outline-none transition focus:border-accent-blue dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
                 placeholder="••••••••"
               />
             </div>
             {loginError && <p className="text-sm text-red-600 dark:text-red-400">{loginError}</p>}
             <button
               type="submit"
-              className="w-full rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+              className="w-full rounded-xl bg-gradient-to-r from-accent-blue to-accent-purple px-5 py-2.5 text-sm font-bold text-white shadow-glow-soft transition hover:brightness-110"
             >
               Sign in
             </button>
@@ -186,17 +194,23 @@ export default function AdminPage() {
   ]
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="container-max max-w-6xl py-12">
       <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-50">Admin panel</h1>
-          <p className="text-sm text-stone-500 dark:text-stone-400">Signed in as afan</p>
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent-blue to-accent-purple text-white shadow-glow-soft">
+            <ShieldCheck className="size-5" />
+          </span>
+          <div>
+            <h1 className="text-2xl font-bold text-[#1A1714] dark:text-white">Admin panel</h1>
+            <p className="text-sm text-[#8A8177] dark:text-white/50">Signed in as afan</p>
+          </div>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => void load()}
-            className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm hover:bg-stone-100 dark:border-stone-700 dark:hover:bg-stone-800"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-black/10 bg-white/70 px-3.5 py-1.5 text-sm font-medium text-[#5C554C] transition hover:bg-black/[0.04] dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70 dark:hover:bg-white/[0.08]"
           >
+            <RefreshCw className="size-3.5" />
             Refresh
           </button>
           <button
@@ -204,7 +218,7 @@ export default function AdminPage() {
               adminLogout()
               setAdminState('no')
             }}
-            className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm hover:bg-stone-100 dark:border-stone-700 dark:hover:bg-stone-800"
+            className="rounded-lg border border-black/10 bg-white/70 px-3.5 py-1.5 text-sm font-medium text-[#5C554C] transition hover:bg-black/[0.04] dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70 dark:hover:bg-white/[0.08]"
           >
             Sign out
           </button>
@@ -212,20 +226,20 @@ export default function AdminPage() {
       </div>
 
       {loadError && (
-        <div className="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+        <div className="mb-4 flex items-center gap-2.5 rounded-xl border border-red-400/30 bg-red-500/5 p-3 text-sm font-medium text-red-700 dark:text-red-300">
           {loadError}
         </div>
       )}
 
-      <div className="mb-6 flex flex-wrap gap-1 rounded-xl border border-stone-200 p-1 dark:border-stone-800">
+      <div className="mb-6 flex flex-wrap gap-1 rounded-2xl border border-black/[0.06] bg-white/50 p-1.5 dark:border-white/[0.07] dark:bg-white/[0.03]">
         {tabs.map((t) => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
               tab === t.id
-                ? 'bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900'
-                : 'text-stone-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:bg-stone-800'
+                ? 'bg-gradient-to-r from-accent-blue to-accent-purple text-white shadow-glow-soft'
+                : 'text-[#5C554C] hover:bg-black/[0.04] dark:text-white/60 dark:hover:bg-white/[0.06]'
             }`}
           >
             {t.label}
@@ -244,9 +258,9 @@ export default function AdminPage() {
           </div>
           <div>
             <h2 className="mb-3 text-lg font-semibold">Actions per tool (last 7 days)</h2>
-            <div className="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800">
+            <div className="glass overflow-hidden overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-stone-50 text-left text-xs uppercase text-stone-500 dark:bg-stone-800/50 dark:text-stone-400">
+                <thead className="bg-black/[0.03] text-left text-xs uppercase tracking-wide text-[#8A8177] dark:bg-white/[0.04] dark:text-white/50">
                   <tr>
                     <Th>Day</Th>
                     {Object.keys(TOOL_LABELS).map((t) => (
@@ -257,7 +271,7 @@ export default function AdminPage() {
                 </thead>
                 <tbody>
                   {analytics.slice(0, 7).map((d) => (
-                    <tr key={d.day} className="border-t border-stone-100 dark:border-stone-800">
+                    <tr key={d.day} className="border-t border-black/[0.05] dark:border-white/[0.06]">
                       <td className="px-4 py-2.5 font-medium">{d.day}</td>
                       {Object.keys(TOOL_LABELS).map((t) => (
                         <td key={t} className="px-4 py-2.5">{fmt(d.tools[t] ?? 0)}</td>
@@ -267,7 +281,7 @@ export default function AdminPage() {
                   ))}
                   {analytics.length === 0 && (
                     <tr>
-                      <td colSpan={12} className="px-4 py-6 text-center text-stone-500">No activity recorded yet.</td>
+                      <td colSpan={12} className="px-4 py-6 text-center text-[#8A8177] dark:text-white/50">No activity recorded yet.</td>
                     </tr>
                   )}
                 </tbody>
@@ -278,9 +292,9 @@ export default function AdminPage() {
       )}
 
       {tab === 'users' && (
-        <div className="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800">
+        <div className="glass overflow-hidden overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-stone-50 text-left text-xs uppercase text-stone-500 dark:bg-stone-800/50 dark:text-stone-400">
+            <thead className="bg-black/[0.03] text-left text-xs uppercase tracking-wide text-[#8A8177] dark:bg-white/[0.04] dark:text-white/50">
               <tr>
                 <Th>Identity</Th>
                 <Th>Actions used</Th>
@@ -293,10 +307,10 @@ export default function AdminPage() {
                 const g = grants[r.key]
                 const active = g && g.expiresAt > Date.now()
                 return (
-                  <tr key={r.key} className="border-t border-stone-100 dark:border-stone-800">
+                  <tr key={r.key} className="border-t border-black/[0.05] dark:border-white/[0.06]">
                     <td className="px-4 py-2.5 font-mono text-xs">
                       {r.isAnon ? (
-                        <span className="text-stone-500">{r.key.slice(0, 17)}…</span>
+                        <span className="text-[#8A8177] dark:text-white/50">{r.key.slice(0, 17)}…</span>
                       ) : (
                         <span className="text-blue-600 dark:text-blue-400">{r.key}</span>
                       )}
@@ -325,7 +339,7 @@ export default function AdminPage() {
               })}
               {usage.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-4 py-6 text-center text-stone-500">No usage data yet.</td>
+                  <td colSpan={4} className="px-4 py-6 text-center text-[#8A8177] dark:text-white/50">No usage data yet.</td>
                 </tr>
               )}
             </tbody>
@@ -335,9 +349,9 @@ export default function AdminPage() {
 
 
       {tab === 'logs' && (
-        <div className="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800">
+        <div className="glass overflow-hidden overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-stone-50 text-left text-xs uppercase text-stone-500 dark:bg-stone-800/50 dark:text-stone-400">
+            <thead className="bg-black/[0.03] text-left text-xs uppercase tracking-wide text-[#8A8177] dark:bg-white/[0.04] dark:text-white/50">
               <tr>
                 <Th>When</Th>
                 <Th>Tool</Th>
@@ -346,21 +360,21 @@ export default function AdminPage() {
             </thead>
             <tbody>
               {logs.map((l, i) => (
-                <tr key={i} className="border-t border-stone-100 dark:border-stone-800">
+                <tr key={i} className="border-t border-black/[0.05] dark:border-white/[0.06]">
                   <td className="px-4 py-2.5">{l.ts ? fmtDate(l.ts) : l.day}</td>
                   <td className="px-4 py-2.5">{TOOL_LABELS[l.tool] ?? l.tool}</td>
                   <td className="px-4 py-2.5 font-mono text-xs">
                     {l.uid ? (
                       <span className="text-blue-600 dark:text-blue-400">{l.uid.slice(0, 10)}…</span>
                     ) : (
-                      <span className="text-stone-500">{l.usageKey.slice(0, 14)}…</span>
+                      <span className="text-[#8A8177] dark:text-white/50">{l.usageKey.slice(0, 14)}…</span>
                     )}
                   </td>
                 </tr>
               ))}
               {logs.length === 0 && (
                 <tr>
-                  <td colSpan={3} className="px-4 py-6 text-center text-stone-500">No log entries yet.</td>
+                  <td colSpan={3} className="px-4 py-6 text-center text-[#8A8177] dark:text-white/50">No log entries yet.</td>
                 </tr>
               )}
             </tbody>
@@ -375,29 +389,29 @@ export default function AdminPage() {
 
       {tab === 'pro' && (
         <div className="space-y-6">
-          <div className="rounded-2xl border border-stone-200 bg-white p-5 dark:border-stone-800 dark:bg-stone-900">
+          <div className="glass p-5">
             <h2 className="text-lg font-semibold">Grant Pro access</h2>
-            <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+            <p className="mt-1 text-sm text-[#8A8177] dark:text-white/50">
               After a user pays (manually for now), paste their usage key here and grant access. Pro users get
               unlimited actions until the grant expires.
             </p>
             <div className="mt-4 flex flex-wrap items-end gap-3">
               <div className="min-w-56 flex-1">
-                <label className="text-xs font-medium uppercase text-stone-500">Usage key (user-… or anon-…)</label>
+                <label className="text-xs font-medium uppercase text-[#8A8177] dark:text-white/50">Usage key (user-… or anon-…)</label>
                 <input
                   value={grantKey}
                   onChange={(e) => setGrantKey(e.target.value)}
                   placeholder="user-XXXXXXXX or anon-XXXXXXXX"
-                  className="mt-1 w-full rounded-lg border border-stone-300 bg-transparent px-3 py-2 text-sm dark:border-stone-700"
+                  className="mt-1 w-full rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-sm text-[#1A1714] outline-none transition focus:border-accent-blue dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
                 />
               </div>
               <div>
-                <label className="text-xs font-medium uppercase text-stone-500">Days</label>
+                <label className="text-xs font-medium uppercase text-[#8A8177] dark:text-white/50">Days</label>
                 <input
                   type="number"
                   value={grantDays}
                   onChange={(e) => setGrantDays(e.target.value)}
-                  className="mt-1 w-24 rounded-lg border border-stone-300 bg-transparent px-3 py-2 text-sm dark:border-stone-700"
+                  className="mt-1 w-24 rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-sm text-[#1A1714] outline-none transition focus:border-accent-blue dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
                 />
               </div>
               <button
@@ -412,17 +426,17 @@ export default function AdminPage() {
                     setGrantMsg(`Failed: ${String((err as Error)?.message ?? err)}`)
                   }
                 }}
-                className="rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-700 dark:bg-stone-100 dark:text-stone-900"
+                className="rounded-lg bg-gradient-to-r from-accent-blue to-accent-purple px-4 py-2 text-sm font-bold text-white shadow-glow-soft transition hover:brightness-110"
               >
                 Grant
               </button>
             </div>
-            {grantMsg && <p className="mt-3 text-sm text-stone-600 dark:text-stone-400">{grantMsg}</p>}
+            {grantMsg && <p className="mt-3 text-sm text-[#5C554C] dark:text-white/60">{grantMsg}</p>}
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800">
+          <div className="glass overflow-hidden overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-stone-50 text-left text-xs uppercase text-stone-500 dark:bg-stone-800/50 dark:text-stone-400">
+              <thead className="bg-black/[0.03] text-left text-xs uppercase tracking-wide text-[#8A8177] dark:bg-white/[0.04] dark:text-white/50">
                 <tr>
                   <Th>Usage key</Th>
                   <Th>Expires</Th>
@@ -432,7 +446,7 @@ export default function AdminPage() {
               </thead>
               <tbody>
                 {Object.entries(grants).map(([key, g]) => (
-                  <tr key={key} className="border-t border-stone-100 dark:border-stone-800">
+                  <tr key={key} className="border-t border-black/[0.05] dark:border-white/[0.06]">
                     <td className="px-4 py-2.5 font-mono text-xs">{key}</td>
                     <td className="px-4 py-2.5">{new Date(g.expiresAt).toLocaleDateString()}</td>
                     <td className="px-4 py-2.5">{g.grantedBy}</td>
@@ -451,7 +465,7 @@ export default function AdminPage() {
                 ))}
                 {Object.keys(grants).length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-4 py-6 text-center text-stone-500">No Pro grants yet.</td>
+                    <td colSpan={4} className="px-4 py-6 text-center text-[#8A8177] dark:text-white/50">No Pro grants yet.</td>
                   </tr>
                 )}
               </tbody>
@@ -463,9 +477,9 @@ export default function AdminPage() {
 
 
       {tab === 'links' && (
-        <div className="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800">
+        <div className="glass overflow-hidden overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-stone-50 text-left text-xs uppercase text-stone-500 dark:bg-stone-800/50 dark:text-stone-400">
+            <thead className="bg-black/[0.03] text-left text-xs uppercase tracking-wide text-[#8A8177] dark:bg-white/[0.04] dark:text-white/50">
               <tr>
                 <Th>Slug</Th>
                 <Th>Destination</Th>
@@ -475,16 +489,16 @@ export default function AdminPage() {
             </thead>
             <tbody>
               {links.map((l) => (
-                <tr key={l.slug} className="border-t border-stone-100 dark:border-stone-800">
+                <tr key={l.slug} className="border-t border-black/[0.05] dark:border-white/[0.06]">
                   <td className="px-4 py-2.5 font-medium">/{l.slug}</td>
-                  <td className="max-w-xs truncate px-4 py-2.5 text-stone-500">{l.longUrl}</td>
+                  <td className="max-w-xs truncate px-4 py-2.5 text-[#8A8177] dark:text-white/50">{l.longUrl}</td>
                   <td className="px-4 py-2.5">{fmt(l.clicks)}</td>
                   <td className="px-4 py-2.5">{fmtDate(l.createdAt)}</td>
                 </tr>
               ))}
               {links.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-4 py-6 text-center text-stone-500">No links yet.</td>
+                  <td colSpan={4} className="px-4 py-6 text-center text-[#8A8177] dark:text-white/50">No links yet.</td>
                 </tr>
               )}
             </tbody>
